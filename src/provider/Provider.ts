@@ -8,7 +8,7 @@ import {
 } from '@waves/signer';
 import { IWithId, TTransactionWithProofs } from '@waves/ts-types';
 import { config } from '@waves/waves-browser-bus';
-import { isSafari } from '../iframe-entry/utils/isSafari';
+import { isSafari } from '../utils/isSafari';
 import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
 
