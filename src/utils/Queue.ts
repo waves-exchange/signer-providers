@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
-import pipe from 'ramda/es/pipe';
-import tap from 'ramda/es/tap';
-import prop from 'ramda/es/prop';
+import { pipe, tap, prop } from 'ramda';
 
 export class Queue {
     public get length(): number {
@@ -25,8 +22,7 @@ export class Queue {
                 this._active = undefined;
                 const index = this._actions
                     .map(prop('action'))
-                    // eslint-disable-next-line no-use-before-define
-                    .indexOf(actionCallback);
+                    .indexOf(actionCallback); // eslint-disable-line @typescript-eslint/no-use-before-define
 
                 if (index !== -1) {
                     this._actions.splice(index, 1);

@@ -5,7 +5,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.base.json',
+    project: './tsconfig.json',
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
@@ -111,7 +111,7 @@ module.exports = {
       },
     ],
     'no-unused-vars': 'off', // ts
-    'no-use-before-define': 'error',
+    'no-use-before-define': 'off', // ts
     'no-useless-computed-key': 'error',
     'no-useless-concat': 'error',
     'no-useless-escape': 'error',
@@ -229,7 +229,7 @@ module.exports = {
   },
   overrides: [
     {
-      'files': ['*.test.ts'],
+      files: ['*.test.ts'],
       rules: {
         '@typescript-eslint/no-explicit-any': 'off'
       }

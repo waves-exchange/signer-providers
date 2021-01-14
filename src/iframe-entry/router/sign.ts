@@ -20,7 +20,7 @@ import { IState } from '../interface';
 import { prepareTransactions } from '../services/transactionsService';
 import renderPage from '../utils/renderPage';
 import batch from './batch';
-import omit from 'ramda/es/omit';
+import { omit } from 'ramda';
 import { fetchNodeTime } from '@waves/node-api-js/es/api-node/utils';
 import { SignTransfer } from '../pages/SignTransfer/SignTransferContainer';
 import { SignInvoke } from '../pages/SignInvoke/SignInvokeContainer';

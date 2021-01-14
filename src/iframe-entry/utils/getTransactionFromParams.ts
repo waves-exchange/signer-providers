@@ -3,7 +3,7 @@ import { TTransactionWithId } from '@waves/ts-types';
 import { fixRecipient } from './fixRecipient';
 import { NAME_MAP } from '../constants';
 import { makeTx, libs } from '@waves/waves-transactions';
-import curry from 'ramda/es/curry';
+import { curry } from 'ramda';
 
 const fixParams = (
     networkByte: number,

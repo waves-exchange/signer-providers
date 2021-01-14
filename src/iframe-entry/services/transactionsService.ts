@@ -14,13 +14,7 @@ import {
     IWithId,
     TTransactionMap,
 } from '@waves/ts-types';
-import concat from 'ramda/es/concat';
-import flatten from 'ramda/es/flatten';
-import indexBy from 'ramda/es/indexBy';
-import map from 'ramda/es/map';
-import pipe from 'ramda/es/pipe';
-import prop from 'ramda/es/prop';
-import uniq from 'ramda/es/uniq';
+import { concat, flatten, indexBy, map, pipe, prop, uniq } from 'ramda';
 import { IUser } from '../../interface';
 import { SPONSORED_TYPES } from '../constants';
 import { IState } from '../interface';

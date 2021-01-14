@@ -1,5 +1,5 @@
 import { Flex } from '@waves.exchange/react-uikit';
-import { Spinner } from '@waves.exchange/react-uikit/dist/esm/components/Spinner/Spinner';
+import { Spinner } from '@waves.exchange/react-uikit';
 import React from 'react';
 
 export default function(): React.ReactElement {

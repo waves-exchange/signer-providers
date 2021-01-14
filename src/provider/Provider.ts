@@ -12,16 +12,15 @@ import { isSafari } from '../iframe-entry/utils/isSafari';
 import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
 
-export class ProviderWeb implements IProvider {
+export class Provider implements IProvider {
     private readonly _transport: ITransport<HTMLIFrameElement>;
     private readonly _clientUrl: string;
     private _userData: IUserData | undefined;
 
     constructor(clientUrl?: string, logs?: boolean) {
         this._clientUrl =
-            (clientUrl || 'https://waves.exchange/signer/') +
-            '?' +
-            ProviderWeb._getCacheClean();
+            (clientUrl || 'https://waves.exchange/signer-cloud/') +
+            (import.meta.env.PROD ? `?${Provider._getCacheClean()}` : '');
 
         this._transport = new TransportIframe(this._clientUrl, 3);
 
