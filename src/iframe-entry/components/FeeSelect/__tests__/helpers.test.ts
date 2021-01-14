@@ -1,8 +1,7 @@
 import * as helpers from '../helpers';
 import { WAVES } from '../../../constants';
 import { TTransactionParamWithType } from '@waves/signer';
-import { IMeta } from '../../../services/transactionsService';
-import { RecursivePartial } from '../../../../interface';
+import { IMeta, RecursivePartial } from '../../../../interface';
 
 type PartialMeta = RecursivePartial<IMeta<TTransactionParamWithType>>;
 

@@ -1,7 +1,8 @@
-import { TLong } from '@waves/signer';
-import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
 import { fetchDataKey } from '@waves/node-api-js/es/api-node/addresses';
+import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
+import { TLong } from '@waves/signer';
 import { curry } from 'ramda';
+import { DetailsWithLogo } from '../../interface';
 
 const BETTER_TOKENS_MAP = {
     W: '3P6t5mKGwVDkyjFhtUqw4NnecyC3DRpLfkw',
@@ -126,7 +127,3 @@ export const loadLogoInfo = curry(
             })
         )
 );
-
-export type DetailsWithLogo = TAssetDetails<TLong> & {
-    logo?: string;
-};

@@ -15,7 +15,7 @@ import React, {
     useState,
     useEffect,
 } from 'react';
-import { IMeta } from '../../services/transactionsService';
+import { IMeta } from '../../../interface';
 import { assetPropFactory } from '../../utils/assetPropFactory';
 import { getCoins } from '../../utils/math';
 import { getFeeOptions } from './helpers';

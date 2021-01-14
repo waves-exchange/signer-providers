@@ -7,7 +7,7 @@ import {
 import { libs, signTx } from '@waves/waves-transactions';
 import React, { ReactNode } from 'react';
 import { NAME_MAP } from '../constants';
-import { ISignTxProps, IUserWithBalances } from '../../interface';
+import { IUserWithBalances } from '../../interface';
 import { IState } from '../interface';
 // import exchangePage from '../pages/transactions/exchange';
 // import leasePage from '../pages/transactions/lease';
@@ -109,7 +109,7 @@ export default function(
                                 privateKey: state.user.privateKey,
                             }),
                         },
-                        onConfirm: () => {
+                        onConfirm: (): void => {
                             analytics.send({
                                 name: 'Signer_Confirm_Tx_Approve',
                                 params: analyticsParams,
@@ -121,7 +121,7 @@ export default function(
                                 }) as any
                             );
                         },
-                        onCancel: () => {
+                        onCancel: (): void => {
                             analytics.send({
                                 name: 'Signer_Confirm_Tx_Reject',
                                 params: analyticsParams,

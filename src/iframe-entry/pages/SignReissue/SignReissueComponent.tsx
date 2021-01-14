@@ -18,10 +18,10 @@ import {
 import { TLong } from '@waves/signer';
 import { IReissueTransactionWithId } from '@waves/ts-types';
 import React, { FC, MouseEventHandler } from 'react';
+import { DetailsWithLogo } from '../../../interface';
 import { Confirmation } from '../../components/Confirmation';
 import { DataJson } from '../../components/DataJson/DataJson';
 import { TransactionDetails } from '../../components/TransactionDetails/TransactionDetails';
-import { DetailsWithLogo } from '../../utils/loadLogoInfo';
 
 type SignReissueComponentProps = {
     userAddress: string;

@@ -1,11 +1,11 @@
-import { TLong } from '@waves/signer';
-import BigNumber from '@waves/bignumber';
 import { FeeOption } from '@waves.exchange/react-uikit';
-import { FeeSelectTxMeta } from './FeeSelect';
-import { assetPropFactory } from '../../utils/assetPropFactory';
+import BigNumber from '@waves/bignumber';
+import { TLong } from '@waves/signer';
+import { DetailsWithLogo } from '../../../interface';
 import { WAVES } from '../../constants';
+import { assetPropFactory } from '../../utils/assetPropFactory';
 import { getPrintableNumber } from '../../utils/math';
-import { DetailsWithLogo } from '../../utils/loadLogoInfo';
+import { FeeSelectTxMeta } from './FeeSelect';
 
 export const checkIsEnoughBalance = (balance: TLong, fee: TLong): boolean => {
     return BigNumber.toBigNumber(balance).gte(

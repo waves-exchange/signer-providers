@@ -146,8 +146,8 @@ export class TransportIframe extends Transport<HTMLIFrameElement> {
 
     private _applyStyle(styles: Partial<CSSStyleDeclaration>): void {
         Object.entries(styles).forEach(([name, value]) => {
-            if (value != null) {
-                this._iframe!.style[name] = value;
+            if (value != null && this._iframe) {
+                this._iframe.style[name] = value;
             }
         });
     }

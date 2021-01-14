@@ -26,7 +26,7 @@ import { getPrintableNumber } from '../../utils/math';
 import { WAVES } from '../../constants';
 import { DataJson } from '../../components/DataJson/DataJson';
 import { TransferTx } from './SignTransferContainer';
-import { IMeta } from '../../services/transactionsService';
+import { IMeta } from '../../../interface';
 
 type TransferListItem = {
     name: string;

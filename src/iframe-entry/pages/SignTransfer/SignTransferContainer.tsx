@@ -1,6 +1,6 @@
 import { ITransferWithType, TLong, IMassTransferWithType } from '@waves/signer';
 import React, { FC } from 'react';
-import { ISignTxProps } from '../../../interface';
+import { IMeta, ISignTxProps } from '../../../interface';
 import { getIconType } from '../../components/IconTransfer/helpers';
 import { SignTransfer as SignTransferComponent } from './SignTransferComponent';
 import { getUserName } from '../../services/userService';
@@ -10,7 +10,6 @@ import {
     ITransferTransactionWithId,
     IMassTransferTransactionWithId,
 } from '@waves/ts-types';
-import { IMeta } from '../../services/transactionsService';
 
 export type TransferType = ITransferWithType | IMassTransferWithType;
 export type TransferTx =

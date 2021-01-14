@@ -8,21 +8,15 @@ import { NAME_MAP } from '@waves/node-api-js/es/constants';
 import availableSponsoredBalances from '@waves/node-api-js/es/tools/adresses/availableSponsoredBalances';
 import getAssetIdListByTx from '@waves/node-api-js/es/tools/adresses/getAssetIdListByTx';
 import { TLong, TTransactionParamWithType } from '@waves/signer';
-import {
-    ILeaseTransaction,
-    IWithApiMixin,
-    IWithId,
-    TTransactionMap,
-} from '@waves/ts-types';
 import { concat, flatten, indexBy, map, pipe, prop, uniq } from 'ramda';
-import { IUser } from '../../interface';
+import { InfoMap, ITransactionInfo, IUser } from '../../interface';
 import { SPONSORED_TYPES } from '../constants';
 import { IState } from '../interface';
 import { cleanAddress } from '../utils/cleanAlias';
 import { getTransactionFromParams } from '../utils/getTransactionFromParams';
 import { getTxAliases } from '../utils/getTxAliases';
 import { loadFeeByTransaction } from '../utils/loadFeeByTransaction';
-import { DetailsWithLogo, loadLogoInfo } from '../utils/loadLogoInfo';
+import { loadLogoInfo } from '../utils/loadLogoInfo';
 
 const loadAliases = (
     base: string,
@@ -134,33 +128,3 @@ export const prepareTransactions = (
         }))
     );
 };
-
-type InfoMap = {
-    [NAME_MAP.issue]: void;
-    [NAME_MAP.transfer]: void;
-    [NAME_MAP.reissue]: void;
-    [NAME_MAP.burn]: void;
-    [NAME_MAP.exchange]: void;
-    [NAME_MAP.lease]: void;
-    [NAME_MAP.cancelLease]: ILeaseTransaction<TLong> & IWithApiMixin;
-    [NAME_MAP.alias]: void;
-    [NAME_MAP.massTransfer]: void;
-    [NAME_MAP.data]: void;
-    [NAME_MAP.setScript]: void;
-    [NAME_MAP.sponsorship]: void;
-    [NAME_MAP.setAssetScript]: void;
-    [NAME_MAP.invoke]: void;
-};
-
-export interface IMeta<T extends TTransactionParamWithType> {
-    feeList: Array<TFeeInfo>;
-    aliases: Record<string, string>;
-    assets: Record<string, DetailsWithLogo>;
-    params: T;
-    info: InfoMap[T['type']];
-}
-
-export interface ITransactionInfo<T extends TTransactionParamWithType> {
-    meta: IMeta<T>;
-    tx: TTransactionMap<TLong>[T['type']] & IWithId;
-}

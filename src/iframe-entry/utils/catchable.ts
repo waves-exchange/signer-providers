@@ -1,6 +1,7 @@
 export function catchable<T extends (...args: any[]) => any>(
     func: T
 ): (...args: Parameters<T>) => TCatchable<ReturnType<T>> {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     return (...args: Parameters<T>) => {
         try {
             const resolveData = (func as any)(...args); // TODO

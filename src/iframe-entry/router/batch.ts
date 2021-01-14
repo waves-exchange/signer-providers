@@ -4,8 +4,7 @@ import { TLong, TTransactionParamWithType } from '@waves/signer';
 import batchPage from '../pages/batch';
 import { IWithId, TTransactionWithProofs } from '@waves/ts-types';
 import { libs, signTx } from '@waves/waves-transactions';
-import { IUser } from '../../interface';
-import { ITransactionInfo } from '../services/transactionsService';
+import { ITransactionInfo, IUser } from '../../interface';
 
 export default function(
     list: Array<ITransactionInfo<TTransactionParamWithType>>,

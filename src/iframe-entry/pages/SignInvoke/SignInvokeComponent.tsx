@@ -1,37 +1,37 @@
 import {
+    AddressAvatar,
+    AddressLabel,
     Box,
+    BoxWithIcon,
     Flex,
     Heading,
     Icon,
     iconInvoke,
+    iconSmartMini,
     Tab,
     TabPanel,
     TabPanels,
     Tabs,
     TabsList,
     Text,
-    AddressAvatar,
-    AddressLabel,
-    BoxWithIcon,
-    iconSmartMini,
     useBoundedTooltip,
 } from '@waves.exchange/react-uikit';
-import { ICall, TLong, IInvokeWithType } from '@waves/signer';
+import { ICall, IInvokeWithType, TLong } from '@waves/signer';
 import { IInvokeScriptTransaction, IWithId } from '@waves/ts-types';
 import React, { FC, MouseEventHandler } from 'react';
+import { IMeta } from '../../../interface';
 import { Confirmation } from '../../components/Confirmation';
-import { InvokeFunction } from '../../components/InvokeFunction/InvokeFunction';
-import { InvokePayment } from '../../components/InvokePayment/InvokePayment';
-import { TransactionDetails } from '../../components/TransactionDetails/TransactionDetails';
-import { IPayment } from './SignInvokeContainer';
-import { IMeta } from '../../services/transactionsService';
+import { DataJson } from '../../components/DataJson/DataJson';
 import {
     FeeSelect,
     FeeSelectHandler,
 } from '../../components/FeeSelect/FeeSelect';
-import { getPrintableNumber } from '../../utils/math';
+import { InvokeFunction } from '../../components/InvokeFunction/InvokeFunction';
+import { InvokePayment } from '../../components/InvokePayment/InvokePayment';
+import { TransactionDetails } from '../../components/TransactionDetails/TransactionDetails';
 import { WAVES } from '../../constants';
-import { DataJson } from '../../components/DataJson/DataJson';
+import { getPrintableNumber } from '../../utils/math';
+import { IPayment } from './SignInvokeContainer';
 
 export interface IProps {
     userAddress: string;
@@ -196,7 +196,7 @@ export const SignInvoke: FC<IProps> = ({
                                 color="basic.$500"
                                 as="div"
                                 overflowX="auto"
-                                args={call?.args ?? ([] as any)}
+                                args={call?.args ?? []}
                                 name={call?.function ?? 'default'}
                             />
                         </Box>

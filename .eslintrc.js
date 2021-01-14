@@ -5,7 +5,7 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.json', './tsconfig.test.json'],
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
@@ -172,6 +172,7 @@ module.exports = {
         allowSingleExtends: true
       }
     ],
+    '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/no-for-in-array': 'error',
     '@typescript-eslint/no-misused-new': 'error',

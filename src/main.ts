@@ -23,7 +23,7 @@ const getByElement = function<T>(
     return (element.dataset[key.toLowerCase()] || defaultValue) as T;
 };
 
-(window as any).transfer = (element: HTMLElement) => {
+(window as any).transfer = (element: HTMLElement): any => {
     return waves
         .transfer({
             amount: getByElement(element, 'amount', 1),

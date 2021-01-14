@@ -15,7 +15,7 @@
     "outDir": "./dist",
     "jsx": "react",
     "moduleResolution": "Node",
-    "importHelpers": true,
+    "importHelpers": false,
     "noImplicitThis": true,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
@@ -24,10 +24,10 @@
     "noEmit": true,
   },
   "include": [
-    "src"
+    "src/**/*"
   ],
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
-  ],
+  ]
 }

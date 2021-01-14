@@ -7,7 +7,7 @@
   "main": "dist/provider-cloud.cjs.js",
   "module": "dist/provider-cloud.es.js",
   "browser": "dist/provider-cloud.umd.js",
-  "types": "dist/provider/index.d.ts",
+  "types": "dist/types/provider/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/waves-exchange/provider-cloud.git"
@@ -28,7 +28,7 @@
     "lint": "eslint --ext .ts,.tsx ./src",
     "dev": "vite",
     "start": "http-server ./ -p 8081 --cors",
-    "build:types": "tsc -p ./tsconfig.types.json --noEmit false --declaration --emitDeclarationOnly",
+    "build:types": "tsc -p ./tsconfig.types.json",
     "build:lib": "vite build --config ./vite.config.lib.build.ts",
     "build:iframe": "vite build --config ./vite.config.iframe.build.ts",
     "build": "npm run build:lib && npm run build:iframe && npm run build:types",
@@ -46,9 +46,7 @@
     }
   },
   "files": [
-    "dist",
-    "stand",
-    "iframe-entry"
+    "dist"
   ],
   "lint-staged": {
     "src/**/*.ts?(x)": [

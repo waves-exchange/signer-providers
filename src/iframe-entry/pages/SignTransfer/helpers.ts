@@ -1,12 +1,11 @@
 import { WAVES, NAME_MAP } from '../../constants';
 import { TransferTx, TransferMeta } from './SignTransferContainer';
-import { DetailsWithLogo } from '../../utils/loadLogoInfo';
 import { getPrintableNumber } from '../../utils/math';
 import { isAlias } from '../../utils/isAlias';
 import { TLong, ITransferWithType, TRANSACTION_NAME_MAP } from '@waves/signer';
 import BigNumber from '@waves/bignumber';
 import { libs, IMassTransferItem } from '@waves/waves-transactions';
-import { IMeta } from '../../services/transactionsService';
+import { DetailsWithLogo, IMeta } from '../../../interface';
 
 type TxType =
     | TRANSACTION_NAME_MAP['transfer']
