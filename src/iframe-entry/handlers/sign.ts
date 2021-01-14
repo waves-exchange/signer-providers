@@ -1,13 +1,13 @@
 import { TLong, TTransactionParamWithType } from '@waves/signer';
 import { IWithId, TTransactionWithProofs } from '@waves/ts-types';
 import { IUser } from '../../interface';
-import { Queue } from '../../utils/Queue';
+import { IQueue } from '../../utils/Queue';
 import { IState } from '../interface';
 import sign from '../router/sign';
 import { loadUserData, preload, toQueue } from './helpers';
 
 export const getSignHandler = (
-    queue: Queue,
+    queue: IQueue,
     state: IState
 ): ((
     list: Array<TTransactionParamWithType>

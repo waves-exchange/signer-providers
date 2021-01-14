@@ -8,7 +8,7 @@ import {
     fetchAliasses,
     fetchAddressHasScript,
 } from '../services/userService';
-import { Queue } from '../../utils/Queue';
+import { IQueue } from '../../utils/Queue';
 
 export const preload = (): void => {
     renderPage(React.createElement(Preload));
@@ -32,7 +32,7 @@ export const loadUserData = (
     }));
 
 export const toQueue = <T extends (data?: any) => Promise<any>>(
-    queue: Queue,
+    queue: IQueue,
     handler: T
 ): ((data?: TParam<T>) => Promise<TReturn<T>>) => {
     return (data?: TParam<T>): Promise<TReturn<T>> => {

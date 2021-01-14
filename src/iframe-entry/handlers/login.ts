@@ -2,7 +2,7 @@ import { IUserData } from '@waves/signer';
 import { Bus, WindowAdapter, WindowProtocol } from '@waves/waves-browser-bus';
 import { libs } from '@waves/waves-transactions';
 import { pipe } from 'ramda';
-import { Queue } from '../../utils/Queue';
+import { IQueue } from '../../utils/Queue';
 import { IState } from '../interface';
 import login from '../router/login';
 import { analytics } from '../utils/analytics';
@@ -11,7 +11,7 @@ import { preload, toQueue } from './helpers';
 import { TBus } from '../../provider/interface';
 
 export const getLoginHandler = (
-    queue: Queue,
+    queue: IQueue,
     state: IState
 ): (() => Promise<IUserData>) =>
     toQueue(queue, () => {
@@ -90,7 +90,7 @@ export const getLoginHandler = (
                         libs.crypto.stringToBytes,
                         libs.crypto.blake2b,
                         libs.crypto.base64Encode
-                    )(user.address, undefined),
+                    )(user.address),
                 });
 
                 return user;

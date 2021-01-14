@@ -1,6 +1,18 @@
 import { pipe, tap, prop } from 'ramda';
 
-export class Queue {
+interface IQueueItem {
+    action: () => Promise<void>;
+    reject: (error: Error) => void;
+}
+
+export interface IQueue {
+    length: number;
+    push<T>(action: () => Promise<T>): Promise<T>;
+    canPush(): boolean;
+    clear(error?: Error | string): void;
+}
+
+export class Queue implements IQueue {
     public get length(): number {
         return this._actions.length + (this._active == null ? 0 : 1);
     }
@@ -69,9 +81,4 @@ export class Queue {
 
         this._active = item.action();
     }
-}
-
-interface IQueueItem {
-    action: () => Promise<void>;
-    reject: (error: Error) => void;
 }
