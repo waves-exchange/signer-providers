@@ -43,10 +43,14 @@ export class TransportIframe extends Transport<HTMLIFrameElement> {
 
         return WindowAdapter.createSimpleWindowAdapter(this._iframe).then(
             (adapter) =>
-                new Promise((resolve) => {
+                new Promise((resolve, reject) => {
                     this._bus = new Bus(adapter, -1);
                     this._bus.once('ready', () => {
-                        resolve(this._bus);
+                        if (this._bus) {
+                            resolve(this._bus);
+                        } else {
+                            reject(new Error('Bus is undefined'));
+                        }
                     });
                 })
         );

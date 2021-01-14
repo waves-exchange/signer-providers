@@ -18,6 +18,10 @@ export default function(
         state.user.privateKey
     );
 
+    if (!signature) {
+        return Promise.reject(new Error('No signature'));
+    }
+
     return new Promise((resolve, reject) => {
         renderPage(
             React.createElement(SignTypedDataContainer, {
