@@ -2,7 +2,7 @@ import { config } from '@waves/waves-browser-bus';
 import { isSafari } from '../utils/isSafari';
 import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
-import { EventEmitter } from 'typed-ts-events';
+import EventEmitter from 'typed-ts-events';
 import {
     ConnectOptions,
     Provider,
