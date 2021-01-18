@@ -16,8 +16,12 @@ import {
     Text,
     useBoundedTooltip,
 } from '@waves.exchange/react-uikit';
-import { ICall, IInvokeWithType, TLong } from '@waves/signer';
-import { IInvokeScriptTransaction, IWithId } from '@waves/ts-types';
+import {
+    InvokeScriptCall,
+    InvokeScriptTransaction,
+    Long,
+    WithId,
+} from '@waves/ts-types';
 import React, { FC, MouseEventHandler } from 'react';
 import { IMeta } from '../../../interface';
 import { Confirmation } from '../../components/Confirmation';
@@ -36,15 +40,15 @@ import { IPayment } from './SignInvokeContainer';
 export interface IProps {
     userAddress: string;
     userName: string;
-    userBalance: TLong;
+    userBalance: Long;
     dAppAddress: string;
     dAppName: string;
     fee: string;
-    call?: ICall;
+    call?: InvokeScriptCall<Long>;
     chainId?: number;
     payment: Array<IPayment>;
-    tx: IInvokeScriptTransaction<TLong> & IWithId;
-    meta: IMeta<IInvokeWithType<TLong>>;
+    tx: InvokeScriptTransaction<Long> & WithId;
+    meta: IMeta<InvokeScriptTransaction>;
     onCancel: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
     handleFeeSelect: FeeSelectHandler;

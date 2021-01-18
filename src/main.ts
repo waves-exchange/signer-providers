@@ -1,4 +1,4 @@
-import Signer from '@waves/signer';
+import { Signer } from '@waves/signer';
 import { ProviderCloud } from './provider';
 
 const url = location.href.includes('provider=exchange')
@@ -12,6 +12,7 @@ const node = location.href.includes('mainnet')
 const provider = new ProviderCloud(url, true);
 const waves = new Signer({ NODE_URL: node });
 
+// @ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 waves.setProvider(provider);
 

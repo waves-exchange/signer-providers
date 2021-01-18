@@ -1,15 +1,15 @@
 import { IState } from '../interface';
 import renderPage from '../utils/renderPage';
-import { TLong, TTransactionParamWithType } from '@waves/signer';
 import batchPage from '../pages/batch';
-import { IWithId, TTransactionWithProofs } from '@waves/ts-types';
 import { libs, signTx } from '@waves/waves-transactions';
 import { ITransactionInfo, IUser } from '../../interface';
+import { SignerTx } from '@waves/signer';
+import { Transaction } from '@waves/ts-types';
 
 export default function(
-    list: Array<ITransactionInfo<TTransactionParamWithType>>,
+    list: Array<ITransactionInfo<Transaction>>,
     state: IState<IUser>
-): Promise<Array<TTransactionWithProofs<TLong> & IWithId>> {
+): Promise<Array<SignerTx>> {
     return new Promise((resolve, reject) => {
         renderPage(
             batchPage({

@@ -7,13 +7,14 @@ import {
 import { NAME_MAP } from '@waves/node-api-js/es/constants';
 import availableSponsoredBalances from '@waves/node-api-js/es/tools/adresses/availableSponsoredBalances';
 import getAssetIdListByTx from '@waves/node-api-js/es/tools/adresses/getAssetIdListByTx';
-import { TLong, TTransactionParamWithType } from '@waves/signer';
+import { SignerTx } from '@waves/signer';
+import { Long, Transaction, TransactionType } from '@waves/ts-types';
 import { concat, flatten, indexBy, map, pipe, prop, uniq } from 'ramda';
 import { InfoMap, ITransactionInfo, IUser } from '../../interface';
 import { SPONSORED_TYPES } from '../constants';
 import { IState } from '../interface';
 import { cleanAddress } from '../utils/cleanAlias';
-import { getTransactionFromParams } from '../utils/getTransactionFromParams';
+import { geTransactionFromParams } from '../utils/getTransactionFromParams';
 import { getTxAliases } from '../utils/getTxAliases';
 import { loadFeeByTransaction } from '../utils/loadFeeByTransaction';
 import { loadLogoInfo } from '../utils/loadLogoInfo';
@@ -37,24 +38,24 @@ const loadAliases = (
 
 export const prepareTransactions = (
     state: IState<IUser>,
-    txs: Array<TTransactionParamWithType>,
+    txs: Array<SignerTx>,
     timestamp: number
-): Promise<Array<ITransactionInfo<TTransactionParamWithType>>> => {
+): Promise<Array<ITransactionInfo<Transaction>>> => {
     const list = Array.isArray(txs) ? txs : [txs];
-    const transactions = list.map(
-        getTransactionFromParams({
+    const transactions: Array<Transaction> = list.map(
+        geTransactionFromParams({
             networkByte: state.networkByte,
             privateKey: state.user.privateKey,
             timestamp,
         })
-    );
-    const assetsIdList = getAssetIdListByTx(transactions);
-    const transactionsWithFee = Promise.all(
+    ) as any;
+    const assetsIdList = getAssetIdListByTx(transactions as any);
+    const transactionsWithFee = Promise.all<Transaction>(
         transactions.map((tx, index) =>
             list[index].fee
                 ? Promise.resolve(tx)
-                : loadFeeByTransaction(state.nodeUrl, tx)
-        )
+                : loadFeeByTransaction(state.nodeUrl, tx as any)
+        ) as any
     );
     const aliases = pipe(map(getTxAliases), flatten, uniq)(transactions);
     const fetchFeeList = transactionsWithFee.then((txs) =>
@@ -66,7 +67,7 @@ export const prepareTransactions = (
                     ? availableSponsoredBalances(
                           state.nodeUrl,
                           state.user.address,
-                          tx.fee
+                          tx.fee as Long
                       ).then((l) =>
                           l.map((x) => ({
                               feeAssetId: x.assetId,
@@ -98,7 +99,7 @@ export const prepareTransactions = (
         )
     );
 
-    const loadInfo = <T extends TTransactionParamWithType<TLong>['type']>(
+    const loadInfo = <T extends TransactionType>(
         nodeUrl: string
     ): Promise<Array<InfoMap[T]>> =>
         Promise.all(
@@ -124,7 +125,7 @@ export const prepareTransactions = (
                 params: list[index],
                 info: info[index],
             },
-            tx: { ...tx, fee: list[index].fee ?? tx.fee },
+            tx: { ...(tx as any), fee: list[index].fee ?? tx.fee },
         }))
-    );
+    ) as any; // TODO
 };

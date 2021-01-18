@@ -1,6 +1,6 @@
 import { fetchDataKey } from '@waves/node-api-js/es/api-node/addresses';
 import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
-import { TLong } from '@waves/signer';
+import { Long } from '@waves/ts-types';
 import { curry } from 'ramda';
 import { DetailsWithLogo } from '../../interface';
 
@@ -106,7 +106,7 @@ export const loadLogoInfo = curry(
     (
         base: string,
         networkByte: number,
-        data: Array<TAssetDetails<TLong>>
+        data: Array<TAssetDetails<Long>>
     ): Promise<Array<DetailsWithLogo>> =>
         Promise.all(
             data.map((asset) => {

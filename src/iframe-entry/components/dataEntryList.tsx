@@ -1,9 +1,7 @@
 import React from 'react';
-import { ITypedData } from '@waves/signer';
+import { TypedData } from '@waves/signer';
 
-export default function(props: {
-    data: Array<ITypedData>;
-}): React.ReactElement {
+export default function(props: { data: Array<TypedData> }): React.ReactElement {
     return (
         <div className={'popup-fields-list'}>
             {props.data.map((item) => (

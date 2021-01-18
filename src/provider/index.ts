@@ -1,1 +1,1 @@
-export { Provider as ProviderCloud } from './Provider';
+export { ProviderCloud } from './Provider';

@@ -63,7 +63,7 @@ WindowAdapter.createSimpleWindowAdapter()
             getSignMessageHandler(queue, state)
         );
 
-        bus.registerRequestHandler('sign', getSignHandler(queue, state));
+        bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);
 
         // TODO add matcher sign
         // TODO add remove order sign

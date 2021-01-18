@@ -1,5 +1,5 @@
 import { AddressAvatar } from '@waves.exchange/react-uikit';
-import { TTransactionParamWithType } from '@waves/signer';
+import { Transaction } from '@waves/ts-types';
 import React from 'react';
 import { ITransactionInfo } from '../../../interface';
 
@@ -38,7 +38,7 @@ export interface IProps {
         address: string;
         publicKey: string;
     };
-    list: Array<ITransactionInfo<TTransactionParamWithType>>;
+    list: Array<ITransactionInfo<Transaction>>;
     onConfirm: () => void;
     onCancel: () => void;
 }
