@@ -75,7 +75,6 @@ export default function(
         .then((nodeTime) => nodeTime.NTP)
         .catch(() => Date.now())
         .then((time) =>
-            // @ts-ignore // TODO
             prepareTransactions(state, list, time).then((transactions) => {
                 if (transactions.length !== 1) {
                     return batch(transactions, state);

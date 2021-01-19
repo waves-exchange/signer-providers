@@ -14,7 +14,6 @@ import {
     Handler,
 } from '@waves/signer';
 
-// @ts-ignore
 export class ProviderCloud implements Provider {
     public user: UserData | null = null;
     private readonly _transport: ITransport<HTMLIFrameElement>;
