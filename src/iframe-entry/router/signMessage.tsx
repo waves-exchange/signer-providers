@@ -1,43 +1,32 @@
+import { libs, serializeCustomData } from '@waves/waves-transactions';
+import React from 'react';
 import { IUserWithBalances } from '../../interface';
 import { IState } from '../interface';
-import { customData, libs } from '@waves/waves-transactions';
-import renderPage from '../utils/renderPage';
 import { SignMessageContainer } from '../pages/SignMessage/SignMessageContainer';
-import React from 'react';
+import renderPage from '../utils/renderPage';
 
 export default function(
     data: string | number,
     state: IState<IUserWithBalances>
 ): Promise<string> {
-    const bytes = libs.crypto.stringToBytes(String(data));
-    const base64 = 'base64:' + libs.crypto.base64Encode(bytes);
-
-    const { signature } = customData(
-        {
-            binary: base64,
-            version: 1,
-        },
-        state.user.privateKey
-    );
-
-    if (!signature) {
-        return Promise.reject(new Error('No signature'));
-    }
-
     return new Promise((resolve, reject) => {
         renderPage(
             React.createElement(SignMessageContainer, {
                 data: String(data),
                 networkByte: state.networkByte,
-                user: {
-                    ...state.user,
-                    publicKey: libs.crypto.publicKey({
-                        privateKey: state.user.privateKey,
-                    }),
-                },
-                // TODO Check as string
-                onConfirm: () => {
-                    resolve(signature as string);
+                user: state.user,
+                onConfirm: async () => {
+                    const binaryData = libs.crypto.stringToBytes(String(data));
+                    const base64 =
+                        'base64:' + libs.crypto.base64Encode(binaryData);
+                    const bytes = serializeCustomData({
+                        binary: base64,
+                        version: 1,
+                    });
+
+                    const signature = await state.identity.signBytes(bytes);
+
+                    resolve(signature);
                 },
                 onCancel: () => {
                     reject(new Error('User rejection!'));

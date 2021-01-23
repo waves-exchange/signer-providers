@@ -1,8 +1,23 @@
-import { libs, signTx } from '@waves/waves-transactions';
+import { fetchNodeTime } from '@waves/node-api-js/es/api-node/utils';
+import { TRANSACTION_TYPE_MAP } from '@waves/node-api-js/es/interface';
+import { SignedTx, SignerTx } from '@waves/signer';
+import { makeTxBytes } from '@waves/waves-transactions';
 import React, { ReactNode } from 'react';
-import { NAME_MAP } from '../constants';
 import { IUserWithBalances } from '../../interface';
+import { NAME_MAP } from '../constants';
 import { IState } from '../interface';
+import { SignAliasContainer } from '../pages/SignAlias/SignAliasContainer';
+import { SignBurnContainer } from '../pages/SignBurn/SignBurnContainer';
+import { SignCancelLease } from '../pages/SignCancelLease/SignCancelLeaseContainer';
+import { SignDataContainer } from '../pages/SignData/SignDataContainer';
+import { SignInvoke } from '../pages/SignInvoke/SignInvokeContainer';
+import { SignIssueContainer } from '../pages/SignIssue/SignIssueContainer';
+import { SignLease } from '../pages/SignLease/SignLeaseContainer';
+import { SignReissueContainer } from '../pages/SignReissue/SignReissueContainer';
+import { SignSetAccountScript } from '../pages/SignSetAccountScript/SignSetAccountScriptContainer';
+import { SignSetAssetScriptContainer } from '../pages/SignSetAssetScript/SignSetAssetScriptContainer';
+import { SignSponsorship } from '../pages/SignSponsorship/SignSponsorshipContainer';
+import { SignTransfer } from '../pages/SignTransfer/SignTransferContainer';
 // import exchangePage from '../pages/transactions/exchange';
 // import leasePage from '../pages/transactions/lease';
 // import cancelLeasePage from '../pages/transactions/cancelLease';
@@ -12,25 +27,9 @@ import { IState } from '../interface';
 // import sponsorshipPage from '../pages/transactions/sponsorship';
 // import setAssetScriptPage from '../pages/transactions/setAssetScript';
 import { prepareTransactions } from '../services/transactionsService';
+import { analytics } from '../utils/analytics';
 import renderPage from '../utils/renderPage';
 import batch from './batch';
-import { omit } from 'ramda';
-import { fetchNodeTime } from '@waves/node-api-js/es/api-node/utils';
-import { SignTransfer } from '../pages/SignTransfer/SignTransferContainer';
-import { SignInvoke } from '../pages/SignInvoke/SignInvokeContainer';
-import { SignDataContainer } from '../pages/SignData/SignDataContainer';
-import { SignLease } from '../pages/SignLease/SignLeaseContainer';
-import { SignCancelLease } from '../pages/SignCancelLease/SignCancelLeaseContainer';
-import { SignIssueContainer } from '../pages/SignIssue/SignIssueContainer';
-import { SignBurnContainer } from '../pages/SignBurn/SignBurnContainer';
-import { SignSetAssetScriptContainer } from '../pages/SignSetAssetScript/SignSetAssetScriptContainer';
-import { SignSponsorship } from '../pages/SignSponsorship/SignSponsorshipContainer';
-import { SignAliasContainer } from '../pages/SignAlias/SignAliasContainer';
-import { SignReissueContainer } from '../pages/SignReissue/SignReissueContainer';
-import { SignSetAccountScript } from '../pages/SignSetAccountScript/SignSetAccountScriptContainer';
-import { analytics } from '../utils/analytics';
-import { TRANSACTION_TYPE_MAP } from '@waves/node-api-js/es/interface';
-import { SignedTx, SignerTx } from '@waves/signer';
 
 const getPageByType = (type: keyof TRANSACTION_TYPE_MAP): ReactNode => {
     switch (type) {
@@ -99,23 +98,25 @@ export default function(
                     const props = {
                         ...info,
                         networkByte: state.networkByte,
-                        user: {
-                            ...omit(['privateKey'], state.user),
-                            publicKey: libs.crypto.publicKey({
-                                privateKey: state.user.privateKey,
-                            }),
-                        },
-                        onConfirm: (): void => {
+                        user: state.user,
+                        onConfirm: async (): Promise<void> => {
                             analytics.send({
                                 name: 'Signer_Confirm_Tx_Approve',
                                 params: analyticsParams,
                             });
 
-                            resolve(
-                                signTx(tx as any, {
-                                    privateKey: state.user.privateKey,
-                                }) as any
+                            const txBytes = makeTxBytes(tx as any);
+                            const signature = await state.identity.signBytes(
+                                txBytes
                             );
+
+                            resolve({
+                                ...(tx as any),
+                                proofs: [
+                                    ...((tx as any).proofs || []),
+                                    signature,
+                                ],
+                            });
                         },
                         onCancel: (): void => {
                             analytics.send({

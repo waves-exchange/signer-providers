@@ -45,7 +45,7 @@ export const prepareTransactions = (
     const transactions: Array<Transaction> = list.map(
         geTransactionFromParams({
             networkByte: state.networkByte,
-            privateKey: state.user.privateKey,
+            publicKey: state.identity.getUserPublicKey(),
             timestamp,
         })
     ) as any;

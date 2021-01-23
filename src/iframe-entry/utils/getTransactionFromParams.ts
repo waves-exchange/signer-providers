@@ -1,6 +1,6 @@
 import { fixRecipient } from './fixRecipient';
 import { NAME_MAP } from '../constants';
-import { makeTx, libs } from '@waves/waves-transactions';
+import { makeTx } from '@waves/waves-transactions';
 import { curry } from 'ramda';
 import { SignerTx } from '@waves/signer';
 
@@ -22,15 +22,15 @@ const fixParams = (networkByte: number, tx: SignerTx): SignerTx => {
 };
 
 type GeTransactionFromParams = (
-    options: { networkByte: number; privateKey: string; timestamp: number },
+    options: { networkByte: number; publicKey: string; timestamp: number },
     tx: SignerTx
 ) => SignerTx;
 
 export const geTransactionFromParams = curry<GeTransactionFromParams>(
-    ({ networkByte, privateKey, timestamp }, tx): SignerTx => {
+    ({ networkByte, publicKey, timestamp }, tx): SignerTx => {
         return makeTx({
             chainId: networkByte,
-            senderPublicKey: libs.crypto.publicKey({ privateKey }),
+            senderPublicKey: publicKey,
             timestamp,
             ...fixParams(networkByte, tx),
         } as any) as any;

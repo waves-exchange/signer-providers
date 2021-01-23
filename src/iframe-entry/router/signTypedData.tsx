@@ -1,41 +1,29 @@
-import { IState } from '../interface';
-import { IUserWithBalances } from '../../interface';
-import { customData, libs } from '@waves/waves-transactions';
-import renderPage from '../utils/renderPage';
+import { serializeCustomData, TDataEntry } from '@waves/waves-transactions';
 import React from 'react';
+import { IUserWithBalances } from '../../interface';
+import { IState } from '../interface';
 import { SignTypedDataContainer } from '../pages/SignTypedData/SignTypedDataContainer';
-import { TypedData } from '@waves/signer';
+import renderPage from '../utils/renderPage';
 
 export default function(
-    data: Array<TypedData>,
+    data: Array<TDataEntry>,
     state: IState<IUserWithBalances>
 ): Promise<string> {
-    const { signature } = customData(
-        {
-            data,
-            version: 2,
-        },
-        state.user.privateKey
-    );
-
-    if (!signature) {
-        return Promise.reject(new Error('No signature'));
-    }
-
     return new Promise((resolve, reject) => {
         renderPage(
             React.createElement(SignTypedDataContainer, {
                 networkByte: state.networkByte,
-                user: {
-                    ...state.user,
-                    publicKey: libs.crypto.publicKey({
-                        privateKey: state.user.privateKey,
-                    }),
-                },
+                user: state.user,
                 data,
-                // TODO Check as string
-                onConfirm: () => {
-                    resolve(signature as string);
+                onConfirm: async () => {
+                    const bytes = serializeCustomData({
+                        data,
+                        version: 2,
+                    });
+
+                    const signature = await state.identity.signBytes(bytes);
+
+                    resolve(signature);
                 },
                 onCancel: () => {
                     reject(new Error('User rejection!'));
