@@ -1,14 +1,12 @@
+import { SponsorshipTransaction } from '@waves/ts-types';
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../../interface';
 import { WAVES } from '../../constants';
-import { getUserName } from '../../services/userService';
 import { getPrintableNumber } from '../../utils/math';
 import { SignSponsorshipComponent } from './SignSponsorshipComponent';
-import { SponsorshipTransaction } from '@waves/ts-types';
 
 export const SignSponsorship: FC<ISignTxProps<SponsorshipTransaction>> = ({
     meta,
-    networkByte,
     tx,
     user,
     onConfirm,
@@ -25,7 +23,7 @@ export const SignSponsorship: FC<ISignTxProps<SponsorshipTransaction>> = ({
         <SignSponsorshipComponent
             key={tx.id}
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={user.username}
             userBalance={user.balance}
             tx={tx}
             fee={`${fee} ${WAVES.ticker}`}

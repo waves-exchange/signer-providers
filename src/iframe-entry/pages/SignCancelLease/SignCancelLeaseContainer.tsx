@@ -7,21 +7,20 @@ import { SignCancelLeaseComponent } from './SignCancelLeaseComponent';
 import { CancelLeaseTransaction } from '@waves/ts-types';
 
 export const SignCancelLease: FC<ISignTxProps<CancelLeaseTransaction>> = ({
-    networkByte,
     tx,
     meta,
     user,
     onConfirm,
     onCancel,
 }) => {
-    const { userName, userBalance } = useTxUser(user, networkByte);
+    const { userBalance } = useTxUser(user);
     const fee = getPrintableNumber(tx.fee, WAVES.decimals);
     const amount = getPrintableNumber(meta.info.amount, WAVES.decimals);
 
     return (
         <SignCancelLeaseComponent
             userAddress={user.address}
-            userName={userName}
+            userName={user.username}
             userBalance={`${userBalance} ${WAVES.name}`}
             tx={tx}
             amount={`${amount} ${WAVES.name}`}

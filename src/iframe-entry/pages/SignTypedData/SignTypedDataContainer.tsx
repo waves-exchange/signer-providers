@@ -16,11 +16,10 @@ interface ISignTypedDataProps {
 export const SignTypedDataContainer: FC<ISignTypedDataProps> = ({
     data,
     user,
-    networkByte,
     onConfirm,
     onCancel,
 }) => {
-    const { userName, userBalance } = useTxUser(user, networkByte);
+    const { userBalance } = useTxUser(user);
     const handleConfirm = useCallback(() => {
         onConfirm();
         analytics.send({ name: 'Confirm_Sign_Typed_Data_Confirm' });
@@ -33,7 +32,7 @@ export const SignTypedDataContainer: FC<ISignTypedDataProps> = ({
     return (
         <SignTypedDataComponent
             userAddress={user.address}
-            userName={userName}
+            userName={user.username}
             userBalance={`${userBalance} Waves`}
             data={data}
             onConfirm={handleConfirm}

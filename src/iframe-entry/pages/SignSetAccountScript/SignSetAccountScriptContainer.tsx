@@ -1,13 +1,11 @@
+import { SetScriptTransaction } from '@waves/ts-types';
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../../interface';
 import { WAVES } from '../../constants';
-import { getUserName } from '../../services/userService';
 import { getPrintableNumber } from '../../utils/math';
 import { SignSetAccountScriptComponent } from './SignSetAccountScriptComponent';
-import { SetScriptTransaction } from '@waves/ts-types';
 
 export const SignSetAccountScript: FC<ISignTxProps<SetScriptTransaction>> = ({
-    networkByte,
     tx,
     user,
     onConfirm,
@@ -19,7 +17,7 @@ export const SignSetAccountScript: FC<ISignTxProps<SetScriptTransaction>> = ({
         <SignSetAccountScriptComponent
             key={tx.id}
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={user.username}
             userBalance={`${getPrintableNumber(user.balance, WAVES.decimals)} ${
                 WAVES.name
             }`}

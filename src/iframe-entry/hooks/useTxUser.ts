@@ -1,14 +1,9 @@
 import { IUserWithBalances } from '../../interface';
-import { getUserName } from '../services/userService';
 import { WAVES } from '../constants';
 import { getPrintableNumber } from '../utils/math';
 
-export const useTxUser = (
-    user: Omit<IUserWithBalances, 'seed'> & { publicKey: string },
-    networkByte: number
-): { userName: string; userBalance: string } => {
-    const userName = getUserName(networkByte, user.publicKey);
+export const useTxUser = (user: IUserWithBalances): { userBalance: string } => {
     const userBalance = getPrintableNumber(user.balance, WAVES.decimals);
 
-    return { userName, userBalance };
+    return { userBalance };
 };

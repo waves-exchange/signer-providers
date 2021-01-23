@@ -82,7 +82,7 @@ export interface ITransactionInfo<T extends Transaction> {
 export interface ISignTxProps<T extends Transaction> {
     networkByte: number;
     nodeUrl: string;
-    user: Omit<IUserWithBalances, 'seed'> & { publicKey: string };
+    user: IUserWithBalances;
     meta: IMeta<T>;
     tx: TransactionMap<Long>[T['type']] & WithId;
     onConfirm: MouseEventHandler;
@@ -91,10 +91,11 @@ export interface ISignTxProps<T extends Transaction> {
 
 export interface IUser {
     address: string;
-    privateKey: string;
+    publicKey: string;
 }
 
 export interface IUserWithBalances extends IUser {
+    username: string;
     aliases: Array<string>;
     balance: Long;
     hasScript: boolean;
@@ -104,11 +105,6 @@ export interface IUserWithBalances extends IUser {
 export type TFunction<Params extends Array<unknown>, Return> = (
     ...args: Params
 ) => Return;
-
-export interface IKeyPair {
-    privateKey: string;
-    publicKey: string;
-}
 
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]

@@ -1,18 +1,17 @@
-import React, { FC } from 'react';
-import { ISignTxProps } from '../../../interface';
-import { WAVES } from '../../constants';
-import { isAlias } from '../../utils/isAlias';
-import { SignInvoke as SignInvokeComponent } from './SignInvokeComponent';
-import { assetPropFactory } from '../../utils/assetPropFactory';
-import { useHandleFeeSelect } from '../../hooks/useHandleFeeSelect';
-import { getUserName } from '../../services/userService';
-import { getPrintableNumber } from '../../utils/math';
 import {
     InvokeScriptCall,
     InvokeScriptPayment,
     InvokeScriptTransaction,
     Long,
 } from '@waves/ts-types';
+import React, { FC } from 'react';
+import { ISignTxProps } from '../../../interface';
+import { WAVES } from '../../constants';
+import { useHandleFeeSelect } from '../../hooks/useHandleFeeSelect';
+import { assetPropFactory } from '../../utils/assetPropFactory';
+import { isAlias } from '../../utils/isAlias';
+import { getPrintableNumber } from '../../utils/math';
+import { SignInvoke as SignInvokeComponent } from './SignInvokeComponent';
 
 export interface IPayment {
     assetId: string | null;
@@ -24,7 +23,6 @@ export interface IPayment {
 
 export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
     meta,
-    networkByte,
     tx,
     user,
     onConfirm,
@@ -57,7 +55,7 @@ export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
     return (
         <SignInvokeComponent
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={user.username}
             userBalance={user.balance}
             dAppAddress={dAppAddress}
             dAppName={tx.dApp}

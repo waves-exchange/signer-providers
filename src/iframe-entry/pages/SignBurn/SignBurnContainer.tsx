@@ -1,14 +1,13 @@
+import { BurnTransaction } from '@waves/ts-types';
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../../interface';
 import { WAVES } from '../../constants';
 import { getPrintableNumber } from '../../utils/math';
 import { SignBurn as SignBurnComponent } from './SignBurnComponent';
-import { getUserName } from '../../services/userService';
-import { BurnTransaction } from '@waves/ts-types';
 
 export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
     meta: txMeta,
-    networkByte,
+
     tx,
     user,
     onConfirm,
@@ -25,7 +24,7 @@ export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
         <SignBurnComponent
             key={tx.id}
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={user.username}
             userBalance={`${getPrintableNumber(
                 user.balance,
                 WAVES.decimals

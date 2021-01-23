@@ -25,6 +25,7 @@ export const loadUserData = (
         ...state,
         user: {
             ...state.user,
+            username: state.identity.getUsername(),
             aliases,
             balance,
             hasScript,

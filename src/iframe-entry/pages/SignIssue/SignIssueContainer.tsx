@@ -9,11 +9,10 @@ import { IssueTransaction } from '@waves/ts-types';
 export const SignIssueContainer: FC<ISignTxProps<IssueTransaction>> = ({
     tx,
     user,
-    networkByte,
     onCancel,
     onConfirm,
 }) => {
-    const { userName, userBalance } = useTxUser(user, networkByte);
+    const { userBalance } = useTxUser(user);
 
     const [canConfirm, setCanConfirm] = useState(false);
     const handleTermsCheck = useCallback<ChangeEventHandler<HTMLInputElement>>(
@@ -32,7 +31,7 @@ export const SignIssueContainer: FC<ISignTxProps<IssueTransaction>> = ({
             decimals={tx.decimals}
             assetScript={tx.script || ''}
             userAddress={user.address}
-            userName={userName}
+            userName={user.username}
             userBalance={userBalance}
             issueAmount={`${tx.quantity} ${tx.name}`}
             onConfirm={onConfirm}
