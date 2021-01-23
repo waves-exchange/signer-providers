@@ -1,10 +1,11 @@
 import { IUser } from '../interface';
+import { IdentityService } from './services/IdentityService';
 
 export interface IState<USER = IUser | null> {
     user: USER;
     networkByte: number;
     nodeUrl: string;
-    matcherUrl?: string | undefined;
+    identity: IdentityService;
 }
 
 export type TPrivateMultiaccountData = Record<string, TPrivateUserData>;

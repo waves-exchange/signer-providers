@@ -1,5 +1,4 @@
 import { config } from '@waves/waves-browser-bus';
-import { isSafari } from '../utils/isSafari';
 import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
 import EventEmitter from 'typed-ts-events';
@@ -85,14 +84,6 @@ export class ProviderCloud implements Provider {
         }
 
         const iframe = this._transport.get();
-
-        if (isSafari()) {
-            const win = iframe.contentWindow?.open(this._clientUrl);
-
-            if (!win) {
-                throw new Error('Window was blocked');
-            }
-        }
 
         iframe.src = this._clientUrl;
 
