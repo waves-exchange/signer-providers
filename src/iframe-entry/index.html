@@ -7,39 +7,7 @@
             content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes"
         />
         <title>Waves Signer</title>
-        <style>
-            html,
-            body,
-            #root {
-                width: 100vw;
-                height: 100%;
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin: 0;
-                padding: 0;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            #overlay {
-                position: fixed;
-                z-index: -1;
-                height: 100%;
-                width: 100%;
-                overflow: hidden;
-                background-color: #000;
-                opacity: .6;
-            }
-
-            * {
-                box-sizing: border-box;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="overlay"></div>
-        <div id="root"></div>
+        <script>window.global = window;</script>
         <script>
             (function() {
                 window.addEventListener('load', function() {
@@ -52,6 +20,10 @@
                 });
             })();
         </script>
+    </head>
+    <body>
+        <div id="overlay"></div>
+        <div id="root"></div>
         <script type="module" src="./index.ts"></script>
     </body>
 </html>
