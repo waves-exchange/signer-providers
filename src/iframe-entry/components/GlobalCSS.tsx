@@ -10,21 +10,21 @@ export const GlobalCSS: FC = () => {
                     font-style: normal;
                     font-weight: 300;
                     font-display: swap;
-                    src: url(/fonts/roboto-light7.woff2) format('woff2');
+                    src: url(./fonts/roboto-light7.woff2) format('woff2');
                 }
                 @font-face {
                     font-family: 'Roboto';
                     font-style: normal;
                     font-weight: 400;
                     font-display: swap;
-                    src: url('/fonts/roboto7.woff2') format('woff2');
+                    src: url('./fonts/roboto7.woff2') format('woff2');
                 }
                 @font-face {
                     font-family: 'Roboto';
                     font-style: normal;
                     font-weight: 700;
                     font-display: swap;
-                    src: url('/fonts/roboto-medium7.woff2') format('woff2');
+                    src: url('./fonts/roboto-medium7.woff2') format('woff2');
                 }
                 html {
                     height: 100%;
