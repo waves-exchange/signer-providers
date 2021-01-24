@@ -66,7 +66,7 @@ const getPageByType = (type: keyof TRANSACTION_TYPE_MAP): ReactNode => {
     }
 };
 
-export default function(
+export default function (
     list: Array<SignerTx>,
     state: IState<IUserWithBalances>
 ): Promise<Array<SignedTx<SignerTx>>> {

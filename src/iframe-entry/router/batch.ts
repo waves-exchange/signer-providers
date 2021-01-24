@@ -6,7 +6,7 @@ import { IState } from '../interface';
 import batchPage from '../pages/batch';
 import renderPage from '../utils/renderPage';
 
-export default function(
+export default function (
     list: Array<ITransactionInfo<Transaction>>,
     state: IState<IUser>
 ): Promise<Array<SignerTx>> {

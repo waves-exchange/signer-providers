@@ -5,7 +5,7 @@ import { IState } from '../interface';
 import { Login } from '../pages/Login/Login';
 import renderPage from '../utils/renderPage';
 
-export default function(state: IState): () => Promise<UserData> {
+export default function (state: IState): () => Promise<UserData> {
     return (): Promise<UserData> => {
         if (state.user !== null) {
             return Promise.resolve({

@@ -78,7 +78,7 @@ export const SignTypedDataComponent: FC<SignTypedDataComponentProps> = ({
 
             <TabPanels mb="$30" px="$40" bg="main.$800">
                 <TabPanel>
-                    // TODO
+                    {/* // TODO */}
                     <DataEntry data={data as any} />
                 </TabPanel>
                 <TabPanel>

@@ -10,7 +10,12 @@ import getAssetIdListByTx from '@waves/node-api-js/es/tools/adresses/getAssetIdL
 import { SignerTx } from '@waves/signer';
 import { Long, Transaction, TransactionType } from '@waves/ts-types';
 import { concat, flatten, indexBy, map, pipe, prop, uniq } from 'ramda';
-import { InfoMap, ITransactionInfo, IUser } from '../../interface';
+import {
+    DetailsWithLogo,
+    InfoMap,
+    ITransactionInfo,
+    IUser,
+} from '../../interface';
 import { SPONSORED_TYPES } from '../constants';
 import { IState } from '../interface';
 import { cleanAddress } from '../utils/cleanAlias';
@@ -48,14 +53,14 @@ export const prepareTransactions = (
             publicKey: state.identity.getUserPublicKey(),
             timestamp,
         })
-    ) as any;
-    const assetsIdList = getAssetIdListByTx(transactions as any);
+    );
+    const assetsIdList = getAssetIdListByTx(transactions);
     const transactionsWithFee = Promise.all<Transaction>(
         transactions.map((tx, index) =>
             list[index].fee
                 ? Promise.resolve(tx)
                 : loadFeeByTransaction(state.nodeUrl, tx as any)
-        ) as any
+        )
     );
     const aliases = pipe(map(getTxAliases), flatten, uniq)(transactions);
     const fetchFeeList = transactionsWithFee.then((txs) =>
@@ -121,11 +126,14 @@ export const prepareTransactions = (
             meta: {
                 feeList: feeList[index],
                 aliases,
-                assets: indexBy(prop('assetId'), assets),
+                assets: indexBy<DetailsWithLogo>(
+                    prop('assetId'),
+                    assets as any
+                ),
                 params: list[index],
                 info: info[index],
             },
-            tx: { ...(tx as any), fee: list[index].fee ?? tx.fee },
+            tx: { ...tx, fee: list[index].fee ?? tx.fee },
         }))
     ) as any; // TODO
 };

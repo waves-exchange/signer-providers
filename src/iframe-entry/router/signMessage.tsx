@@ -5,7 +5,7 @@ import { IState } from '../interface';
 import { SignMessageContainer } from '../pages/SignMessage/SignMessageContainer';
 import renderPage from '../utils/renderPage';
 
-export default function(
+export default function (
     data: string | number,
     state: IState<IUserWithBalances>
 ): Promise<string> {

@@ -5,7 +5,7 @@ import { IState } from '../interface';
 import { SignTypedDataContainer } from '../pages/SignTypedData/SignTypedDataContainer';
 import renderPage from '../utils/renderPage';
 
-export default function(
+export default function (
     data: Array<TDataEntry>,
     state: IState<IUserWithBalances>
 ): Promise<string> {

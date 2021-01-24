@@ -17,9 +17,7 @@ export class ProviderCloud implements Provider {
     public user: UserData | null = null;
     private readonly _transport: ITransport<HTMLIFrameElement>;
     private readonly _clientUrl: string;
-    private readonly emitter: EventEmitter<AuthEvents> = new EventEmitter<
-        AuthEvents
-    >();
+    private readonly emitter: EventEmitter<AuthEvents> = new EventEmitter<AuthEvents>();
 
     constructor(clientUrl?: string, logs?: boolean) {
         this._clientUrl =

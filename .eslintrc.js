@@ -161,7 +161,6 @@ module.exports = {
     // typescript-eslint
     '@typescript-eslint/await-thenable': 'error',
     '@typescript-eslint/consistent-type-definitions': 'off',
-    '@typescript-eslint/interface-name-prefix': ['warn', 'always'],
     '@typescript-eslint/member-delimiter-style': 'warn',
     '@typescript-eslint/member-ordering': 'warn',
     '@typescript-eslint/no-array-constructor': 'error',

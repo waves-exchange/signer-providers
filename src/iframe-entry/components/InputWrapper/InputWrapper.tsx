@@ -10,6 +10,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
     label,
     labelVisible,
     children,
+    as: _as, // Types difference in react 16 vs 17 - added slot in ElementType
     ...rest
 }) => (
     <Box

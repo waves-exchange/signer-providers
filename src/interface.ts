@@ -109,7 +109,7 @@ export type TFunction<Params extends Array<unknown>, Return> = (
 export type RecursivePartial<T> = {
     [P in keyof T]?: T[P] extends (infer U)[]
         ? RecursivePartial<U>[]
-        : T[P] extends object
+        : T[P] extends Record<string, unknown>
         ? RecursivePartial<T[P]>
         : T[P];
 };

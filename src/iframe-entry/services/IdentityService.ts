@@ -199,22 +199,22 @@ export class IdentityService {
                     onFailure: (err) => {
                         reject(err);
                     },
-                    customChallenge: function(challengeParam) {
+                    customChallenge: function (challengeParam) {
                         user['challengeName'] = 'CUSTOM_CHALLENGE';
                         user['challengeParam'] = challengeParam;
                         resolve(user);
                     },
-                    mfaRequired: function(challengeName, challengeParam) {
+                    mfaRequired: function (challengeName, challengeParam) {
                         user['challengeName'] = challengeName;
                         user['challengeParam'] = challengeParam;
                         resolve(user);
                     },
-                    mfaSetup: function(challengeName, challengeParam) {
+                    mfaSetup: function (challengeName, challengeParam) {
                         user['challengeName'] = challengeName;
                         user['challengeParam'] = challengeParam;
                         resolve(user);
                     },
-                    newPasswordRequired: function(
+                    newPasswordRequired: function (
                         userAttributes,
                         requiredAttributes
                     ) {
@@ -225,12 +225,12 @@ export class IdentityService {
                         };
                         resolve(user);
                     },
-                    totpRequired: function(challengeName, challengeParam) {
+                    totpRequired: function (challengeName, challengeParam) {
                         user['challengeName'] = challengeName;
                         user['challengeParam'] = challengeParam;
                         resolve(user);
                     },
-                    selectMFAType: function(challengeName, challengeParam) {
+                    selectMFAType: function (challengeName, challengeParam) {
                         user['challengeName'] = challengeName;
                         user['challengeParam'] = challengeParam;
                         resolve(user);
@@ -399,7 +399,7 @@ export class IdentityService {
                     );
                 },
                 // Wrong typings
-                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 meta
             );

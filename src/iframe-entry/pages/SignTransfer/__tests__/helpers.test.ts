@@ -1,13 +1,13 @@
 import * as helpers from '../helpers';
 import { WAVES, NAME_MAP } from '../../../constants';
 import * as math from '../../../utils/math';
-import { MassTransferItem, Long } from '@waves/ts-types';
+import { MassTransferItem, Long, AssetDecimals } from '@waves/ts-types';
 
 const massTransferTxType = NAME_MAP.massTransfer;
 const transferTxType = NAME_MAP.transfer;
 const asset1Id = 'asset1';
 const asset1Name = 'asset1_name';
-const asset1Decimals = 2;
+const asset1Decimals = 2 as AssetDecimals;
 const asset1 = {
     assetId: asset1Id,
     decimals: asset1Decimals,

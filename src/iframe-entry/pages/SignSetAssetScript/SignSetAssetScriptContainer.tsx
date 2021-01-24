@@ -5,9 +5,9 @@ import { WAVES } from '../../constants';
 import { getPrintableNumber } from '../../utils/math';
 import { SignSetAssetScript as SignSetAssetScriptComponent } from './SignSetAssetScriptComponent';
 
-export const SignSetAssetScriptContainer: FC<ISignTxProps<
-    SetAssetScriptTransaction
->> = ({ meta: txMeta, tx, user, onConfirm, onCancel }) => {
+export const SignSetAssetScriptContainer: FC<
+    ISignTxProps<SetAssetScriptTransaction>
+> = ({ meta: txMeta, tx, user, onConfirm, onCancel }) => {
     const asset = txMeta.assets[tx.assetId];
 
     const fee = getPrintableNumber(tx.fee, WAVES.decimals);
