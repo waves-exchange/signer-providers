@@ -7,6 +7,7 @@ export default mergeConfig(
     commonConfig,
     defineConfig({
         build: {
+            emptyOutDir: true,
             lib: {
                 entry: path.resolve(__dirname, 'src', 'provider', 'index.ts'),
                 name: 'providerCloud',
