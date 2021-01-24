@@ -1,8 +1,8 @@
 import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
+import { Long } from '@waves/ts-types';
 import { isNil, prop } from 'ramda';
 import { DetailsWithLogo } from '../../interface';
 import { WAVES } from '../constants';
-import { Long } from '@waves/ts-types';
 
 type GetAssetProp = <P extends keyof DetailsWithLogo>(
     id: string | null,
@@ -16,5 +16,5 @@ export const assetPropFactory = (
     property: P
 ): DetailsWithLogo[P] =>
     isNil(assetId)
-        ? prop<P, DetailsWithLogo>(property, WAVES)
+        ? prop<P, DetailsWithLogo>(property, WAVES as any)
         : prop<P, DetailsWithLogo>(property, assets[assetId]);

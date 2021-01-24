@@ -1,6 +1,6 @@
 import { fetchDataKey } from '@waves/node-api-js/es/api-node/addresses';
 import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
-import { Long } from '@waves/ts-types';
+import { DataTransactionEntryString, Long } from '@waves/ts-types';
 import { curry } from 'ramda';
 import { DetailsWithLogo } from '../../interface';
 
@@ -121,7 +121,10 @@ export const loadLogoInfo = curry(
 
                 return address != null
                     ? fetchDataKey(base, address, `logo_<${asset.assetId}>`)
-                          .then((entry) => ({ ...asset, logo: entry.value }))
+                          .then((entry) => ({
+                              ...asset,
+                              logo: (entry as DataTransactionEntryString).value,
+                          }))
                           .catch(() => asset)
                     : asset;
             })

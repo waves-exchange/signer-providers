@@ -21,7 +21,9 @@ type GetAmountAsset = (
 ) => Asset;
 
 export const getAmountAsset: GetAmountAsset = (assetId, assets) =>
-    assetId === null || assetId === undefined ? WAVES : assets[assetId];
+    assetId === null || assetId === undefined
+        ? (WAVES as Asset)
+        : assets[assetId];
 
 type GetAssetName = (
     assetId: string | null | undefined,
@@ -47,7 +49,7 @@ export const getFeeAsset: GetFeeAsset = (txType, assets, txFeeAssetId) => {
         txFeeAssetId === null ||
         typeof txFeeAssetId === 'undefined'
     ) {
-        return WAVES;
+        return WAVES as Asset;
     }
 
     return assets[txFeeAssetId];
