@@ -18,24 +18,28 @@ export default function (
                 user: state.user,
                 list,
                 onConfirm: async () => {
-                    const signedTxList: SignerTx[] = [];
+                    try {
+                        const signedTxList: SignerTx[] = await Promise.all(
+                            list.map(async (item) => {
+                                const txBytes = makeTxBytes(item.tx as any);
+                                const signature = await state.identity.signBytes(
+                                    txBytes
+                                );
 
-                    for await (const item of list) {
-                        const txBytes = makeTxBytes(item.tx as any);
-                        const signature = await state.identity.signBytes(
-                            txBytes
+                                return {
+                                    ...(item.tx as any),
+                                    proofs: [
+                                        ...((item.tx as any).proofs || []),
+                                        signature,
+                                    ],
+                                };
+                            })
                         );
 
-                        signedTxList.push({
-                            ...(item.tx as any),
-                            proofs: [
-                                ...((item.tx as any).proofs || []),
-                                signature,
-                            ],
-                        });
+                        resolve(signedTxList);
+                    } catch (e) {
+                        reject(e);
                     }
-
-                    resolve(signedTxList);
                 },
                 onCancel: () => {
                     reject(new Error('User rejection!'));

@@ -105,18 +105,22 @@ export default function (
                                 params: analyticsParams,
                             });
 
-                            const txBytes = makeTxBytes(tx as any);
-                            const signature = await state.identity.signBytes(
-                                txBytes
-                            );
+                            try {
+                                const txBytes = makeTxBytes(tx as any);
+                                const signature = await state.identity.signBytes(
+                                    txBytes
+                                );
 
-                            resolve({
-                                ...(tx as any),
-                                proofs: [
-                                    ...((tx as any).proofs || []),
-                                    signature,
-                                ],
-                            });
+                                resolve({
+                                    ...(tx as any),
+                                    proofs: [
+                                        ...((tx as any).proofs || []),
+                                        signature,
+                                    ],
+                                });
+                            } catch (e) {
+                                reject(e);
+                            }
                         },
                         onCancel: (): void => {
                             analytics.send({
