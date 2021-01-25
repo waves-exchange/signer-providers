@@ -57,8 +57,6 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
             try {
                 const cognitoUser = await identity.signIn(username, password);
 
-                userData.current = { username, password };
-
                 const challengeName: AuthChallenge | void =
                     cognitoUser['challengeName'];
 
@@ -80,6 +78,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 }
             } catch (e) {
                 if (e && e.code === 'UserNotConfirmedException') {
+                    userData.current = { username, password };
                     await resendSignUp();
                 } else {
                     throw e;
