@@ -19,4 +19,9 @@ export default defineConfig({
             '@waves/node-api-js/es/constants',
         ],
     },
+    build: {
+        commonjsOptions: {
+            ignore: ['node-fetch']
+        }
+    }
 });

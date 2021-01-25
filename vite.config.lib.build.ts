@@ -6,8 +6,9 @@ import pkg from './package.json';
 export default mergeConfig(
     commonConfig,
     defineConfig({
+        root: path.resolve(__dirname, 'src', 'provider'),
         build: {
-            emptyOutDir: true,
+            outDir: path.resolve(__dirname, 'dist'),
             lib: {
                 entry: path.resolve(__dirname, 'src', 'provider', 'index.ts'),
                 name: 'providerCloud',
@@ -27,8 +28,8 @@ export default mergeConfig(
                         format: 'umd',
                     },
                 ],
-                external: ['node-fetch'],
             },
+            emptyOutDir: true,
             minify: false,
         },
     })
