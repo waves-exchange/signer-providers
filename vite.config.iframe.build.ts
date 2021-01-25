@@ -6,7 +6,7 @@ import commonConfig from './vite.config';
 export default mergeConfig(
     commonConfig,
     defineConfig({
-        base: '/', // wait for @vitejs/plugin-legacy
+        base: '/signer-cloud/',
         root: path.resolve(__dirname, 'src', 'iframe-entry'),
         build: {
             outDir: path.resolve(__dirname, 'iframe-entry', 'dist'),
