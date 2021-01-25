@@ -53,14 +53,14 @@ export const prepareTransactions = (
             publicKey: state.identity.getUserPublicKey(),
             timestamp,
         })
-    );
+    ) as any;
     const assetsIdList = getAssetIdListByTx(transactions);
     const transactionsWithFee = Promise.all<Transaction>(
         transactions.map((tx, index) =>
             list[index].fee
                 ? Promise.resolve(tx)
                 : loadFeeByTransaction(state.nodeUrl, tx as any)
-        )
+        ) as any
     );
     const aliases = pipe(map(getTxAliases), flatten, uniq)(transactions);
     const fetchFeeList = transactionsWithFee.then((txs) =>
