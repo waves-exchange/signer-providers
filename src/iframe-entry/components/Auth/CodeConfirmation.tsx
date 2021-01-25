@@ -68,6 +68,7 @@ export const CodeConfirmation: FC<CodeConfirmationProps> = ({
                 <VerifyCodeComponent
                     isPending={isPending}
                     isCodeSent={Boolean(codeDelivery)}
+                    inputMode="decimal"
                     onPendingChange={setIsPending}
                     onSendCode={resendCode}
                     onApplyCode={handleConfirmCode}

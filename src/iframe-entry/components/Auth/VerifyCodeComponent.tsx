@@ -20,6 +20,7 @@ type VerifyCodeComponentProps = {
     timerTime?: number;
     isCodeSent?: boolean;
     disableAfterMistake?: boolean;
+    inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
     onPendingChange(isPending: boolean): void;
     onSendCode?(): Promise<void>;
     onValidationFunc?(value: string): boolean;
@@ -36,6 +37,7 @@ export const VerifyCodeComponent: React.FC<VerifyCodeComponentProps> = ({
     onPendingChange: onPending,
     isPending,
     isCodeSent = true,
+    inputMode,
 }) => {
     const [secondsLeft, setSecondsLeft] = React.useState(
         isCodeSent ? timerTime : 0
@@ -248,6 +250,7 @@ export const VerifyCodeComponent: React.FC<VerifyCodeComponentProps> = ({
                                 ref={ref}
                                 value={values[i]}
                                 autoFocus={autoFocusIndex === i}
+                                inputMode={inputMode}
                                 onClick={onInputClick}
                                 onChange={onChange}
                                 onKeyDown={onKeyDown}

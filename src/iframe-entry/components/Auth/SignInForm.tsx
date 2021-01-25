@@ -159,6 +159,7 @@ export const SignInForm: FC<SignInFormProps> = ({
                     labelVisible={email.length > 0}
                 >
                     <Input
+                        inputMode="email"
                         placeholder="Email"
                         value={email}
                         autoFocus={true}

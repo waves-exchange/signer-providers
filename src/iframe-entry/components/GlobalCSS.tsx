@@ -64,6 +64,7 @@ export const GlobalCSS: FC = () => {
                         alignItems: 'center',
                         width: '520px',
                         minHeight: '100%',
+                        maxHeight: ['100vh', 'initial'],
                     },
                     '#overlay': {
                         position: 'fixed',

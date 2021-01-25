@@ -157,6 +157,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                     labelVisible={email.length > 0}
                 >
                     <Input
+                        inputMode="email"
                         placeholder="Enter Email"
                         value={email}
                         autoFocus={true}
