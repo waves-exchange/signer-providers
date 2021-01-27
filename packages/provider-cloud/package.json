@@ -9,7 +9,7 @@
   "module": "dist/provider-cloud.es.js",
   "browser": "./dist/provider-cloud.es.js",
   "unpkg": "dist/provider-cloud.min.js",
-  "types": "dist/types/provider/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
