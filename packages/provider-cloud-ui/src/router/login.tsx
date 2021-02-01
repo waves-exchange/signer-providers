@@ -18,7 +18,7 @@ export default function (state: IState): () => Promise<UserData> {
                     <Login
                         identity={state.identity}
                         onCancel={(): void => {
-                            reject('User rejection!');
+                            reject(new Error('User rejection!'));
                         }}
                         onConfirm={(user: IUser): void => {
                             state.user = user;
