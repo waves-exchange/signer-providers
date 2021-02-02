@@ -3,9 +3,6 @@ import reactRefresh from '@vitejs/plugin-react-refresh';
 
 export default defineConfig({
     plugins: [reactRefresh()],
-    alias: {
-        'node-fetch': '__browser-external',
-    },
     optimizeDeps: {
         include: [
             'buffer',
@@ -18,9 +15,8 @@ export default defineConfig({
             '@waves/node-api-js/es/tools/adresses/getAssetIdListByTx',
             '@waves/node-api-js/es/constants',
         ],
-        link: [
-            './packages/provider-cloud',
-            './packages/provider-cloud-ui',
+        exclude: [
+            'node-fetch'
         ]
     },
     build: {
