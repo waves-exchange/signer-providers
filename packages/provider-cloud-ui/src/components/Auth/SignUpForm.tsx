@@ -90,12 +90,24 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
             event.preventDefault();
 
             try {
-                const result = await signUp(email, password);
-
-                console.log(result);
+                await signUp(email, password);
             } catch (e) {
-                console.error(e);
-                throw e;
+                if (e && 'code' in e) {
+                    if (e.code === 'UsernameExistsException') {
+                        setErrors((prev) => ({
+                            ...prev,
+                            _form:
+                                'This email is already registered. Log in or use another email',
+                        }));
+                    } else {
+                        setErrors((prev) => ({
+                            ...prev,
+                            _form: e.message,
+                        }));
+                    }
+                } else {
+                    throw e;
+                }
             }
         },
         [email, password, signUp]
