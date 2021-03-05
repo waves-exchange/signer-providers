@@ -15,7 +15,7 @@ import { CodeConfirmation } from '../../components/Auth/CodeConfirmation';
 import { SignUpForm } from '../../components/Auth/SignUpForm';
 import {
     AuthChallenge,
-    CodeDelivery,
+    CodeDelivery, getRecaptureToken,
     IdentityService,
     SignUpResponse,
 } from '../../services/IdentityService';
@@ -90,6 +90,12 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
     const signUp = useCallback(
         async (username: string, password: string): Promise<SignUpResponse> => {
+            const meta = Object.create(null);
+            try {
+                meta.token = await getRecaptureToken('SIGN_UP');
+            } catch (e) {
+
+            }
             const result = await identity.signUp(username, password);
 
             userData.current = {
