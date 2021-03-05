@@ -1,4 +1,11 @@
 import {
+    AuthChallenge,
+    CodeDelivery,
+    IdentityService,
+    SignUpResponse,
+    getRecaptureToken,
+} from '../../services/IdentityService';
+import {
     Box,
     Flex,
     Icon,
@@ -8,17 +15,11 @@ import {
     iconLogo,
 } from '@waves.exchange/react-uikit';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { IUser } from '../../interface';
-import { ForgotPassword } from '../../components/Auth/ForgotPassword';
-import { SignInForm } from '../../components/Auth/SignInForm';
 import { CodeConfirmation } from '../../components/Auth/CodeConfirmation';
+import { ForgotPassword } from '../../components/Auth/ForgotPassword';
+import { IUser } from '../../interface';
+import { SignInForm } from '../../components/Auth/SignInForm';
 import { SignUpForm } from '../../components/Auth/SignUpForm';
-import {
-    AuthChallenge,
-    CodeDelivery, getRecaptureToken,
-    IdentityService,
-    SignUpResponse,
-} from '../../services/IdentityService';
 
 type LoginStateType =
     | 'sign-up'
@@ -58,7 +59,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 const cognitoUser = await identity.signIn(username, password);
 
                 const challengeName: AuthChallenge | void =
-                    cognitoUser['challengeName'];
+                    cognitoUser.challengeName;
 
                 switch (challengeName) {
                     case 'SMS_MFA':
@@ -91,12 +92,13 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const signUp = useCallback(
         async (username: string, password: string): Promise<SignUpResponse> => {
             const meta = Object.create(null);
+
             try {
                 meta.token = await getRecaptureToken('SIGN_UP');
             } catch (e) {
-
+                meta.token = undefined;
             }
-            const result = await identity.signUp(username, password);
+            const result = await identity.signUp(username, password, meta);
 
             userData.current = {
                 username,
