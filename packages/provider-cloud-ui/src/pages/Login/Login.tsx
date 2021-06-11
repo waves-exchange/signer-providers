@@ -59,7 +59,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 const cognitoUser = await identity.signIn(username, password);
 
                 const challengeName: AuthChallenge | void =
-                    cognitoUser['challengeName'];
+                    cognitoUser.challengeName;
 
                 switch (challengeName) {
                     case 'SMS_MFA':
