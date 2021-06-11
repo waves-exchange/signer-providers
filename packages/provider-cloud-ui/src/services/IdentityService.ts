@@ -82,12 +82,14 @@ export class IdentityService {
 
     public async signUp(
         username: string,
-        password: string
+        password: string,
+        meta?: any
     ): Promise<SignUpResponse> {
         return new Promise<SignUpResponse>((resolve, reject) => {
             if (!this.userPool) {
                 return reject(new Error('No UserPool'));
             }
+            const clientMetadata = { ...meta };
 
             this.userPool.signUp(
                 username,
@@ -111,7 +113,8 @@ export class IdentityService {
                     this.currentUser = result.user;
 
                     resolve(result);
-                }
+                },
+                clientMetadata
             );
         });
     }

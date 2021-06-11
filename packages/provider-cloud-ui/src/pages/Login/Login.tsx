@@ -19,6 +19,7 @@ import {
     IdentityService,
     SignUpResponse,
 } from '../../services/IdentityService';
+import { getGeeTestToken } from '../../utils/geeTest';
 
 type LoginStateType =
     | 'sign-up'
@@ -90,7 +91,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
     const signUp = useCallback(
         async (username: string, password: string): Promise<SignUpResponse> => {
-            const result = await identity.signUp(username, password);
+            const geeTest = await getGeeTestToken();
+            const result = await identity.signUp(username, password, geeTest);
 
             userData.current = {
                 username,

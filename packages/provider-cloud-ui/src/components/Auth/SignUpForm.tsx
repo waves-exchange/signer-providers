@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     Checkbox,
+    DotLoader,
     ExternalLink,
     Flex,
     Heading,
@@ -21,6 +22,7 @@ type SignUpFormProps = {
 
 export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
     const MIN_PASSWORD_LENGTH = 8;
+    const [isPending, setPending] = useState(false);
     const [errors, setErrors] = useState<Record<string, string | null>>({
         _form: null,
         emailRequired: null,
@@ -90,8 +92,11 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
             event.preventDefault();
 
             try {
+                setPending(true);
                 await signUp(email, password);
+                setPending(false);
             } catch (e) {
+                setPending(false);
                 if (e && 'code' in e) {
                     if (e.code === 'UsernameExistsException') {
                         setErrors((prev) => ({
@@ -332,7 +337,13 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                 onClick={handleSubmit}
                 disabled={!isSubmitEnabled}
             >
-                Create Account
+                {isPending ? (
+                    <Flex justifyContent="center" alignItems="center">
+                        <DotLoader />
+                    </Flex>
+                ) : (
+                    <Text>Create Account</Text>
+                )}
             </Button>
 
             <Text variant="body2" color="standard.$0" textAlign="center">
