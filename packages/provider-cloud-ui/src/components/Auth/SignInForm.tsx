@@ -120,38 +120,10 @@ export const SignInForm: FC<SignInFormProps> = ({
         <Flex
             as="form"
             px="$40"
-            pb="$40"
+            pb="24px"
             flexDirection="column"
             justifyContent="center"
         >
-            <Heading
-                level={2}
-                textAlign="center"
-                mb="24px"
-                color="standard.$0"
-                fontWeight={500}
-            >
-                Log In with Waves.Exchange
-            </Heading>
-
-            <Box
-                border="1px dashed"
-                borderColor="main.$500"
-                borderRadius="$4"
-                mb="24px"
-                p="16px"
-            >
-                <Text
-                    fontSize="$13"
-                    lineHeight="$16"
-                    color="basic.$300"
-                    textAlign="left"
-                >
-                    Don't worry! The dApp won't have access to your assets or
-                    passwords
-                </Text>
-            </Box>
-
             <Box mb="24px">
                 <InputWrapper
                     mb="16px"
@@ -173,7 +145,7 @@ export const SignInForm: FC<SignInFormProps> = ({
                             fontSize="12px"
                             lineHeight="14px"
                             color="danger.$300"
-                            textAlign="right"
+                            textAlign="left"
                             display="inline-block"
                             width="100%"
                         >
@@ -195,31 +167,44 @@ export const SignInForm: FC<SignInFormProps> = ({
                         onBlur={handlePasswordBlur}
                     />
 
-                    {errors.passwordRequired && (
-                        <Text
-                            fontSize="12px"
-                            lineHeight="14px"
-                            color="danger.$300"
-                            textAlign="right"
-                            display="inline-block"
-                            width="100%"
-                        >
-                            {errors.passwordRequired}
-                        </Text>
-                    )}
+                    <Box mt="8px">
+                        {errors.passwordRequired && (
+                            <Text
+                                fontSize="13px"
+                                lineHeight="16px"
+                                color="danger.$300"
+                                textAlign="right"
+                                display="inline-block"
+                            >
+                                {errors.passwordRequired}
+                            </Text>
+                        )}
 
-                    {errors._form && (
-                        <Text
-                            fontSize="12px"
-                            lineHeight="14px"
-                            color="danger.$300"
-                            textAlign="right"
-                            display="inline-block"
-                            width="100%"
+                        {errors._form && (
+                            <Text
+                                fontSize="13px"
+                                lineHeight="16px"
+                                color="danger.$300"
+                                textAlign="right"
+                                display="inline-block"
+                            >
+                                {errors._form}
+                            </Text>
+                        )}
+
+                        <Button
+                            sx={{ float: 'right' }}
+                            p="0"
+                            fontSize="13px"
+                            lineHeight="16px"
+                            color="primary.$300"
+                            backgroundColor="transparent"
+                            borderWidth="0"
+                            onClick={onForgotPasswordClick}
                         >
-                            {errors._form}
-                        </Text>
-                    )}
+                            Forgot password?
+                        </Button>
+                    </Box>
                 </InputWrapper>
             </Box>
 
@@ -240,28 +225,31 @@ export const SignInForm: FC<SignInFormProps> = ({
                 )}
             </Button>
 
-            <Flex justifyContent="space-between">
-                <Button
-                    color="primary.$300"
-                    backgroundColor="transparent"
-                    borderWidth="0"
-                    onClick={onForgotPasswordClick}
+            <Box textAlign="center">
+                <Text
+                    variant="body2"
+                    color="standard.$0"
+                    textAlign="center"
+                    display="block"
+                    mb="10px"
+                    lineHeight="16px"
+                    fontWeight={300}
                 >
-                    Forgot password?
-                </Button>
-
-                <Text variant="body2" color="standard.$0" textAlign="center">
                     Do not have an account?
-                    <Button
-                        color="primary.$300"
-                        backgroundColor="transparent"
-                        borderWidth="0"
-                        onClick={onSignUpClick}
-                    >
-                        Sign Up
-                    </Button>
                 </Text>
-            </Flex>
+                <Button
+                    width="124px"
+                    bg="transparent"
+                    color="primary.$300"
+                    border="1px solid"
+                    borderColor="primary.$300"
+                    variantSize="small"
+                    height="32px"
+                    onClick={onSignUpClick}
+                >
+                    Sign Up
+                </Button>
+            </Box>
         </Flex>
     );
 };

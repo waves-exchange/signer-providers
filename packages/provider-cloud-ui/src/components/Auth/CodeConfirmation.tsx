@@ -39,16 +39,6 @@ export const CodeConfirmation: FC<CodeConfirmationProps> = ({
             flexDirection="column"
             justifyContent="center"
         >
-            <Heading
-                level={2}
-                textAlign="center"
-                mb="24px"
-                color="standard.$0"
-                fontWeight={500}
-            >
-                Verify Your Account
-            </Heading>
-
             <Box mb="24px" textAlign="center">
                 <Text variant="body2" color="basic.$500">
                     Please enter the 6-digit verification code received by{' '}

@@ -5,7 +5,7 @@ import {
     IconButton,
     iconClose,
     iconExpandAccordion,
-    iconLogo,
+    Text,
 } from '@waves.exchange/react-uikit';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { IUser } from '../../interface';
@@ -50,7 +50,9 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
         const result = await identity.resendSignUp();
 
         setCodeDelivery(result);
-        setLoginState('confirm-sign-up');
+        setLoginState(
+            loginState === 'sign-in' ? 'confirm-sign-in' : 'confirm-sign-up'
+        );
     }, [identity]);
 
     const signIn = useCallback(
@@ -180,11 +182,39 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
     return (
         <Box bg="main.$800" width="520px" borderRadius="$6">
-            <Flex height={65}>
+            <Flex
+                height={65}
+                p="20px 24px 20px 40px"
+                borderBottom="1px solid"
+                borderColor="#3a4050"
+                mb="32px"
+                position="relative"
+            >
+                <Text
+                    as="h2"
+                    fontSize="17px"
+                    lineHeight="24px"
+                    mb="24px"
+                    color="standard.$0"
+                    fontWeight={500}
+                    margin={0}
+                >
+                    {loginState === 'sign-in' && 'Log In'}
+                    {loginState === 'sign-up' && 'Create Account'}
+                    {loginState === 'confirm-sign-up' && (
+                        <Text ml="10px">Verify Your Account</Text>
+                    )}
+                    {loginState === 'confirm-sign-in' && (
+                        <Text ml="10px">Verify Your Account</Text>
+                    )}
+                </Text>
                 {(loginState === 'confirm-sign-up' ||
                     loginState === 'confirm-sign-in') && (
                     <IconButton
-                        size={56}
+                        position="absolute"
+                        top={22}
+                        left={22}
+                        size={20}
                         color="basic.$700"
                         _hover={{ color: 'basic.$500' }}
                         onClick={(): void => {
@@ -199,7 +229,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                     >
                         <Icon
                             icon={iconExpandAccordion}
-                            size={20}
+                            size={16}
                             sx={{ transform: 'rotate(90deg)' }}
                         />
                     </IconButton>
@@ -207,7 +237,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
                 <IconButton
                     ml="auto"
-                    size={56}
+                    size={25}
                     color="basic.$700"
                     _hover={{ color: 'basic.$500' }}
                     onClick={onCancel}
@@ -215,14 +245,6 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                     <Icon icon={iconClose} />
                 </IconButton>
             </Flex>
-
-            <Icon
-                display="block"
-                mx="auto"
-                mb="24px"
-                size={80}
-                icon={iconLogo}
-            />
 
             {loginState === 'sign-in' && (
                 <SignInForm
@@ -272,6 +294,19 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                         setLoginState('sign-up');
                     }}
                 />
+            )}
+
+            {loginState === 'confirm-sign-up' ||
+            loginState === 'confirm-sign-in' ? null : (
+                <Box pb="32px" textAlign="center" fontWeight={300}>
+                    <Text variant="footnote1" color="basic.$500">
+                        Waves.Exchange
+                    </Text>
+                    <Text variant="footnote1" color="basic.$700">
+                        {' '}
+                        provider is used.{' '}
+                    </Text>
+                </Box>
             )}
         </Box>
     );

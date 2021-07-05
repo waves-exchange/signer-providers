@@ -157,16 +157,6 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
             flexDirection="column"
             justifyContent="center"
         >
-            <Heading
-                level={2}
-                textAlign="center"
-                mb="24px"
-                color="standard.$0"
-                fontWeight={500}
-            >
-                Create Account via Waves.Exchange
-            </Heading>
-
             <Box mb="24px">
                 <InputWrapper
                     mb="16px"
