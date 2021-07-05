@@ -201,6 +201,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 >
                     {loginState === 'sign-in' && 'Log In'}
                     {loginState === 'sign-up' && 'Create Account'}
+                    {loginState === 'forgot-password' &&
+                        'Forgot Your Password?'}
                     {loginState === 'confirm-sign-up' && (
                         <Text ml="10px">Verify Your Account</Text>
                     )}
@@ -297,7 +299,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
             )}
 
             {loginState === 'confirm-sign-up' ||
-            loginState === 'confirm-sign-in' ? null : (
+            loginState === 'confirm-sign-in' ||
+            loginState === 'forgot-password' ? null : (
                 <Box pb="32px" textAlign="center" fontWeight={300}>
                     <Text variant="footnote1" color="basic.$500">
                         Waves.Exchange

@@ -25,21 +25,11 @@ export const ForgotPassword: FC<ForgotPasswordProps> = ({
             flexDirection="column"
             justifyContent="center"
         >
-            <Heading
-                level={2}
-                textAlign="center"
-                mb="24px"
-                color="standard.$0"
-                fontWeight={500}
-            >
-                Forgot your password?
-            </Heading>
-
             <Text
                 variant="body2"
                 color="basic.$500"
                 textAlign="center"
-                mb="24px"
+                mb="32px"
             >
                 Don't worry! You can reset password at{' '}
                 <ExternalLink href={getEnvAwareUrl()} target="_blank">
