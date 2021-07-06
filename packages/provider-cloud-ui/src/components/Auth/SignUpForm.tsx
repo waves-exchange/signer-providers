@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     Checkbox,
+    DotLoader,
     ExternalLink,
     Flex,
     Heading,
@@ -21,6 +22,7 @@ type SignUpFormProps = {
 
 export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
     const MIN_PASSWORD_LENGTH = 8;
+    const [isPending, setPending] = useState(false);
     const [errors, setErrors] = useState<Record<string, string | null>>({
         _form: null,
         emailRequired: null,
@@ -90,8 +92,11 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
             event.preventDefault();
 
             try {
+                setPending(true);
                 await signUp(email, password);
+                setPending(false);
             } catch (e) {
+                setPending(false);
                 if (e && 'code' in e) {
                     if (e.code === 'UsernameExistsException') {
                         setErrors((prev) => ({
@@ -332,7 +337,13 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                 onClick={handleSubmit}
                 disabled={!isSubmitEnabled}
             >
-                Create Account
+                {isPending ? (
+                    <Flex justifyContent="center" alignItems="center">
+                        <DotLoader />
+                    </Flex>
+                ) : (
+                    <Text>Create Account</Text>
+                )}
             </Button>
 
             <Text variant="body2" color="standard.$0" textAlign="center">
@@ -346,43 +357,6 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                     Log In
                 </Button>
             </Text>
-            <Flex
-                mt={24}
-                fontSize="12px"
-                lineHeight="14px"
-                color="basic.$700"
-                textAlign="left"
-                display="inline-block"
-                py="4px"
-                justifyContent="center"
-            >
-                <Flex justifyContent="center">
-                    <Text textAlign="center">
-                        This site is protected by reCAPTCHA
-                    </Text>
-                </Flex>
-                <Flex justifyContent="center">
-                    <Text mr={4}>and the Google</Text>
-                    <ExternalLink
-                        href="https://policies.google.com/privacy"
-                        target="_blank"
-                        referrerPolicy="noopener noreferrer"
-                    >
-                        <Text color="basic.$500">Privacy Policy</Text>
-                    </ExternalLink>
-                    <Text mr={4} ml={4}>
-                        and
-                    </Text>
-                    <ExternalLink
-                        href="https://policies.google.com/terms"
-                        target="_blank"
-                        referrerPolicy="noopener noreferrer"
-                    >
-                        <Text color="basic.$500">Terms of Service apply</Text>
-                    </ExternalLink>
-                    <Text>.</Text>
-                </Flex>
-            </Flex>
         </Flex>
     );
 };

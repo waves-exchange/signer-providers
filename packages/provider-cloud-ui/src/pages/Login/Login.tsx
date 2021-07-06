@@ -1,11 +1,4 @@
 import {
-    AuthChallenge,
-    CodeDelivery,
-    IdentityService,
-    SignUpResponse,
-    getRecaptureToken,
-} from '../../services/IdentityService';
-import {
     Box,
     Flex,
     Icon,
@@ -15,11 +8,18 @@ import {
     iconLogo,
 } from '@waves.exchange/react-uikit';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { CodeConfirmation } from '../../components/Auth/CodeConfirmation';
-import { ForgotPassword } from '../../components/Auth/ForgotPassword';
 import { IUser } from '../../interface';
+import { ForgotPassword } from '../../components/Auth/ForgotPassword';
 import { SignInForm } from '../../components/Auth/SignInForm';
+import { CodeConfirmation } from '../../components/Auth/CodeConfirmation';
 import { SignUpForm } from '../../components/Auth/SignUpForm';
+import {
+    AuthChallenge,
+    CodeDelivery,
+    IdentityService,
+    SignUpResponse,
+} from '../../services/IdentityService';
+import { getGeeTestToken } from '../../utils/geeTest';
 
 type LoginStateType =
     | 'sign-up'
@@ -91,14 +91,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
     const signUp = useCallback(
         async (username: string, password: string): Promise<SignUpResponse> => {
-            const meta = Object.create(null);
-
-            try {
-                meta.token = await getRecaptureToken('SIGN_UP');
-            } catch (e) {
-                meta.token = undefined;
-            }
-            const result = await identity.signUp(username, password, meta);
+            const geeTest = await getGeeTestToken();
+            const result = await identity.signUp(username, password, geeTest);
 
             userData.current = {
                 username,

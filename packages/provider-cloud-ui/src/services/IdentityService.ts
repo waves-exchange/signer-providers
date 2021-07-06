@@ -83,12 +83,13 @@ export class IdentityService {
     public async signUp(
         username: string,
         password: string,
-        metaData?: Record<string, string>
+        meta?: any
     ): Promise<SignUpResponse> {
         return new Promise<SignUpResponse>((resolve, reject) => {
             if (!this.userPool) {
                 return reject(new Error('No UserPool'));
             }
+            const clientMetadata = { ...meta };
 
             this.userPool.signUp(
                 username,
@@ -113,7 +114,7 @@ export class IdentityService {
 
                     resolve(result);
                 },
-                { ...metaData }
+                clientMetadata
             );
         });
     }
@@ -440,26 +441,6 @@ export class IdentityService {
         return result;
     }
 }
-
-export const getRecaptureToken = (action?: string): Promise<string> => {
-    const w = (window as any);
-    return new Promise((res, rej) => {
-        try {
-            w.grecaptcha.ready(function () {
-                try {
-                    w.grecaptcha.execute('6LcveU8aAAAAAHVuKX36qjzYBDRpa9q6cQ5w41QK', { action })
-                        .then(function (token: string) {
-                            res(token);
-                        }).catch((e: Error) => rej(e));
-                } catch (e) {
-                    rej(e);
-                }
-            });
-        } catch (e) {
-            rej(e);
-        }
-    });
-};
 
 type IdentitySignTxRequest = {
     payload: string;
