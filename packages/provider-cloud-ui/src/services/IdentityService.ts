@@ -37,6 +37,7 @@ type IdentityServiceOptions = {
     apiUrl: string;
     userPoolId: string;
     clientId: string;
+    endpoint: string;
 };
 
 export class IdentityService {
@@ -52,6 +53,7 @@ export class IdentityService {
         apiUrl,
         clientId,
         userPoolId,
+        endpoint,
     }: IdentityServiceOptions): void {
         this.apiUrl = apiUrl;
 
@@ -59,6 +61,7 @@ export class IdentityService {
             UserPoolId: userPoolId,
             ClientId: clientId,
             Storage: this.storage,
+            endpoint,
         });
     }
 

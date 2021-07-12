@@ -4,6 +4,7 @@ export type Config = {
         cognito: {
             clientId: string;
             userPoolId: string;
+            endpoint: string;
         };
     };
 };

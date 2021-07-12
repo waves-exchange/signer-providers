@@ -21,6 +21,7 @@ export const getLoginHandler = (
             apiUrl: config.identity.apiUrl,
             clientId: config.identity.cognito.clientId,
             userPoolId: config.identity.cognito.userPoolId,
+            endpoint: config.identity.cognito.endpoint,
         });
 
         const user = await login(state)();
