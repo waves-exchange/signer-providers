@@ -13,7 +13,7 @@ const queue = new Queue(3);
 
 analytics.init({
     platform: 'web',
-    userType: 'unknown',
+    userType: 'provider-cloud',
     referrer: document.referrer,
 });
 
