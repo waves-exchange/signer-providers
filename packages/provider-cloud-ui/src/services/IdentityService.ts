@@ -164,7 +164,8 @@ export class IdentityService {
 
     public async signIn(
         username: string,
-        password: string
+        password: string,
+        metaData?: any
     ): Promise<CognitoUser> {
         this.currentUser = undefined;
         this.identityUser = undefined;
@@ -189,6 +190,7 @@ export class IdentityService {
                     Password: password,
                     ClientMetadata: {
                         'custom:encryptionKey': this.seed.keyPair.publicKey,
+                        ...metaData,
                     },
                 }),
                 {
