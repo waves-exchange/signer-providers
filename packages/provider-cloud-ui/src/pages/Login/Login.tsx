@@ -58,7 +58,9 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const signIn = useCallback(
         async (username: string, password: string): Promise<void> => {
             try {
-                const cognitoUser = await identity.signIn(username, password);
+                const geeTest = await getGeeTestToken();
+
+                const cognitoUser = await identity.signIn(username, password, geeTest);
 
                 const challengeName: AuthChallenge | void =
                     cognitoUser.challengeName;
