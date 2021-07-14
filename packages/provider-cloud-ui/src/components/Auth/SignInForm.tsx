@@ -173,6 +173,7 @@ export const SignInForm: FC<SignInFormProps> = ({
                         aria-invalid={Boolean(errors.passwordRequired)}
                         onChange={handlePasswordChange}
                         onBlur={handlePasswordBlur}
+                        autoComplete="foo"
                     />
 
                     <Box mt="8px">

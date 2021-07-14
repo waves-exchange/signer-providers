@@ -200,6 +200,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                         )}
                         onChange={handlePasswordChange}
                         onBlur={handlePasswordInputBlur}
+                        autoComplete="foo"
                     />
 
                     <Text
@@ -253,6 +254,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                         aria-invalid={Boolean(errors.passwordsDoNotMatch)}
                         onChange={handlePasswordConfirmChange}
                         onBlur={handlePasswordInputBlur}
+                        autoComplete="foo"
                     />
 
                     {errors.passwordsDoNotMatch && (
