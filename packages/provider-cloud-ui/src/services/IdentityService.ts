@@ -94,7 +94,7 @@ export class IdentityService {
             }
             const clientMetadata = { ...meta };
 
-            this.userPool.signUp(
+            (this.userPool.signUp)(
                 username,
                 password,
                 [
@@ -103,7 +103,7 @@ export class IdentityService {
                         Value: username,
                     }),
                 ],
-                [],
+                null as any,
                 (err, result) => {
                     if (err) {
                         return reject(err);

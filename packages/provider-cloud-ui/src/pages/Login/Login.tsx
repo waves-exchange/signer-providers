@@ -63,7 +63,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 const cognitoUser = await identity.signIn(
                     username,
                     password,
-                    geeTest
+                    geeTest,
                 );
 
                 const challengeName: AuthChallenge | void =
