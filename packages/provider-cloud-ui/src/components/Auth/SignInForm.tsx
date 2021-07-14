@@ -22,12 +22,14 @@ type SignInFormProps = {
     signIn(username: string, password: string): Promise<void>;
     onForgotPasswordClick(): void;
     onSignUpClick(): void;
+    signUpEmail?: string;
 };
 
 export const SignInForm: FC<SignInFormProps> = ({
     signIn,
     onForgotPasswordClick,
     onSignUpClick,
+    signUpEmail,
 }) => {
     const [pending, setPenging] = useState<boolean>(false);
     const [errors, setErrors] = useState<Record<string, string | null>>({
@@ -38,6 +40,12 @@ export const SignInForm: FC<SignInFormProps> = ({
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const mounted = useRef<boolean>(false);
+
+    useEffect(() => {
+        if (signUpEmail) {
+            setEmail(signUpEmail);
+        }
+    }, [signUpEmail]);
 
     const handleEmailChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,6 +173,7 @@ export const SignInForm: FC<SignInFormProps> = ({
                         aria-invalid={Boolean(errors.passwordRequired)}
                         onChange={handlePasswordChange}
                         onBlur={handlePasswordBlur}
+                        autoComplete="foo"
                     />
 
                     <Box mt="8px">

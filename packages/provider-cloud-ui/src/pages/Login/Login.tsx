@@ -60,7 +60,11 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
             try {
                 const geeTest = await getGeeTestToken();
 
-                const cognitoUser = await identity.signIn(username, password, geeTest);
+                const cognitoUser = await identity.signIn(
+                    username,
+                    password,
+                    geeTest,
+                );
 
                 const challengeName: AuthChallenge | void =
                     cognitoUser.challengeName;
@@ -125,15 +129,15 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const confirmSignUp = useCallback(
         async (code: string): Promise<void> => {
             await identity.confirmSignUp(code);
+            setLoginState('sign-in');
+            // if (userData.current) {
+            //     await signIn(
+            //         userData.current.username,
+            //         userData.current.password
+            //     );
+            // }
 
-            if (userData.current) {
-                await signIn(
-                    userData.current.username,
-                    userData.current.password
-                );
-            }
-
-            handleSuccess();
+            // handleSuccess();
         },
         [handleSuccess, identity, signIn]
     );
@@ -252,6 +256,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
             {loginState === 'sign-in' && (
                 <SignInForm
+                    signUpEmail={userData.current?.username}
                     signIn={signIn}
                     onForgotPasswordClick={(): void => {
                         setLoginState('forgot-password');
