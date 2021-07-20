@@ -13,6 +13,7 @@ import { ForgotPassword } from '../../components/Auth/ForgotPassword';
 import { SignInForm } from '../../components/Auth/SignInForm';
 import { CodeConfirmation } from '../../components/Auth/CodeConfirmation';
 import { SignUpForm } from '../../components/Auth/SignUpForm';
+import { RegistrationSuccessful } from '../../components/Auth/RegistrationSuccessful';
 import {
     AuthChallenge,
     CodeDelivery,
@@ -26,7 +27,8 @@ type LoginStateType =
     | 'sign-in'
     | 'confirm-sign-up'
     | 'confirm-sign-in'
-    | 'forgot-password';
+    | 'forgot-password'
+    | 'success-sign-up';
 
 type LoginProps = {
     identity: IdentityService;
@@ -63,7 +65,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 const cognitoUser = await identity.signIn(
                     username,
                     password,
-                    geeTest,
+                    geeTest
                 );
 
                 const challengeName: AuthChallenge | void =
@@ -129,7 +131,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const confirmSignUp = useCallback(
         async (code: string): Promise<void> => {
             await identity.confirmSignUp(code);
-            setLoginState('sign-in');
+            setLoginState('success-sign-up');
             // if (userData.current) {
             //     await signIn(
             //         userData.current.username,
@@ -207,6 +209,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 >
                     {loginState === 'sign-in' && 'Log In'}
                     {loginState === 'sign-up' && 'Create Account'}
+                    {loginState === 'success-sign-up' &&
+                        'Registration Successful'}
                     {loginState === 'forgot-password' &&
                         'Forgot Your Password?'}
                     {loginState === 'confirm-sign-up' && (
@@ -276,6 +280,14 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                 />
             )}
 
+            {loginState === 'success-sign-up' && (
+                <RegistrationSuccessful
+                    onLogin={(): void => {
+                        setLoginState('sign-in');
+                    }}
+                />
+            )}
+
             {loginState === 'confirm-sign-up' && (
                 <CodeConfirmation
                     codeDelivery={codeDelivery}
@@ -307,6 +319,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
             {loginState === 'confirm-sign-up' ||
             loginState === 'confirm-sign-in' ||
+            loginState === 'success-sign-up' ||
             loginState === 'forgot-password' ? null : (
                 <Box pb="32px" textAlign="center" fontWeight={300}>
                     <Text variant="footnote1" color="basic.$500">
