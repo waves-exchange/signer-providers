@@ -21,6 +21,7 @@ import {
     SignUpResponse,
 } from '../../services/IdentityService';
 import { getGeeTestToken } from '../../utils/geeTest';
+import { analytics } from '../../utils/analytics';
 
 type LoginStateType =
     | 'sign-up'
@@ -42,6 +43,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const userData = useRef<{ username: string; password: string }>();
 
     const handleSuccess = useCallback(() => {
+        analytics.send({ name: 'Login_Page_SignIn_Success' });
         onConfirm({
             address: identity.getUserAddress(),
             publicKey: identity.getUserPublicKey(),
