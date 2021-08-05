@@ -14,6 +14,7 @@ import React, { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { InputWrapper } from '../InputWrapper/InputWrapper';
 import { SignUpResponse } from '../../services/IdentityService';
 import { getEnvAwareUrl } from '../../utils/getEnvAwareUrl';
+import { analytics } from '../../utils/analytics';
 
 type SignUpFormProps = {
     signUp(username: string, password: string): Promise<SignUpResponse>;
@@ -95,6 +96,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                 setPending(true);
                 await signUp(email, password);
                 setPending(false);
+                analytics.send({ name: 'Login_Page_SignUp_Success' });
             } catch (e) {
                 setPending(false);
                 if (e && 'code' in e) {
