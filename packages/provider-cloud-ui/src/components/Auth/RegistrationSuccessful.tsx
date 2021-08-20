@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Box, Button } from '@waves.exchange/react-uikit';
+import imgUrl from '../../../img/astronaut.svg';
 
 export const RegistrationSuccessful: FC<{ onLogin: () => void }> = ({
     onLogin,
@@ -9,7 +10,7 @@ export const RegistrationSuccessful: FC<{ onLogin: () => void }> = ({
             <Box
                 width="100%"
                 height="174px"
-                backgroundImage="url(./img/astronaut.svg)"
+                backgroundImage={`url(${imgUrl})`}
                 mb="24px"
             />
             <Box color="#9ba6b2" fontSize="13px" textAlign="center" mb="16px">
