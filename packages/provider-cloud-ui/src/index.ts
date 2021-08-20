@@ -20,7 +20,7 @@ const referrerPathname = referrerURL.pathname?.replace('/', '').length
 analytics.init({
     platform: 'web',
     userType: 'provider-cloud',
-    referrer: referrer,
+    referrer,
     referrerPathname,
 });
 
