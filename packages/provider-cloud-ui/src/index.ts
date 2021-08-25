@@ -11,10 +11,17 @@ import { analytics } from './utils/analytics';
 
 const queue = new Queue(3);
 
+const referrerURL = new URL(document.referrer);
+const referrer = referrerURL.origin;
+const referrerPathname = referrerURL.pathname?.replace('/', '').length
+    ? referrerURL.pathname
+    : undefined;
+
 analytics.init({
     platform: 'web',
     userType: 'provider-cloud',
-    referrer: document.referrer,
+    referrer,
+    referrerPathname,
 });
 
 WindowAdapter.createSimpleWindowAdapter()
