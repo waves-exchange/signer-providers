@@ -48,19 +48,25 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const userData = useRef<{ username: string; password: string }>();
 
     const handleSuccess = useCallback(() => {
-        const enable2FATimestamp = Number(
-            localStorage.getItem('enable2FATimestamp')
-        );
+        if (typeof window.localStorage === 'object') {
+            const enable2FATimestamp = Number(
+                localStorage.getItem('enable2FATimestamp')
+            );
 
-        if (
-            !is2FAEnabled &&
-            (!enable2FATimestamp || Date.now() - enable2FATimestamp >= day)
-        ) {
-            setLoginState('enable-2fa');
-            localStorage.setItem('enable2FATimestamp', Date.now().toString());
+            if (
+                !is2FAEnabled &&
+                (!enable2FATimestamp || Date.now() - enable2FATimestamp >= day)
+            ) {
+                setLoginState('enable-2fa');
+                localStorage.setItem(
+                    'enable2FATimestamp',
+                    Date.now().toString()
+                );
 
-            return;
+                return;
+            }
         }
+
         analytics.send({ name: 'Login_Page_SignIn_Success' });
         onConfirm({
             address: identity.getUserAddress(),
@@ -336,6 +342,17 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                     resendCode={
                         codeDelivery?.type === 'SMS' ? resendSignIn : undefined
                     }
+                />
+            )}
+
+            {loginState === 'forgot-password' && (
+                <ForgotPassword
+                    onSignInClick={(): void => {
+                        setLoginState('sign-in');
+                    }}
+                    onSignUpClick={(): void => {
+                        setLoginState('sign-up');
+                    }}
                 />
             )}
 
