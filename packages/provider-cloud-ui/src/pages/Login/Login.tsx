@@ -48,7 +48,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
     const userData = useRef<{ username: string; password: string }>();
 
     const handleSuccess = useCallback(() => {
-        if (typeof window.localStorage === 'object') {
+        try {
             const enable2FATimestamp = Number(
                 localStorage.getItem('enable2FATimestamp')
             );
@@ -65,6 +65,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
                 return;
             }
+        } catch (e) {
+            console.log(e);
         }
 
         analytics.send({ name: 'Login_Page_SignIn_Success' });
