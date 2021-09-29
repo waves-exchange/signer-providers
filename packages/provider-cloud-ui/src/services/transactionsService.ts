@@ -16,7 +16,7 @@ import {
     ITransactionInfo,
     IUser,
 } from '../interface';
-import { SPONSORED_TYPES } from '../constants';
+import { SPONSORED_TYPES, WAVES } from '../constants';
 import { IState } from '../interface';
 import { cleanAddress } from '../utils/cleanAlias';
 import { geTransactionFromParams } from '../utils/getTransactionFromParams';
@@ -128,7 +128,7 @@ export const prepareTransactions = (
                 aliases,
                 assets: indexBy<DetailsWithLogo>(
                     prop('assetId'),
-                    assets as any
+                    assets.concat(WAVES as any) as any
                 ),
                 params: list[index],
                 info: info[index],
