@@ -216,6 +216,28 @@ function TestApp(): React.ReactElement {
                     Invoke
                 </button>
             </div>
+            <div>
+                <h2>Invoke2 Eggs</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .invoke({
+                                "payment": [
+                                    {"assetId":"JCGDtrVy64cCJ1wCKfCaiNQMnyYwii71TbE5QeAHfxgF","amount":100}
+                                ],
+                                "dApp":"3P8huQdLQVthshCthDLXxdGcy3YJ3UP5APY",
+                                "call":{
+                                    "function":"provideLiquidity","args":[]
+                                },
+                                "feeAssetId":null,
+                                "type": 16
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Invoke egg
+                </button>
+            </div>
 
             <div>
                 <h2>Data</h2>
