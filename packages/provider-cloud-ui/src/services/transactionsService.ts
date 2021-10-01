@@ -128,7 +128,7 @@ export const prepareTransactions = (
                 aliases,
                 assets: indexBy<DetailsWithLogo>(
                     prop('assetId'),
-                    assets.concat(WAVES as any) as any
+                    assets as any
                 ),
                 params: list[index],
                 info: info[index],
