@@ -16,6 +16,8 @@ export const checkIsEnoughBalance = (balance: Long, fee: Long): boolean => {
 const hasParamsFee = (fee: Long | undefined): fee is Long =>
     typeof fee === 'string' || typeof fee === 'number';
 
+const isWaves = (feeId: string | null | undefined) => feeId === 'WAVES';
+
 const isFeeAssetId = (
     feeAssetId: string | null | undefined
 ): feeAssetId is string | null => typeof feeAssetId !== 'undefined';
@@ -53,7 +55,10 @@ export const getFeeOptions: GetFeeOptions = ({
     let defaultFeeOption: FeeOption;
     let feeAsset: DetailsWithLogo;
 
-    if (isFeeAssetId(paramsFeeAssetId) || hasParamsFee(txParamsFee)) {
+    if (
+        !isWaves(paramsFeeAssetId) &&
+        (isFeeAssetId(paramsFeeAssetId) || hasParamsFee(txParamsFee))
+    ) {
         if (isNonDefaultFeeAssetId(paramsFeeAssetId)) {
             // case feeAssetId - some asset, but not Waves, fee is not provided
             feeAsset = txMeta.assets[paramsFeeAssetId];

@@ -141,13 +141,13 @@ function TestApp(): React.ReactElement {
                                     amount: 10000000,
                                     recipient: 'merry',
                                     feeAssetId:
-                                        'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                                        'WAVES',
                                     attachment: null,
                                 })
                                 .broadcast();
                         }}
                     >
-                        With custom Fee feeAssetId
+                        With feeAssetId = 'WAVES'
                     </button>
                 </div>
 
@@ -193,27 +193,48 @@ function TestApp(): React.ReactElement {
                     onClick={() => {
                         signer
                             .invoke({
-                                dApp: 'alias:T:merry',
-                                payment: [{ assetId: 'WAVES', amount: 1 }],
+                                dApp: '3N27HUMt4ddx2X7foQwZRmpFzg5PSzLrUgU',
+                                fee: 500001,
+                                feeAssetId: 'WAVES',
+                                payment: [
+                                    {assetId: 'WAVES', amount: 12345 },
+                                    {assetId: '25FEqEjRkqK6yCkiT7Lz6SAYz7gUFCtxfCChnrVFD5AT', amount: 123 },
+                                    {assetId: '5Sh9KghfkZyhjwuodovDhB6PghDUGBHiAPZ4MkrPgKtX', amount: 234 }
+                                ],
                                 call: {
-                                    function: 'test',
-                                    args: [
-                                        { type: 'string', value: 'string' },
-                                        { type: 'integer', value: 123123123 },
-                                        { type: 'boolean', value: true },
-                                        {
-                                            type: 'binary',
-                                            value:
-                                                'base64:AAIDAAAAAAAAAAQIARIAAAAAAAAAAAEAAAABaQEAAAADZm9vAAAAAAkBAAAACFdyaXRlU2V0AAAAAQUAAAADbmlsAAAAACvwfcA=',
-                                        },
-                                    ],
-                                },
-                                fee: 1000,
+                                    function: 'tellme',
+                                    args: [{
+                                        type: 'string',
+                                        value: 'Some text',
+                                    }],
+                                }
                             })
                             .broadcast();
                     }}
                 >
                     Invoke
+                </button>
+            </div>
+            <div>
+                <h2>Invoke2 Eggs</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .invoke({
+                                "payment": [
+                                    {"assetId":"JCGDtrVy64cCJ1wCKfCaiNQMnyYwii71TbE5QeAHfxgF","amount":100}
+                                ],
+                                "dApp":"3P8huQdLQVthshCthDLXxdGcy3YJ3UP5APY",
+                                "call":{
+                                    "function":"provideLiquidity","args":[]
+                                },
+                                "feeAssetId":null,
+                                "type": 16
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Invoke egg
                 </button>
             </div>
 

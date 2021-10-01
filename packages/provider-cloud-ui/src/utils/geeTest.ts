@@ -16,42 +16,45 @@ export const getGeeTestToken = (): Promise<{
         const { url } = getConfig();
 
         try {
-            fetch(url).then(async (response: any) => {
-                const data = await response
-                    .text()
-                    .then((text: any) => JSON.parse(text));
+            fetch(url, { credentials: 'include' }).then(
+                async (response: any) => {
+                    const data = await response
+                        .text()
+                        .then((text: any) => JSON.parse(text));
 
-                if (!w.initGeetest) {
-                    return rej();
-                }
+                    if (!w.initGeetest) {
+                        return rej();
+                    }
 
-                w.initGeetest(
-                    {
-                        gt: data.gt,
-                        lang: 'en',
-                        hideSuccess: true,
-                        hideClose: false,
-                        challenge: data.challenge,
-                        offline: !data.success,
-                        new_captcha: true,
-                        product: 'bind',
-                        onError: rej,
-                    },
-                    function (geeTestObj: any) {
-                        if (!geeTestObj) {
-                            return rej();
-                        }
-                        geeTestObj.appendTo('body');
-                        geeTestObj.onReady(() => geeTestObj.verify());
-                        geeTestObj.onSuccess(() =>
-                            res(geeTestObj.getValidate())
-                        );
-                        geeTestObj.onError(rej);
-                        geeTestObj.onClose(rej);
-                    },
-                    rej
-                );
-            }, rej);
+                    w.initGeetest(
+                        {
+                            gt: data.gt,
+                            lang: 'en',
+                            hideSuccess: true,
+                            hideClose: false,
+                            challenge: data.challenge,
+                            offline: !data.success,
+                            new_captcha: true,
+                            product: 'bind',
+                            onError: rej,
+                        },
+                        function (geeTestObj: any) {
+                            if (!geeTestObj) {
+                                return rej();
+                            }
+                            geeTestObj.appendTo('body');
+                            geeTestObj.onReady(() => geeTestObj.verify());
+                            geeTestObj.onSuccess(() =>
+                                res(geeTestObj.getValidate())
+                            );
+                            geeTestObj.onError(rej);
+                            geeTestObj.onClose(rej);
+                        },
+                        rej
+                    );
+                },
+                rej
+            );
         } catch (e) {
             rej(e);
         }
