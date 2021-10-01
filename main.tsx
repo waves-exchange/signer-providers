@@ -141,13 +141,13 @@ function TestApp(): React.ReactElement {
                                     amount: 10000000,
                                     recipient: 'merry',
                                     feeAssetId:
-                                        'DWgwcZTMhSvnyYCoWLRUXXSH1RSkzThXLJhww9gwkqdn',
+                                        'WAVES',
                                     attachment: null,
                                 })
                                 .broadcast();
                         }}
                     >
-                        With custom Fee feeAssetId
+                        With feeAssetId = 'WAVES'
                     </button>
                 </div>
 
