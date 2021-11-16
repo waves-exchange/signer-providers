@@ -54,7 +54,4 @@ export const getGeeTestToken = (): Promise<{
             rej(e);
         }
     });
-    // Promise.reject(
-    //     'You have exceeded incorrect username or password limit. If you have any problems, please contact support https://support.waves.exchange/.'
-    // );
 };
