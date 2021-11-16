@@ -12,50 +12,49 @@ export const getGeeTestToken = (): Promise<{
     geetest_seccode: string;
     geetest_validate: string;
 }> => {
-    return new Promise((res, rej) => {
+    return new Promise(async (res, rej) => {
         const { url } = getConfig();
 
         try {
-            fetch(url, { credentials: 'include' })
-                .then(async (response: any) => {
-                    const data = await response
-                        .text()
-                        .then((text: any) => JSON.parse(text));
+            const response = await fetch(url, { credentials: 'include' });
+            const data = await response.json();
 
-                    if (!w.initGeetest) {
+            if (!response.ok) {
+                rej(data);
+            }
+            if (!w.initGeetest) {
+                return rej();
+            }
+
+            w.initGeetest(
+                {
+                    gt: data.gt,
+                    lang: 'en',
+                    hideSuccess: true,
+                    hideClose: false,
+                    challenge: data.challenge,
+                    offline: !data.success,
+                    new_captcha: true,
+                    product: 'bind',
+                    onError: rej,
+                },
+                function (geeTestObj: any) {
+                    if (!geeTestObj) {
                         return rej();
                     }
-
-                    w.initGeetest(
-                        {
-                            gt: data.gt,
-                            lang: 'en',
-                            hideSuccess: true,
-                            hideClose: false,
-                            challenge: data.challenge,
-                            offline: !data.success,
-                            new_captcha: true,
-                            product: 'bind',
-                            onError: rej,
-                        },
-                        function (geeTestObj: any) {
-                            if (!geeTestObj) {
-                                return rej();
-                            }
-                            geeTestObj.appendTo('body');
-                            geeTestObj.onReady(() => geeTestObj.verify());
-                            geeTestObj.onSuccess(() =>
-                                res(geeTestObj.getValidate())
-                            );
-                            geeTestObj.onError(rej);
-                            geeTestObj.onClose(rej);
-                        },
-                        rej
-                    );
-                }, rej)
-                .catch(rej);
+                    geeTestObj.appendTo('body');
+                    geeTestObj.onReady(() => geeTestObj.verify());
+                    geeTestObj.onSuccess(() => res(geeTestObj.getValidate()));
+                    geeTestObj.onError(rej);
+                    geeTestObj.onClose(rej);
+                },
+                rej
+            );
         } catch (e) {
             rej(e);
         }
     });
+    // Promise.reject(
+    //     'You have exceeded incorrect username or password limit. If you have any problems, please contact support https://support.waves.exchange/.'
+    // );
 };
