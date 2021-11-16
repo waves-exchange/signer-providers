@@ -16,8 +16,8 @@ export const getGeeTestToken = (): Promise<{
         const { url } = getConfig();
 
         try {
-            fetch(url, { credentials: 'include' }).then(
-                async (response: any) => {
+            fetch(url, { credentials: 'include' })
+                .then(async (response: any) => {
                     const data = await response
                         .text()
                         .then((text: any) => JSON.parse(text));
@@ -52,9 +52,8 @@ export const getGeeTestToken = (): Promise<{
                         },
                         rej
                     );
-                },
-                rej
-            );
+                }, rej)
+                .catch(rej);
         } catch (e) {
             rej(e);
         }
