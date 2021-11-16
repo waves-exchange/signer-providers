@@ -107,9 +107,15 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                                 'This email is already registered. Log in or use another email',
                         }));
                     } else {
+                        const limitExceededMessage =
+                            'You have exceeded incorrect username or password limit. If you have any problems, please contact support https://support.waves.exchange/.';
+
                         setErrors((prev) => ({
                             ...prev,
-                            _form: e.message,
+                            _form:
+                                e.message === limitExceededMessage
+                                    ? 'Attempt limit exceeded, please try after some time.'
+                                    : e.message,
                         }));
                     }
                 } else {

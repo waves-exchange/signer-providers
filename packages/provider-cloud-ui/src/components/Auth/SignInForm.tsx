@@ -3,7 +3,6 @@ import {
     Button,
     DotLoader,
     Flex,
-    Heading,
     Input,
     InputPassword,
     Text,
@@ -98,9 +97,15 @@ export const SignInForm: FC<SignInFormProps> = ({
                 await signIn(email, password);
             } catch (e) {
                 if (e) {
+                    const limitExceededMessage =
+                        'You have exceeded incorrect username or password limit. If you have any problems, please contact support https://support.waves.exchange/.';
+
                     setErrors((prev) => ({
                         ...prev,
-                        _form: e.message || JSON.stringify(e),
+                        _form:
+                            e.message === limitExceededMessage
+                                ? 'Attempt limit exceeded, please try after some time.'
+                                : e.message || JSON.stringify(e),
                     }));
                 }
             } finally {
