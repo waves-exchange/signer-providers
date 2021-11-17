@@ -1,7 +1,7 @@
 const getConfig = (): { isBotByDefault: boolean; url: string } => {
     return {
         isBotByDefault: true,
-        url: 'https://geetest.waves.exchange/register',
+        url: 'https://waves.exchange/geetest/register',
     };
 };
 
