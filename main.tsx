@@ -8,8 +8,8 @@ const url = location.href.includes('provider=exchange')
     : location.origin + '/packages/provider-cloud-ui/index.html';
 
 const node = location.href.includes('mainnet')
-    ? 'https://waves.exchange/cognito'
-    : 'https://testnet.waves.exchange/cognito';
+    ? 'https://nodes.wavesplatform.com'
+    : 'https://nodes-testnet.wavesnodes.com';
 
 function TestApp(): React.ReactElement {
     const provider = useMemo(() => new ProviderCloud(url, true), []);
