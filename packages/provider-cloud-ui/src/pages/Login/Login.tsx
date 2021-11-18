@@ -41,7 +41,15 @@ type LoginProps = {
 
 const day = 1000 * 60 * 60 * 24;
 
-export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
+export const Login: FC<LoginProps> = ({
+    identity,
+    onConfirm,
+    onCancel,
+}: {
+    identity: IdentityService;
+    onConfirm: (params: any) => void;
+    onCancel: () => void;
+}) => {
     const [loginState, setLoginState] = useState<LoginStateType>('sign-in');
     const [codeDelivery, setCodeDelivery] = useState<CodeDelivery>();
     const [is2FAEnabled, setIs2FAEnabled] = useState(false);
@@ -91,12 +99,12 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
         setLoginState(
             loginState === 'sign-in' ? 'confirm-sign-in' : 'confirm-sign-up'
         );
-    }, [identity]);
+    }, [identity, loginState]);
 
     const signIn = useCallback(
         async (username: string, password: string): Promise<void> => {
             try {
-                const geeTest = await getGeeTestToken();
+                const geeTest = await getGeeTestToken(identity.geetestUrl);
 
                 const cognitoUser = await identity.signIn(
                     username,
@@ -104,8 +112,8 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
                     geeTest
                 );
 
-                const challengeName: AuthChallenge | void =
-                    cognitoUser.challengeName;
+                const challengeName: AuthChallenge | void = (cognitoUser as any)
+                    .challengeName;
 
                 switch (challengeName) {
                     case 'SMS_MFA':
@@ -139,7 +147,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
     const signUp = useCallback(
         async (username: string, password: string): Promise<SignUpResponse> => {
-            const geeTest = await getGeeTestToken();
+            const geeTest = await getGeeTestToken(identity.geetestUrl);
             const result = await identity.signUp(username, password, geeTest);
 
             userData.current = {
@@ -179,7 +187,7 @@ export const Login: FC<LoginProps> = ({ identity, onConfirm, onCancel }) => {
 
             // handleSuccess();
         },
-        [handleSuccess, identity, signIn]
+        [identity]
     );
 
     const confirmSignIn = useCallback(

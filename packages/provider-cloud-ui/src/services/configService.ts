@@ -6,6 +6,9 @@ export type Config = {
             userPoolId: string;
             endpoint: string;
         };
+        geetest: {
+            url: string;
+        };
     };
 };
 

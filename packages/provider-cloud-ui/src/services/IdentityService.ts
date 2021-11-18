@@ -38,9 +38,11 @@ type IdentityServiceOptions = {
     userPoolId: string;
     clientId: string;
     endpoint: string;
+    geetestUrl: string;
 };
 
 export class IdentityService {
+    public geetestUrl = '';
     private readonly storage: ICognitoStorage = new MemoryStorage();
     private userPool: CognitoUserPool | undefined = undefined;
     private currentUser: CognitoUser | undefined = undefined;
@@ -54,6 +56,7 @@ export class IdentityService {
         clientId,
         userPoolId,
         endpoint,
+        geetestUrl,
     }: IdentityServiceOptions): void {
         this.apiUrl = apiUrl;
 
@@ -63,6 +66,8 @@ export class IdentityService {
             Storage: this.storage,
             endpoint,
         });
+
+        this.geetestUrl = geetestUrl;
     }
 
     public getUsername(): string {
@@ -86,7 +91,11 @@ export class IdentityService {
     public async signUp(
         username: string,
         password: string,
-        meta?: any
+        meta?: {
+            geetest_challenge: string;
+            geetest_seccode: string;
+            geetest_validate: string;
+        }
     ): Promise<SignUpResponse> {
         return new Promise<SignUpResponse>((resolve, reject) => {
             if (!this.userPool) {
@@ -94,7 +103,7 @@ export class IdentityService {
             }
             const clientMetadata = { ...meta };
 
-            (this.userPool.signUp)(
+            this.userPool.signUp(
                 username,
                 password,
                 [
@@ -165,7 +174,11 @@ export class IdentityService {
     public async signIn(
         username: string,
         password: string,
-        metaData?: any
+        metaData?: {
+            geetest_challenge: string;
+            geetest_seccode: string;
+            geetest_validate: string;
+        }
     ): Promise<CognitoUser> {
         this.currentUser = undefined;
         this.identityUser = undefined;

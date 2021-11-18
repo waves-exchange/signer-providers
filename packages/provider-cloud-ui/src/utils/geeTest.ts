@@ -1,22 +1,18 @@
-const getConfig = (): { isBotByDefault: boolean; url: string } => {
-    return {
-        isBotByDefault: true,
-        url: 'https://waves.exchange/geetest/register',
-    };
-};
-
 const w = window as any;
 
-export const getGeeTestToken = (): Promise<{
+export const getGeeTestToken = (
+    geetestUrl: string
+): Promise<{
     geetest_challenge: string;
     geetest_seccode: string;
     geetest_validate: string;
 }> => {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (res, rej) => {
-        const { url } = getConfig();
-
         try {
-            const response = await fetch(url, { credentials: 'include' });
+            const response = await fetch(geetestUrl, {
+                credentials: 'include',
+            });
             const data = await response.json();
 
             if (!response.ok) {
