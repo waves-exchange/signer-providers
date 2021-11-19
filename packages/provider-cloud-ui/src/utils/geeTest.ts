@@ -1,57 +1,48 @@
-const getConfig = (): { isBotByDefault: boolean; url: string } => {
-    return {
-        isBotByDefault: true,
-        url: 'https://geetest.waves.exchange/register',
-    };
-};
-
 const w = window as any;
 
-export const getGeeTestToken = (): Promise<{
+export const getGeeTestToken = (
+    geetestUrl: string
+): Promise<{
     geetest_challenge: string;
     geetest_seccode: string;
     geetest_validate: string;
 }> => {
-    return new Promise((res, rej) => {
-        const { url } = getConfig();
-
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (res, rej) => {
         try {
-            fetch(url, { credentials: 'include' }).then(
-                async (response: any) => {
-                    const data = await response
-                        .text()
-                        .then((text: any) => JSON.parse(text));
+            const response = await fetch(geetestUrl, {
+                credentials: 'include',
+            });
+            const data = await response.json();
 
-                    if (!w.initGeetest) {
+            if (!response.ok) {
+                rej(data);
+            }
+            if (!w.initGeetest) {
+                return rej();
+            }
+
+            w.initGeetest(
+                {
+                    gt: data.gt,
+                    lang: 'en',
+                    hideSuccess: true,
+                    hideClose: false,
+                    challenge: data.challenge,
+                    offline: !data.success,
+                    new_captcha: true,
+                    product: 'bind',
+                    onError: rej,
+                },
+                function (geeTestObj: any) {
+                    if (!geeTestObj) {
                         return rej();
                     }
-
-                    w.initGeetest(
-                        {
-                            gt: data.gt,
-                            lang: 'en',
-                            hideSuccess: true,
-                            hideClose: false,
-                            challenge: data.challenge,
-                            offline: !data.success,
-                            new_captcha: true,
-                            product: 'bind',
-                            onError: rej,
-                        },
-                        function (geeTestObj: any) {
-                            if (!geeTestObj) {
-                                return rej();
-                            }
-                            geeTestObj.appendTo('body');
-                            geeTestObj.onReady(() => geeTestObj.verify());
-                            geeTestObj.onSuccess(() =>
-                                res(geeTestObj.getValidate())
-                            );
-                            geeTestObj.onError(rej);
-                            geeTestObj.onClose(rej);
-                        },
-                        rej
-                    );
+                    geeTestObj.appendTo('body');
+                    geeTestObj.onReady(() => geeTestObj.verify());
+                    geeTestObj.onSuccess(() => res(geeTestObj.getValidate()));
+                    geeTestObj.onError(rej);
+                    geeTestObj.onClose(rej);
                 },
                 rej
             );
