@@ -48,7 +48,7 @@ export const SignInForm: FC<SignInFormProps> = ({
 
     const handleEmailChange = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-            setEmail(event.target.value);
+            setEmail(event.target.value.trim());
             setErrors((prev) => ({
                 ...prev,
                 _form: null,
