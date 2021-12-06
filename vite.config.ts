@@ -8,6 +8,7 @@ export default defineConfig({
     },
     optimizeDeps: {
         include: [
+            'buffer',
             '@waves/node-api-js/es/api-node/addresses',
             '@waves/node-api-js/es/api-node/alias',
             '@waves/node-api-js/es/api-node/assets',
