@@ -4,7 +4,7 @@ import { SignedTx, SignerTx } from '@waves/signer';
 import { makeTxBytes } from '@waves/waves-transactions';
 import React, { ReactNode } from 'react';
 import { IUserWithBalances } from '../interface';
-import { NAME_MAP } from '../constants';
+import { CONSTANTS } from '@waves.exchange/provider-ui-components';
 import { IState } from '../interface';
 import { SignAliasContainer } from '../pages/SignAlias/SignAliasContainer';
 import { SignBurnContainer } from '../pages/SignBurn/SignBurnContainer';
@@ -27,9 +27,11 @@ import { SignTransfer } from '../pages/SignTransfer/SignTransferContainer';
 // import sponsorshipPage from '../pages/transactions/sponsorship';
 // import setAssetScriptPage from '../pages/transactions/setAssetScript';
 import { prepareTransactions } from '../services/transactionsService';
-import { analytics } from '../utils/analytics';
+import { utils } from '@waves.exchange/provider-ui-components';
 import renderPage from '../utils/renderPage';
 import batch from './batch';
+
+const { NAME_MAP } = CONSTANTS;
 
 const getPageByType = (type: keyof TRANSACTION_TYPE_MAP): ReactNode => {
     switch (type) {
@@ -87,7 +89,7 @@ export default function (
                     ),
                 };
 
-                analytics.send({
+                utils.analytics.send({
                     name: 'Signer_Confirm_Tx_Show',
                     params: analyticsParams,
                 });
@@ -100,7 +102,7 @@ export default function (
                         networkByte: state.networkByte,
                         user: state.user,
                         onConfirm: async (): Promise<void> => {
-                            analytics.send({
+                            utils.analytics.send({
                                 name: 'Signer_Confirm_Tx_Approve',
                                 params: analyticsParams,
                             });
@@ -123,7 +125,7 @@ export default function (
                             }
                         },
                         onCancel: (): void => {
-                            analytics.send({
+                            utils.analytics.send({
                                 name: 'Signer_Confirm_Tx_Reject',
                                 params: analyticsParams,
                             });

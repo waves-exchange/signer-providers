@@ -1,5 +1,5 @@
+import { IQueue } from '@waves.exchange/provider-ui-components';
 import { IUser } from '../interface';
-import { IQueue } from '../utils/Queue';
 import { IState } from '../interface';
 import signMessage from '../router/signMessage';
 import { loadUserData, preload, toQueue } from './helpers';

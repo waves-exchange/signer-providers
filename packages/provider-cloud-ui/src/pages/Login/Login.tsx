@@ -21,7 +21,7 @@ import {
     SignUpResponse,
 } from '../../services/IdentityService';
 import { getGeeTestToken } from '../../utils/geeTest';
-import { analytics } from '../../utils/analytics';
+import { utils } from '@waves.exchange/provider-ui-components';
 import { Enable2FaComponent } from '../../components/Enable2FA/Enable2FA';
 
 type LoginStateType =
@@ -77,7 +77,7 @@ export const Login: FC<LoginProps> = ({
             console.log(e);
         }
 
-        analytics.send({ name: 'Login_Page_SignIn_Success' });
+        utils.analytics.send({ name: 'Login_Page_SignIn_Success' });
         onConfirm({
             address: identity.getUserAddress(),
             publicKey: identity.getUserPublicKey(),

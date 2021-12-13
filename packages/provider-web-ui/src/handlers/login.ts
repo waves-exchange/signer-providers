@@ -2,11 +2,9 @@ import { UserData } from '@waves/signer';
 import { Bus, WindowAdapter, WindowProtocol } from '@waves/waves-browser-bus';
 import { libs } from '@waves/waves-transactions';
 import { pipe } from 'ramda';
-import { TBus } from '../interface';
-import { IQueue } from '../utils/Queue';
 import { IState } from '../interface';
 import login from '../router/login';
-import { analytics } from '../utils/analytics';
+import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
 import { isBrave, isSafari } from '../utils/isSafari';
 import { preload, toQueue } from './helpers';
 
@@ -85,7 +83,7 @@ export const getLoginHandler = (
                     window.opener['__setUser'](state.user);
                 }
 
-                analytics.addDefaultParams({
+                utils.analytics.addDefaultParams({
                     auuid: pipe(
                         libs.crypto.stringToBytes,
                         libs.crypto.blake2b,

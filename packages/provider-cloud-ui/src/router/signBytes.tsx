@@ -1,5 +1,6 @@
 import { IState } from '../interface';
 import { IUser } from '../interface';
+// import { SignCustom } from '@waves.exchange/provider-ui-components';
 
 export default function (
     _data: string,
@@ -17,7 +18,7 @@ export default function (
 
     // return new Promise((resolve, reject) => {
     //     renderPage(
-    //         React.createElement(signCustom, {
+    //         React.createElement(SignCustom, {
     //             networkByte: state.networkByte,
     //             title: 'dApp access sign of custom bytes',
     //             data: (

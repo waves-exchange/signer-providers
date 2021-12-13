@@ -1,13 +1,17 @@
 import { Bus, WindowAdapter } from '@waves/waves-browser-bus';
-import { IBusEvents, TBusHandlers } from './interface';
-import { Queue } from './utils/Queue';
 import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
 import { getSignMessageHandler } from './handlers/signMessage';
 import { IState } from './interface';
 import { IdentityService } from './services/IdentityService';
-import { analytics } from './utils/analytics';
+import {
+    IBusEvents,
+    TBusHandlers,
+    utils,
+} from '@waves.exchange/provider-ui-components';
+
+const { analytics, Queue } = utils;
 
 const queue = new Queue(3);
 

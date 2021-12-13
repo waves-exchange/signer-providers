@@ -1,10 +1,15 @@
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { WAVES } from '../../constants';
 import { useTxUser } from '../../hooks/useTxUser';
-import { getPrintableNumber } from '../../utils/math';
-import { SignReissueComponent } from './SignReissueComponent';
+import {
+    SignReissueComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { ReissueTransaction } from '@waves/ts-types';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const SignReissueContainer: FC<ISignTxProps<ReissueTransaction>> = ({
     tx,

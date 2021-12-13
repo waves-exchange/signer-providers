@@ -6,7 +6,7 @@ import { IState } from '../interface';
 import { CreateAccount } from '../pages/CreateAccount/CreateAccountContainer';
 import { Login } from '../pages/Login/LoginContainer';
 import { hasMultiaccount, saveTerms } from '../services/userService';
-import { analytics } from '../utils/analytics';
+import { utils } from '@waves.exchange/provider-ui-components';
 import renderPage from '../utils/renderPage';
 
 export default function (state: IState): () => Promise<UserData> {
@@ -33,7 +33,7 @@ export default function (state: IState): () => Promise<UserData> {
 
             const Page = hasMultiacc ? Login : CreateAccount;
 
-            analytics.send({
+            utils.analytics.send({
                 name: hasMultiacc
                     ? 'Login_Page_Show'
                     : 'Create_Account_Page_Show',

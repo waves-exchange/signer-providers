@@ -5,7 +5,6 @@ import {
     DotLoader,
     ExternalLink,
     Flex,
-    Heading,
     Input,
     InputPassword,
     Text,
@@ -13,8 +12,9 @@ import {
 import React, { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { InputWrapper } from '../InputWrapper/InputWrapper';
 import { SignUpResponse } from '../../services/IdentityService';
-import { getEnvAwareUrl } from '../../utils/getEnvAwareUrl';
-import { analytics } from '../../utils/analytics';
+import { utils } from '@waves.exchange/provider-ui-components';
+
+const { analytics, getEnvAwareUrl } = utils;
 
 type SignUpFormProps = {
     signUp(username: string, password: string): Promise<SignUpResponse>;

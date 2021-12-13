@@ -3,11 +3,15 @@ import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
 import { getSignMessageHandler } from './handlers/signMessage';
-import { IBusEvents, IState, IUser, TBusHandlers } from './interface';
-import { analytics } from './utils/analytics';
+import { IState, IUser } from './interface';
+import {
+    utils,
+    TBusHandlers,
+    IBusEvents,
+} from '@waves.exchange/provider-ui-components';
 import { isSafari, isBrave } from './utils/isSafari';
-import { Queue } from './utils/Queue';
 
+const { Queue } = utils;
 const queue = new Queue(3);
 
 const referrerURL = new URL(document.referrer);
@@ -15,6 +19,8 @@ const referrer = referrerURL.origin;
 const referrerPathname = referrerURL.pathname?.replace('/', '').length
     ? referrerURL.pathname
     : undefined;
+
+const { analytics } = utils;
 
 analytics.init({
     platform: 'web',

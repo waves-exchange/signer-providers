@@ -1,10 +1,15 @@
 import React, { FC, useCallback, useState, ChangeEventHandler } from 'react';
 import { ISignTxProps } from '../../interface';
 import { useTxUser } from '../../hooks/useTxUser';
-import { SignIssueComponent } from './SignIssueComponent';
-import { getPrintableNumber } from '../../utils/math';
-import { WAVES } from '../../constants';
+import {
+    SignIssueComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { IssueTransaction } from '@waves/ts-types';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const SignIssueContainer: FC<ISignTxProps<IssueTransaction>> = ({
     tx,

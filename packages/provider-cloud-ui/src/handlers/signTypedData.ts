@@ -1,6 +1,6 @@
+import { IQueue } from '@waves.exchange/provider-ui-components';
 import { TDataEntry } from '@waves/waves-transactions';
 import { IUser } from '../interface';
-import { IQueue } from '../utils/Queue';
 import { IState } from '../interface';
 import signTypedData from '../router/signTypedData';
 import { loadUserData, preload, toQueue } from './helpers';

@@ -1,9 +1,14 @@
 import { SetScriptTransaction } from '@waves/ts-types';
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { WAVES } from '../../constants';
-import { getPrintableNumber } from '../../utils/math';
-import { SignSetAccountScriptComponent } from './SignSetAccountScriptComponent';
+import {
+    SignSetAccountScriptComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const SignSetAccountScript: FC<ISignTxProps<SetScriptTransaction>> = ({
     tx,

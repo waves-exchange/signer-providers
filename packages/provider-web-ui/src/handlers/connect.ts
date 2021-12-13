@@ -1,6 +1,6 @@
 import { ConnectOptions } from '@waves/signer';
 import { IState } from '../interface';
-import { analytics } from '../utils/analytics';
+import { utils } from '@waves.exchange/provider-ui-components';
 
 export function getConnectHandler(
     state: IState
@@ -9,7 +9,7 @@ export function getConnectHandler(
         state.nodeUrl = options.NODE_URL;
         state.networkByte = options.NETWORK_BYTE;
 
-        analytics.addApi({
+        utils.analytics.addApi({
             apiToken:
                 state.networkByte === 87
                     ? 'e3b3df0d53b4cae5b75350d898132934'
@@ -20,7 +20,7 @@ export function getConnectHandler(
             type: 'logic',
         });
 
-        analytics.addApi({
+        utils.analytics.addApi({
             apiToken:
                 state.networkByte === 87 ? 'UA-154392329-1' : 'UA-154392329-2',
             libraryUrl: 'https://waves.exchange/googleAnalytics.js',
@@ -29,9 +29,9 @@ export function getConnectHandler(
             type: 'ui',
         });
 
-        analytics.activate();
+        utils.analytics.activate();
 
-        analytics.send({
+        utils.analytics.send({
             name: 'Signer_Connect',
             params: {
                 Network_Byte: options.NETWORK_BYTE,

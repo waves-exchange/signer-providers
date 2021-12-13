@@ -10,14 +10,23 @@ import getAssetIdListByTx from '@waves/node-api-js/es/tools/adresses/getAssetIdL
 import { SignerTx } from '@waves/signer';
 import { Long, Transaction, TransactionType } from '@waves/ts-types';
 import { concat, flatten, indexBy, map, pipe, prop, uniq } from 'ramda';
-import { InfoMap, ITransactionInfo, IUser } from '../interface';
-import { SPONSORED_TYPES, WAVES } from '../constants';
+import { IUser } from '../interface';
+import {
+    CONSTANTS,
+    utils,
+    InfoMap,
+    ITransactionInfo,
+} from '@waves.exchange/provider-ui-components';
 import { IState } from '../interface';
-import { cleanAddress } from '../utils/cleanAlias';
 import { geTransactionFromParams } from '../utils/getTransactionFromParams';
-import { getTxAliases } from '../utils/getTxAliases';
-import { loadFeeByTransaction } from '../utils/loadFeeByTransaction';
-import { loadLogoInfo } from '../utils/loadLogoInfo';
+
+const { SPONSORED_TYPES } = CONSTANTS;
+const {
+    cleanAddress,
+    getTxAliases,
+    loadFeeByTransaction,
+    loadLogoInfo,
+} = utils;
 
 const loadAliases = (
     base: string,

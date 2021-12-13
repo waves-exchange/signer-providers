@@ -1,14 +1,13 @@
 import React from 'react';
 import renderPage from '../utils/renderPage';
-import Preload from '../pages/Preload';
+import { IQueue, Preload } from '@waves.exchange/provider-ui-components';
 import { IState } from '../interface';
 import { IUser, IUserWithBalances } from '../interface';
 import {
-    fetchWavesBalance,
-    fetchAliasses,
     fetchAddressHasScript,
+    fetchAliasses,
+    fetchWavesBalance,
 } from '../services/userService';
-import { IQueue } from '../utils/Queue';
 
 export const preload = (): void => {
     renderPage(React.createElement(Preload));

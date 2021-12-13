@@ -1,9 +1,14 @@
 import { BurnTransaction } from '@waves/ts-types';
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { WAVES } from '../../constants';
-import { getPrintableNumber } from '../../utils/math';
-import { SignBurn as SignBurnComponent } from './SignBurnComponent';
+import {
+    SignBurn as SignBurnComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
     meta: txMeta,

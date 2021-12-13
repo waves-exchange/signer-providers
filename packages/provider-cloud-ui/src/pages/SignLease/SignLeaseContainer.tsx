@@ -1,12 +1,15 @@
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { WAVES } from '../../constants';
 import { useTxUser } from '../../hooks/useTxUser';
-import { cleanAddress } from '../../utils/cleanAlias';
-import { isAlias } from '../../utils/isAlias';
-import { getPrintableNumber } from '../../utils/math';
-import { SignLeaseComponent } from './SignLeaseComponent';
+import {
+    SignLeaseComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { LeaseTransaction } from '@waves/ts-types';
+
+const { WAVES } = CONSTANTS;
+const { cleanAddress, getPrintableNumber, isAlias } = utils;
 
 export const SignLease: FC<ISignTxProps<LeaseTransaction>> = ({
     tx,

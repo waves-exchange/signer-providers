@@ -1,7 +1,9 @@
 import { IUserWithBalances } from '../interface';
 import { getUserName } from '../services/userService';
-import { WAVES } from '../constants';
-import { getPrintableNumber } from '../utils/math';
+import { CONSTANTS, utils } from '@waves.exchange/provider-ui-components';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const useTxUser = (
     user: Omit<IUserWithBalances, 'seed'> & { publicKey: string },

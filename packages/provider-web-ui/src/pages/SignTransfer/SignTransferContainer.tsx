@@ -1,14 +1,16 @@
-import { MassTransferTransaction, TransferTransaction } from '@waves/ts-types';
 import React, { FC } from 'react';
-import { IMeta, ISignTxProps } from '../../interface';
-import { getIconType } from '../../components/IconTransfer/helpers';
-import { useHandleFeeSelect } from '../../hooks/useHandleFeeSelect';
+import { ISignTxProps } from '../../interface';
 import { getUserName } from '../../services/userService';
-import { getViewData, isTransferMeta } from './helpers';
-import { SignTransfer as SignTransferComponent } from './SignTransferComponent';
+import {
+    SignTransfer as SignTransferComponent,
+    iconTransferUtils,
+    hooks,
+    transferUtils,
+    TransferType,
+} from '@waves.exchange/provider-ui-components';
 
-export type TransferType = TransferTransaction | MassTransferTransaction;
-export type TransferMeta = IMeta<TransferType>;
+const { getViewData, isTransferMeta } = transferUtils;
+const { getIconType } = iconTransferUtils;
 
 export const SignTransfer: FC<ISignTxProps<TransferType>> = ({
     meta: txMeta,
@@ -18,7 +20,7 @@ export const SignTransfer: FC<ISignTxProps<TransferType>> = ({
     onConfirm,
     onCancel,
 }) => {
-    const [handleFeeSelect, txJSON] = useHandleFeeSelect(tx);
+    const [handleFeeSelect, txJSON] = hooks.useHandleFeeSelect(tx);
 
     const { totalTransferAmount, transferList, fee, attachment } = getViewData(
         tx,

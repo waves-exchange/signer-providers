@@ -1,10 +1,15 @@
 import React, { FC } from 'react';
-import { WAVES } from '../../constants';
 import { ISignTxProps } from '../../interface';
-import { SignDataComponent } from './SignDataComponent';
+import {
+    SignDataComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { useTxUser } from '../../hooks/useTxUser';
-import { getPrintableNumber } from '../../utils/math';
 import { DataTransaction } from '@waves/ts-types';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const SignDataContainer: FC<ISignTxProps<DataTransaction>> = ({
     tx,

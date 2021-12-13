@@ -13,7 +13,7 @@ import React, { useEffect, FC, MouseEventHandler } from 'react';
 import { IUser } from '../../interface';
 import { getUserName, StorageUser } from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
-import { analytics } from '../../utils/analytics';
+import { utils } from '@waves.exchange/provider-ui-components';
 
 const RadioUser: FC<RadioButtonProps<IUser>> = ({
     children,
@@ -61,7 +61,7 @@ export const SelectAccountComponent: FC<SelectAccountProps> = ({
     onContinue,
 }) => {
     useEffect(() => {
-        analytics.send({
+        utils.analytics.send({
             name: 'Select_Account_Page_Show',
         });
     }, []);

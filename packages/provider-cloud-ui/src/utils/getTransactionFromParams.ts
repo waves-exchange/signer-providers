@@ -1,8 +1,10 @@
-import { fixRecipient } from './fixRecipient';
-import { NAME_MAP } from '../constants';
+import { CONSTANTS, utils } from '@waves.exchange/provider-ui-components';
 import { makeTx } from '@waves/waves-transactions';
 import { curry } from 'ramda';
 import { SignerTx } from '@waves/signer';
+
+const { NAME_MAP } = CONSTANTS;
+const { fixRecipient } = utils;
 
 const fixParams = (networkByte: number, tx: SignerTx): SignerTx => {
     const updateRecipient: <T extends { recipient: string }>(

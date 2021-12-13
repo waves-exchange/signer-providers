@@ -1,11 +1,10 @@
 import { UserData } from '@waves/signer';
 import { libs } from '@waves/waves-transactions';
 import { pipe } from 'ramda';
-import { IQueue } from '../utils/Queue';
 import { IState } from '../interface';
 import login from '../router/login';
 import { loadConfig } from '../services/configService';
-import { analytics } from '../utils/analytics';
+import { IQueue, utils } from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
 export const getLoginHandler = (
@@ -27,7 +26,7 @@ export const getLoginHandler = (
 
         const user = await login(state)();
 
-        analytics.addDefaultParams({
+        utils.analytics.addDefaultParams({
             auuid: pipe(
                 libs.crypto.stringToBytes,
                 libs.crypto.blake2b,

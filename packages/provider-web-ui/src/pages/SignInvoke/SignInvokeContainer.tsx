@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { WAVES } from '../../constants';
-import { isAlias } from '../../utils/isAlias';
-import { SignInvoke as SignInvokeComponent } from './SignInvokeComponent';
-import { assetPropFactory } from '../../utils/assetPropFactory';
-import { useHandleFeeSelect } from '../../hooks/useHandleFeeSelect';
+import {
+    SignInvoke as SignInvokeComponent,
+    CONSTANTS,
+    hooks,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { getUserName } from '../../services/userService';
-import { getPrintableNumber } from '../../utils/math';
 import {
     InvokeScriptCall,
     InvokeScriptPayment,
     InvokeScriptTransaction,
     Long,
 } from '@waves/ts-types';
+
+const { WAVES } = CONSTANTS;
+const { assetPropFactory, getPrintableNumber, isAlias } = utils;
 
 export interface IPayment {
     assetId: string | null;
@@ -52,7 +55,7 @@ export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
 
     const dAppAddress = isAlias(tx.dApp) ? meta.aliases[tx.dApp] : tx.dApp;
 
-    const [handleFeeSelect, txJSON] = useHandleFeeSelect(tx);
+    const [handleFeeSelect, txJSON] = hooks.useHandleFeeSelect(tx);
 
     return (
         <SignInvokeComponent

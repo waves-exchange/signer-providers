@@ -9,8 +9,8 @@ import { IUser } from '../../interface';
 import { LoginComponent } from './LoginComponent';
 import { getUsers, addSeedUser, StorageUser } from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
-import { analytics } from '../../utils/analytics';
 import { SelectAccountComponent } from './SelectAccountComponent';
+import { utils } from '@waves.exchange/provider-ui-components';
 
 interface IProps {
     networkByte: number;
@@ -19,7 +19,12 @@ interface IProps {
     isIncognito: boolean;
 }
 
-export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognito }) => {
+export const Login: FC<IProps> = ({
+    networkByte,
+    onConfirm,
+    onCancel,
+    isIncognito,
+}) => {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [currentUser, setCurrentUser] = useState<StorageUser>();
     const [users, setUsers] = useState<StorageUser[]>();
@@ -41,9 +46,9 @@ export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognit
         onCancel();
 
         if (!users || users.length === 1) {
-            analytics.send({ name: 'Login_Page_Close' });
+            utils.analytics.send({ name: 'Login_Page_Close' });
         } else {
-            analytics.send({
+            utils.analytics.send({
                 name: 'Select_Account_Page_Close',
             });
         }
@@ -55,7 +60,7 @@ export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognit
             const { resolveData: users } = getUsers(password, networkByte);
 
             if (users) {
-                analytics.send({
+                utils.analytics.send({
                     name: 'Login_Page_SignIn_Success',
                     params: {
                         Accounts_Length: users.length,
@@ -65,7 +70,7 @@ export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognit
                 if (users.length === 1) {
                     onConfirm(users[0]);
 
-                    analytics.addDefaultParams({
+                    utils.analytics.addDefaultParams({
                         userType: users[0].userType,
                     });
                 } else if (users.length > 1) {
@@ -94,7 +99,7 @@ export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognit
                     });
                 }
             } else {
-                analytics.send({ name: 'Login_Page_Login_Click_Error' });
+                utils.analytics.send({ name: 'Login_Page_Login_Click_Error' });
 
                 setErrorMessage('Incorrect password');
             }
@@ -114,11 +119,11 @@ export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognit
             e.preventDefault();
             currentUser && onConfirm(currentUser);
 
-            analytics.addDefaultParams({
+            utils.analytics.addDefaultParams({
                 userType: currentUser?.userType,
             });
 
-            analytics.send({
+            utils.analytics.send({
                 name: 'Select_Account_Page_Continue',
             });
         },
@@ -126,7 +131,7 @@ export const Login: FC<IProps> = ({ networkByte, onConfirm, onCancel, isIncognit
     );
 
     const handleForgotPasswordLinkClick = useCallback(() => {
-        analytics.send({ name: 'Login_Page_Forgot_Password' });
+        utils.analytics.send({ name: 'Login_Page_Forgot_Password' });
     }, []);
 
     useEffect(() => {

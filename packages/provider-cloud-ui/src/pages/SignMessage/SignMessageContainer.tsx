@@ -1,8 +1,10 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import { SignMessageComponent } from './SignMessageComponent';
+import {
+    SignMessageComponent,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { IUserWithBalances } from '../../interface';
 import { useTxUser } from '../../hooks/useTxUser';
-import { analytics } from '../../utils/analytics';
 
 interface ISignMessageProps {
     data: string;
@@ -22,17 +24,17 @@ export const SignMessageContainer: FC<ISignMessageProps> = ({
 
     const handleConfirm = useCallback(() => {
         onConfirm();
-        analytics.send({ name: 'Confirm_Sign_Message_Confirm' });
+        utils.analytics.send({ name: 'Confirm_Sign_Message_Confirm' });
     }, [onConfirm]);
 
     const handleReject = useCallback(() => {
         onCancel();
-        analytics.send({ name: 'Confirm_Sign_Message_Reject' });
+        utils.analytics.send({ name: 'Confirm_Sign_Message_Reject' });
     }, [onCancel]);
 
     useEffect(
         () =>
-            analytics.send({
+            utils.analytics.send({
                 name: 'Confirm_Sign_Message_Show',
             }),
         []

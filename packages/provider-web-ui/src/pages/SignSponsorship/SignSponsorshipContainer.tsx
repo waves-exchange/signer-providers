@@ -1,10 +1,15 @@
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { WAVES } from '../../constants';
 import { getUserName } from '../../services/userService';
-import { getPrintableNumber } from '../../utils/math';
-import { SignSponsorshipComponent } from './SignSponsorshipComponent';
+import {
+    SignSponsorshipComponent,
+    CONSTANTS,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 import { SponsorshipTransaction } from '@waves/ts-types';
+
+const { WAVES } = CONSTANTS;
+const { getPrintableNumber } = utils;
 
 export const SignSponsorship: FC<ISignTxProps<SponsorshipTransaction>> = ({
     meta,
