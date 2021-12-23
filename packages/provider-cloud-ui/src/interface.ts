@@ -1,7 +1,7 @@
 import { Long, Transaction, TransactionMap, WithId } from '@waves/ts-types';
 import { MouseEventHandler } from 'react';
-import { IdentityService } from './services/IdentityService';
 import { IMeta } from '@waves.exchange/provider-ui-components';
+import { IdentityService } from '@waves.exchange/provider-cloud-auth';
 
 export interface IUser {
     address: string;

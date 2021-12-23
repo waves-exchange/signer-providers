@@ -4,12 +4,12 @@ import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
 import { getSignMessageHandler } from './handlers/signMessage';
 import { IState } from './interface';
-import { IdentityService } from './services/IdentityService';
 import {
     IBusEvents,
     TBusHandlers,
     utils,
 } from '@waves.exchange/provider-ui-components';
+import { IdentityService } from '@waves.exchange/provider-cloud-auth';
 
 const { analytics, Queue } = utils;
 

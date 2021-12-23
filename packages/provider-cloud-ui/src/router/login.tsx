@@ -2,8 +2,11 @@ import { UserData } from '@waves/signer';
 import React from 'react';
 import { IUser } from '../interface';
 import { IState } from '../interface';
-import { Login } from '../pages/Login/Login';
 import renderPage from '../utils/renderPage';
+import { Login } from '@waves.exchange/provider-cloud-auth';
+import { utils } from '@waves.exchange/provider-ui-components';
+
+const { analytics } = utils;
 
 export default function (state: IState): () => Promise<UserData> {
     return (): Promise<UserData> => {
@@ -28,6 +31,7 @@ export default function (state: IState): () => Promise<UserData> {
                                 publicKey: user.publicKey,
                             });
                         }}
+                        sendAnalytics={analytics.send.bind(analytics)}
                     />
                 );
             });
