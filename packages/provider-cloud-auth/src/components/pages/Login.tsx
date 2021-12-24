@@ -8,21 +8,20 @@ import {
     Text,
 } from '@waves.exchange/react-uikit';
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { IUser } from '../../interface';
-import { ForgotPassword } from '../../components/Auth/ForgotPassword';
-import { SignInForm } from '../../components/Auth/SignInForm';
-import { CodeConfirmation } from '../../components/Auth/CodeConfirmation';
-import { SignUpForm } from '../../components/Auth/SignUpForm';
-import { RegistrationSuccessful } from '../../components/Auth/RegistrationSuccessful';
+import { IUser } from '../interface';
+import { ForgotPassword } from '../ForgotPassword/ForgotPassword';
+import { SignInForm } from '../SignInForm/SignInForm';
+import { SignUpForm } from '../SignUpForm/SignUpForm';
+import { RegistrationSuccessful } from '../RegistrationSuccessful/RegistrationSuccessful';
 import {
     AuthChallenge,
     CodeDelivery,
     IdentityService,
     SignUpResponse,
-} from '../../services/IdentityService';
-import { getGeeTestToken } from '../../utils/geeTest';
-import { utils } from '@waves.exchange/provider-ui-components';
-import { Enable2FaComponent } from '../../components/Enable2FA/Enable2FA';
+} from '../../IdentityService';
+import { getGeeTestToken } from '../../geeTest';
+import { Enable2FaComponent } from '../Enable2FA/Enable2FA';
+import { CodeConfirmation } from '../CodeConfirmation/CodeConfirmation';
 
 type LoginStateType =
     | 'sign-up'
@@ -37,6 +36,7 @@ type LoginProps = {
     identity: IdentityService;
     onConfirm(user: IUser): void;
     onCancel(): void;
+    sendAnalytics?: (props: any) => void;
 };
 
 const day = 1000 * 60 * 60 * 24;
@@ -45,10 +45,12 @@ export const Login: FC<LoginProps> = ({
     identity,
     onConfirm,
     onCancel,
+    sendAnalytics,
 }: {
     identity: IdentityService;
     onConfirm: (params: any) => void;
     onCancel: () => void;
+    sendAnalytics?: (props?: unknown) => void;
 }) => {
     const [loginState, setLoginState] = useState<LoginStateType>('sign-in');
     const [codeDelivery, setCodeDelivery] = useState<CodeDelivery>();
@@ -77,7 +79,9 @@ export const Login: FC<LoginProps> = ({
             console.log(e);
         }
 
-        utils.analytics.send({ name: 'Login_Page_SignIn_Success' });
+        if (typeof sendAnalytics === 'function') {
+            sendAnalytics({ name: 'Login_Page_SignIn_Success' });
+        }
         onConfirm({
             address: identity.getUserAddress(),
             publicKey: identity.getUserPublicKey(),
@@ -326,6 +330,7 @@ export const Login: FC<LoginProps> = ({
                     onSignInClick={(): void => {
                         setLoginState('sign-in');
                     }}
+                    sendAnalytics={sendAnalytics}
                 />
             )}
 

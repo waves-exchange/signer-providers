@@ -1,8 +1,6 @@
 import { Button, ExternalLink, Flex, Text } from '@waves.exchange/react-uikit';
 import React, { FC } from 'react';
-import { utils } from '@waves.exchange/provider-ui-components';
-
-const { getEnvAwareUrl } = utils;
+import { getEnvAwareUrl } from '../../utils/getEnvAwareUrl';
 
 type ForgotPasswordProps = {
     onSignUpClick(): void;

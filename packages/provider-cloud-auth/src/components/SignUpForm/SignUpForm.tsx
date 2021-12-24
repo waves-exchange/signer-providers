@@ -11,17 +11,20 @@ import {
 } from '@waves.exchange/react-uikit';
 import React, { FC, MouseEventHandler, useCallback, useState } from 'react';
 import { InputWrapper } from '../InputWrapper/InputWrapper';
-import { SignUpResponse } from '../../services/IdentityService';
-import { utils } from '@waves.exchange/provider-ui-components';
-
-const { analytics, getEnvAwareUrl } = utils;
+import { SignUpResponse } from '../../IdentityService';
+import { getEnvAwareUrl } from '../../utils/getEnvAwareUrl';
 
 type SignUpFormProps = {
     signUp(username: string, password: string): Promise<SignUpResponse>;
     onSignInClick(): void;
+    sendAnalytics?: (props?: any) => void;
 };
 
-export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
+export const SignUpForm: FC<SignUpFormProps> = ({
+    signUp,
+    onSignInClick,
+    sendAnalytics,
+}) => {
     const MIN_PASSWORD_LENGTH = 8;
     const [isPending, setPending] = useState(false);
     const [errors, setErrors] = useState<Record<string, string | null>>({
@@ -96,7 +99,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({ signUp, onSignInClick }) => {
                 setPending(true);
                 await signUp(email, password);
                 setPending(false);
-                analytics.send({ name: 'Login_Page_SignUp_Success' });
+                if (typeof sendAnalytics === 'function') {
+                    sendAnalytics({ name: 'Login_Page_SignUp_Success' });
+                }
             } catch (e) {
                 setPending(false);
                 if (e && 'code' in e) {

@@ -1,7 +1,7 @@
-import { Box, Flex, Heading, Text } from '@waves.exchange/react-uikit';
+import { Box, Flex, Text } from '@waves.exchange/react-uikit';
 import React, { FC, useState } from 'react';
-import { CodeDelivery } from '../../services/IdentityService';
-import { VerifyCodeComponent } from './VerifyCodeComponent';
+import { CodeDelivery } from '../../IdentityService';
+import { VerifyCodeComponent } from '../VerifyCodeComponent/VerifyCodeComponent';
 
 type CodeConfirmationProps = {
     codeDelivery: CodeDelivery | undefined;
