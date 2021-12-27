@@ -6,6 +6,7 @@ export * from './getEnvAwareUrl';
 export * from './getTxAliases';
 export * from './isAddress';
 export * from './isAlias';
+export * from './isSafari';
 export * from './loadFeeByTransaction';
 export * from './loadLogoInfo';
 export * from './math';

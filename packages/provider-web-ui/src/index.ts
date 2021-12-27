@@ -9,7 +9,6 @@ import {
     TBusHandlers,
     IBusEvents,
 } from '@waves.exchange/provider-ui-components';
-import { isSafari, isBrave } from './utils/isSafari';
 
 const { Queue } = utils;
 const queue = new Queue(3);
@@ -20,7 +19,7 @@ const referrerPathname = referrerURL.pathname?.replace('/', '').length
     ? referrerURL.pathname
     : undefined;
 
-const { analytics } = utils;
+const { analytics, isSafari, isBrave } = utils;
 
 analytics.init({
     platform: 'web',

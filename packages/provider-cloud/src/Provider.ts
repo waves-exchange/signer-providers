@@ -1,6 +1,6 @@
 import { config } from '@waves/waves-browser-bus';
 import { ITransport } from './interface';
-import { TransportIframe } from './TransportIframe';
+import { isBrave, isSafari, TransportIframe } from './TransportIframe';
 import EventEmitter from 'typed-ts-events';
 import {
     ConnectOptions,
@@ -82,6 +82,14 @@ export class ProviderCloud implements Provider {
         }
 
         const iframe = this._transport.get();
+
+        if (isSafari() || isBrave()) {
+            const win = iframe.contentWindow?.open(this._clientUrl);
+
+            if (!win) {
+                throw new Error('Window was blocked');
+            }
+        }
 
         iframe.src = this._clientUrl;
 

@@ -11,7 +11,7 @@ import {
 } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
 
-const { analytics, Queue } = utils;
+const { analytics, Queue, isSafari, isBrave } = utils;
 
 const queue = new Queue(3);
 
@@ -27,6 +27,25 @@ analytics.init({
     referrer,
     referrerPathname,
 });
+
+const isLoginWindowInSafari =
+    window.top === window && window.opener && (isSafari() || isBrave());
+const isIframeSafari = window.top !== window && (isSafari() || isBrave());
+
+if (isLoginWindowInSafari) {
+    const intervalId = setInterval(() => {
+        if ('__loaded' in window.opener) {
+            window.opener.__loginWindow = window;
+            clearInterval(intervalId);
+        }
+    }, 100);
+}
+
+if (isIframeSafari) {
+    window.addEventListener('load', () => {
+        window['__loaded'] = true;
+    });
+}
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
@@ -54,7 +73,16 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
-        bus.dispatchEvent('ready', void 0);
+        if (isLoginWindowInSafari) {
+            const intervalId = setInterval(() => {
+                if ('__loginWindow' in window.opener) {
+                    bus.dispatchEvent('ready', void 0);
+                    clearInterval(intervalId);
+                }
+            }, 100);
+        } else {
+            bus.dispatchEvent('ready', void 0);
+        }
 
         window.addEventListener('unload', () => {
             bus.dispatchEvent('close', undefined);
