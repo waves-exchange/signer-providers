@@ -1,6 +1,6 @@
 import { config } from '@waves/waves-browser-bus';
 import { ITransport } from './interface';
-import { isBrave, isSafari, TransportIframe } from './TransportIframe';
+import { TransportIframe } from './TransportIframe';
 import EventEmitter from 'typed-ts-events';
 import {
     ConnectOptions,
@@ -21,7 +21,9 @@ export class ProviderCloud implements Provider {
 
     constructor(clientUrl?: string, logs?: boolean) {
         this._clientUrl =
-            (clientUrl || 'https://waves.exchange/signer-cloud/') +
+            // (clientUrl || 'https://waves.exchange/signer-cloud/') + // todo
+            (clientUrl ||
+                'https://wallet-stage2.waves.exchange/signer-cloud/') +
             (import.meta.env.PROD ? `?${ProviderCloud._getCacheClean()}` : '');
 
         this._transport = new TransportIframe(this._clientUrl, 3);
