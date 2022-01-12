@@ -1,4 +1,4 @@
-import { Bus, WindowAdapter } from '@waves/waves-browser-bus';
+import { Bus, WindowAdapter, WindowProtocol } from '@waves/waves-browser-bus';
 import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
@@ -10,6 +10,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
+import { getGeeTestToken } from '../../provider-cloud-auth/src/geeTest'; // todo dep
 
 const { analytics, Queue, isSafari, isBrave } = utils;
 
@@ -78,6 +79,35 @@ WindowAdapter.createSimpleWindowAdapter()
                 if ('__loginWindow' in window.opener) {
                     bus.dispatchEvent('ready', void 0);
                     clearInterval(intervalId);
+
+                    console.warn(
+                        'isLoginWindowInSafari',
+                        window.opener['__loginWindow']
+                    );
+                    const geetestAdapter = new WindowAdapter(
+                        [
+                            new WindowProtocol(
+                                window.opener['__loginWindow'],
+                                WindowProtocol.PROTOCOL_TYPES.LISTEN
+                            ),
+                        ],
+                        [
+                            new WindowProtocol(
+                                window,
+                                WindowProtocol.PROTOCOL_TYPES.DISPATCH
+                            ),
+                        ]
+                    );
+                    const geetestBus = new Bus(geetestAdapter);
+
+                    geetestBus.registerRequestHandler(
+                        'fetchData',
+                        (url: string) => {
+                            console.warn('registerRequestHandler', url);
+
+                            return getGeeTestToken(url);
+                        }
+                    );
                 }
             }, 100);
         } else {
