@@ -8,7 +8,8 @@ const { isBrave, isSafari } = utils;
 const fetchFromNewWindow = (url: string): Promise<any> => {
     return new Promise((resolve, reject) => {
         const win = w.open(
-            location.origin + '/packages/provider-cloud-ui/index.html'
+            // location.origin + '/packages/provider-cloud-ui/index.html'
+            'https://wallet-stage2.waves.exchange/signer-cloud'
         ); // todo url
 
         if (!win) {
@@ -23,6 +24,11 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
 
         bus.once('ready', () => {
             console.warn('first ready', window['__loginWindow']);
+
+            window['__loginWindow'].addEventListener('unload', () => {
+                reject('Window was closed by user');
+            });
+
             const requestAdapter = new WindowAdapter(
                 [new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
                 [
