@@ -69,22 +69,24 @@ export const getGeeTestToken = (
             // const response = await fetch(geetestUrl, {
             //     credentials: 'include',
             // });
-            let response;
+            let data;
 
             if (w !== w.top && !w.opener && (isBrave() || isSafari())) {
                 // todo safari conditions
-                response = await fetchFromNewWindow(geetestUrl);
+                data = await fetchFromNewWindow(geetestUrl);
             } else {
-                response = await fetch(geetestUrl, {
+                const response = await fetch(geetestUrl, {
                     credentials: 'include',
                 });
-            }
-            console.warn('response', response);
-            const data = await response.json();
 
-            if (!response.ok) {
-                rej(data);
+                data = await response.json();
+
+                if (!response.ok) {
+                    rej(data);
+                }
             }
+            console.warn('data', data);
+
             if (!w.initGeetest) {
                 return rej();
             }
