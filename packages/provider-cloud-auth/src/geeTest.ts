@@ -41,7 +41,7 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
             const requestBus = new Bus(requestAdapter);
 
             requestBus
-                .request('fetchData', url)
+                .request('fetchData', url, -1)
                 .then((data) => {
                     console.warn('window get data', data);
                     resolve(data);
