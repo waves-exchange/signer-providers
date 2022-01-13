@@ -57,7 +57,17 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
 };
 
 export const fetchGeeTestToken = (url: string): Promise<any> => {
-    return fetch(url, { credentials: 'include' });
+    return fetch(url, { credentials: 'include' })
+        .then((response) => {
+            return Promise.all([response.json(), response]);
+        })
+        .then(([data, response]) => {
+            if (!response.ok) {
+                return Promise.reject(data);
+            }
+
+            return data;
+        });
 };
 
 export const getGeeTestToken = (
@@ -73,23 +83,16 @@ export const getGeeTestToken = (
             // const response = await fetch(geetestUrl, {
             //     credentials: 'include',
             // });
-            let response;
+            let data;
 
             if (w !== w.top && !w.opener && (isBrave() || isSafari())) {
                 // todo safari conditions
-                response = await fetchFromNewWindow(geetestUrl);
+                data = await fetchFromNewWindow(geetestUrl);
             } else {
-                response = await fetchGeeTestToken(geetestUrl);
-            }
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                rej(data);
+                data = await fetchGeeTestToken(geetestUrl);
             }
 
             console.warn('data', data);
-            console.warn('response', response);
 
             if (!w.initGeetest) {
                 return rej();
