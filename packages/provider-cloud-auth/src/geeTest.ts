@@ -33,7 +33,7 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
                 [new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
                 [
                     new WindowProtocol(
-                        window['__loginWindow'],
+                        window,
                         WindowProtocol.PROTOCOL_TYPES.DISPATCH
                     ),
                 ]

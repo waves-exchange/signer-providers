@@ -82,12 +82,13 @@ WindowAdapter.createSimpleWindowAdapter()
 
                     console.warn(
                         'isLoginWindowInSafari',
-                        window.opener['__loginWindow']
+                        window.opener['__loginWindow'],
+                        window.opener['__loginWindow'] === window
                     );
                     const geetestAdapter = new WindowAdapter(
                         [
                             new WindowProtocol(
-                                window.opener['__loginWindow'],
+                                window.opener,
                                 WindowProtocol.PROTOCOL_TYPES.LISTEN
                             ),
                         ],
