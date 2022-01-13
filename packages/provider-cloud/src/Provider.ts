@@ -21,7 +21,7 @@ export class ProviderCloud implements Provider {
 
     constructor(clientUrl?: string, logs?: boolean) {
         this._clientUrl =
-            (clientUrl || 'https://waves.exchange/signer-cloud/') + // todo
+            (clientUrl || 'https://waves.exchange/signer-cloud/') +
             (import.meta.env.PROD ? `?${ProviderCloud._getCacheClean()}` : '');
 
         this._transport = new TransportIframe(this._clientUrl, 3);
