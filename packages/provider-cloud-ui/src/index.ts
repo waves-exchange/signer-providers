@@ -10,7 +10,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
-import { getGeeTestToken } from '../../provider-cloud-auth/src/geeTest'; // todo dep
+import { fetchGeeTestToken } from '../../provider-cloud-auth/src/geeTest'; // todo dep
 
 const { analytics, Queue, isSafari, isBrave } = utils;
 
@@ -106,7 +106,7 @@ WindowAdapter.createSimpleWindowAdapter()
                         (url: string) => {
                             console.warn('registerRequestHandler', url);
 
-                            return getGeeTestToken(url);
+                            return fetchGeeTestToken(url);
                         }
                     );
                 }
