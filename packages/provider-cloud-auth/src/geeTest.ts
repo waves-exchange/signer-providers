@@ -23,11 +23,7 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
         const bus = new Bus(adapter);
 
         bus.once('ready', () => {
-            console.warn('first ready', window['__loginWindow']);
-
-            window['__loginWindow'].addEventListener('unload', () => {
-                reject('Window was closed by user');
-            });
+            console.warn('first ready');
 
             const requestAdapter = new WindowAdapter(
                 [new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
@@ -80,9 +76,6 @@ export const getGeeTestToken = (
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (res, rej) => {
         try {
-            // const response = await fetch(geetestUrl, {
-            //     credentials: 'include',
-            // });
             let data;
 
             if (w !== w.top && !w.opener && (isBrave() || isSafari())) {

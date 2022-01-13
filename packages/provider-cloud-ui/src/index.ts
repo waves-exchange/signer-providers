@@ -10,7 +10,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
-import { fetchGeeTestToken } from '../../provider-cloud-auth/src/geeTest'; // todo dep
+import { fetchGeeTestToken } from '@waves.exchange/provider-cloud-auth'; // todo dep
 
 const { analytics, Queue, isSafari, isBrave } = utils;
 
@@ -31,22 +31,22 @@ analytics.init({
 
 const isLoginWindowInSafari =
     window.top === window && window.opener && (isSafari() || isBrave());
-const isIframeSafari = window.top !== window && (isSafari() || isBrave());
-
-if (isLoginWindowInSafari) {
-    const intervalId = setInterval(() => {
-        if ('__loaded' in window.opener) {
-            window.opener.__loginWindow = window;
-            clearInterval(intervalId);
-        }
-    }, 100);
-}
-
-if (isIframeSafari) {
-    window.addEventListener('load', () => {
-        window['__loaded'] = true;
-    });
-}
+// const isIframeSafari = window.top !== window && (isSafari() || isBrave());
+//
+// if (isLoginWindowInSafari) {
+//     const intervalId = setInterval(() => {
+//         if ('__loaded' in window.opener) {
+//             window.opener.__loginWindow = window;
+//             clearInterval(intervalId);
+//         }
+//     }, 100);
+// }
+//
+// if (isIframeSafari) {
+//     window.addEventListener('load', () => {
+//         window['__loaded'] = true;
+//     });
+// }
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
@@ -74,45 +74,72 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
+        // if (isLoginWindowInSafari) {
+        //     const intervalId = setInterval(() => {
+        //         if ('__loginWindow' in window.opener) {
+        //             bus.dispatchEvent('ready', void 0);
+        //             clearInterval(intervalId);
+        //
+        //             console.warn(
+        //                 'isLoginWindowInSafari',
+        //                 window.opener['__loginWindow'],
+        //                 window.opener['__loginWindow'] === window
+        //             );
+        //             const geetestAdapter = new WindowAdapter(
+        //                 [
+        //                     new WindowProtocol(
+        //                         window.opener,
+        //                         WindowProtocol.PROTOCOL_TYPES.LISTEN
+        //                     ),
+        //                 ],
+        //                 [
+        //                     new WindowProtocol(
+        //                         window,
+        //                         WindowProtocol.PROTOCOL_TYPES.DISPATCH
+        //                     ),
+        //                 ]
+        //             );
+        //             const geetestBus = new Bus(geetestAdapter);
+        //
+        //             geetestBus.registerRequestHandler(
+        //                 'fetchData',
+        //                 (url: string) => {
+        //                     console.warn('registerRequestHandler', url);
+        //
+        //                     return fetchGeeTestToken(url);
+        //                 }
+        //             );
+        //         }
+        //     }, 100);
+        // } else {
+        //     bus.dispatchEvent('ready', void 0);
+        // }
+
+        bus.dispatchEvent('ready', void 0);
+
         if (isLoginWindowInSafari) {
-            const intervalId = setInterval(() => {
-                if ('__loginWindow' in window.opener) {
-                    bus.dispatchEvent('ready', void 0);
-                    clearInterval(intervalId);
+            console.warn('isLoginWindowInSafari');
+            const geetestAdapter = new WindowAdapter(
+                [
+                    new WindowProtocol(
+                        window.opener,
+                        WindowProtocol.PROTOCOL_TYPES.LISTEN
+                    ),
+                ],
+                [
+                    new WindowProtocol(
+                        window,
+                        WindowProtocol.PROTOCOL_TYPES.DISPATCH
+                    ),
+                ]
+            );
+            const geetestBus = new Bus(geetestAdapter);
 
-                    console.warn(
-                        'isLoginWindowInSafari',
-                        window.opener['__loginWindow'],
-                        window.opener['__loginWindow'] === window
-                    );
-                    const geetestAdapter = new WindowAdapter(
-                        [
-                            new WindowProtocol(
-                                window.opener,
-                                WindowProtocol.PROTOCOL_TYPES.LISTEN
-                            ),
-                        ],
-                        [
-                            new WindowProtocol(
-                                window,
-                                WindowProtocol.PROTOCOL_TYPES.DISPATCH
-                            ),
-                        ]
-                    );
-                    const geetestBus = new Bus(geetestAdapter);
+            geetestBus.registerRequestHandler('fetchData', (url: string) => {
+                console.warn('registerRequestHandler', url);
 
-                    geetestBus.registerRequestHandler(
-                        'fetchData',
-                        (url: string) => {
-                            console.warn('registerRequestHandler', url);
-
-                            return fetchGeeTestToken(url);
-                        }
-                    );
-                }
-            }, 100);
-        } else {
-            bus.dispatchEvent('ready', void 0);
+                return fetchGeeTestToken(url);
+            });
         }
 
         window.addEventListener('unload', () => {
