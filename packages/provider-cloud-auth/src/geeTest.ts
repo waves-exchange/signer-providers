@@ -23,8 +23,6 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
         const bus = new Bus(adapter);
 
         bus.once('ready', () => {
-            console.warn('first ready');
-
             const requestAdapter = new WindowAdapter(
                 [new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
                 [
@@ -39,14 +37,12 @@ const fetchFromNewWindow = (url: string): Promise<any> => {
             requestBus
                 .request('fetchData', url, -1)
                 .then((data) => {
-                    console.warn('window get data', data);
                     resolve(data);
-                    // win.close();
+                    win.close();
                 })
                 .catch((e) => {
-                    console.warn('window get data catch error', e);
                     reject(e);
-                    // win.close();
+                    win.close();
                 });
         });
     });
@@ -79,13 +75,10 @@ export const getGeeTestToken = (
             let data;
 
             if (w !== w.top && !w.opener && (isBrave() || isSafari())) {
-                // todo safari conditions
                 data = await fetchFromNewWindow(geetestUrl);
             } else {
                 data = await fetchGeeTestToken(geetestUrl);
             }
-
-            console.warn('data', data);
 
             if (!w.initGeetest) {
                 return rej();

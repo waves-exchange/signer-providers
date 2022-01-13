@@ -31,22 +31,6 @@ analytics.init({
 
 const isLoginWindowInSafari =
     window.top === window && window.opener && (isSafari() || isBrave());
-// const isIframeSafari = window.top !== window && (isSafari() || isBrave());
-//
-// if (isLoginWindowInSafari) {
-//     const intervalId = setInterval(() => {
-//         if ('__loaded' in window.opener) {
-//             window.opener.__loginWindow = window;
-//             clearInterval(intervalId);
-//         }
-//     }, 100);
-// }
-//
-// if (isIframeSafari) {
-//     window.addEventListener('load', () => {
-//         window['__loaded'] = true;
-//     });
-// }
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
@@ -74,51 +58,9 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
-        // if (isLoginWindowInSafari) {
-        //     const intervalId = setInterval(() => {
-        //         if ('__loginWindow' in window.opener) {
-        //             bus.dispatchEvent('ready', void 0);
-        //             clearInterval(intervalId);
-        //
-        //             console.warn(
-        //                 'isLoginWindowInSafari',
-        //                 window.opener['__loginWindow'],
-        //                 window.opener['__loginWindow'] === window
-        //             );
-        //             const geetestAdapter = new WindowAdapter(
-        //                 [
-        //                     new WindowProtocol(
-        //                         window.opener,
-        //                         WindowProtocol.PROTOCOL_TYPES.LISTEN
-        //                     ),
-        //                 ],
-        //                 [
-        //                     new WindowProtocol(
-        //                         window,
-        //                         WindowProtocol.PROTOCOL_TYPES.DISPATCH
-        //                     ),
-        //                 ]
-        //             );
-        //             const geetestBus = new Bus(geetestAdapter);
-        //
-        //             geetestBus.registerRequestHandler(
-        //                 'fetchData',
-        //                 (url: string) => {
-        //                     console.warn('registerRequestHandler', url);
-        //
-        //                     return fetchGeeTestToken(url);
-        //                 }
-        //             );
-        //         }
-        //     }, 100);
-        // } else {
-        //     bus.dispatchEvent('ready', void 0);
-        // }
-
         bus.dispatchEvent('ready', void 0);
 
         if (isLoginWindowInSafari) {
-            console.warn('isLoginWindowInSafari');
             const geetestAdapter = new WindowAdapter(
                 [
                     new WindowProtocol(
@@ -136,8 +78,6 @@ WindowAdapter.createSimpleWindowAdapter()
             const geetestBus = new Bus(geetestAdapter);
 
             geetestBus.registerRequestHandler('fetchData', (url: string) => {
-                console.warn('registerRequestHandler', url);
-
                 return fetchGeeTestToken(url);
             });
         }
