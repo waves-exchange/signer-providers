@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/waves-exchange/provider-web.git"
+    "url": "https://github.com/waves-exchange/signer-providers.git"
   },
   "bugs": {
-    "url": "https://github.com/waves-exchange/provider-web/issues",
+    "url": "https://github.com/waves-exchange/signer-providers/issues",
     "email": "support@waves.exchange"
   },
   "homepage": "https://waves.exchange",
