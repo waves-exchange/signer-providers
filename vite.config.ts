@@ -1,10 +1,15 @@
 import { defineConfig } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
+import mkcert from'vite-plugin-mkcert'
 
 export default defineConfig({
-    plugins: [reactRefresh()],
+    plugins: [
+        reactRefresh(),
+        mkcert()
+    ],
     server: {
-        port: 3000
+        port: 3000,
+        https: true
     },
     optimizeDeps: {
         include: [

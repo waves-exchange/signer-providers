@@ -1,4 +1,4 @@
-import { Bus, WindowAdapter } from '@waves/waves-browser-bus';
+import { Bus, WindowAdapter, WindowProtocol } from '@waves/waves-browser-bus';
 import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
@@ -10,8 +10,9 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
+import { fetchGeeTestToken } from '@waves.exchange/provider-cloud-auth'; // todo dep
 
-const { analytics, Queue } = utils;
+const { analytics, Queue, isSafari, isBrave } = utils;
 
 const queue = new Queue(3);
 
@@ -27,6 +28,9 @@ analytics.init({
     referrer,
     referrerPathname,
 });
+
+const isLoginWindowInSafari =
+    window.top === window && window.opener && (isSafari() || isBrave());
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
@@ -55,6 +59,28 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add create order sign
 
         bus.dispatchEvent('ready', void 0);
+
+        if (isLoginWindowInSafari) {
+            const geetestAdapter = new WindowAdapter(
+                [
+                    new WindowProtocol(
+                        window.opener,
+                        WindowProtocol.PROTOCOL_TYPES.LISTEN
+                    ),
+                ],
+                [
+                    new WindowProtocol(
+                        window,
+                        WindowProtocol.PROTOCOL_TYPES.DISPATCH
+                    ),
+                ]
+            );
+            const geetestBus = new Bus(geetestAdapter);
+
+            geetestBus.registerRequestHandler('fetchData', (url: string) => {
+                return fetchGeeTestToken(url);
+            });
+        }
 
         window.addEventListener('unload', () => {
             bus.dispatchEvent('close', undefined);

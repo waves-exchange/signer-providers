@@ -1,6 +1,66 @@
 import './geeTestCode';
+import { utils } from '@waves.exchange/provider-ui-components';
+import { Bus, WindowAdapter, WindowProtocol } from '@waves/waves-browser-bus';
 
 const w = window as any;
+const { isBrave, isSafari } = utils;
+
+const fetchFromNewWindow = (url: string): Promise<any> => {
+    return new Promise((resolve, reject) => {
+        const win = w.open(
+            // location.origin + '/packages/provider-cloud-ui/index.html'
+            'https://wallet-stage2.waves.exchange/signer-cloud'
+        ); // todo url
+
+        if (!win) {
+            throw new Error('Window was blocked');
+        }
+
+        const adapter = new WindowAdapter(
+            [new WindowProtocol(window, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
+            []
+        );
+        const bus = new Bus(adapter);
+
+        bus.once('ready', () => {
+            const requestAdapter = new WindowAdapter(
+                [new WindowProtocol(win, WindowProtocol.PROTOCOL_TYPES.LISTEN)],
+                [
+                    new WindowProtocol(
+                        window,
+                        WindowProtocol.PROTOCOL_TYPES.DISPATCH
+                    ),
+                ]
+            );
+            const requestBus = new Bus(requestAdapter);
+
+            requestBus
+                .request('fetchData', url, -1)
+                .then((data) => {
+                    resolve(data);
+                    win.close();
+                })
+                .catch((e) => {
+                    reject(e);
+                    win.close();
+                });
+        });
+    });
+};
+
+export const fetchGeeTestToken = (url: string): Promise<any> => {
+    return fetch(url, { credentials: 'include' })
+        .then((response) => {
+            return Promise.all([response.json(), response]);
+        })
+        .then(([data, response]) => {
+            if (!response.ok) {
+                return Promise.reject(data);
+            }
+
+            return data;
+        });
+};
 
 export const getGeeTestToken = (
     geetestUrl: string
@@ -12,14 +72,14 @@ export const getGeeTestToken = (
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (res, rej) => {
         try {
-            const response = await fetch(geetestUrl, {
-                credentials: 'include',
-            });
-            const data = await response.json();
+            let data;
 
-            if (!response.ok) {
-                rej(data);
+            if (w !== w.top && !w.opener && (isBrave() || isSafari())) {
+                data = await fetchFromNewWindow(geetestUrl);
+            } else {
+                data = await fetchGeeTestToken(geetestUrl);
             }
+
             if (!w.initGeetest) {
                 return rej();
             }

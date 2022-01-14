@@ -7,13 +7,14 @@ import { loadConfig } from '../services/configService';
 import { IQueue, utils } from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
+const { analytics } = utils;
+
 export const getLoginHandler = (
     queue: IQueue,
     state: IState
 ): (() => Promise<UserData>) => {
     return toQueue(queue, async () => {
         preload();
-
         const config = await loadConfig(state.networkByte);
 
         state.identity.configure({
@@ -26,7 +27,7 @@ export const getLoginHandler = (
 
         const user = await login(state)();
 
-        utils.analytics.addDefaultParams({
+        analytics.addDefaultParams({
             auuid: pipe(
                 libs.crypto.stringToBytes,
                 libs.crypto.blake2b,

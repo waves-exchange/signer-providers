@@ -5,8 +5,9 @@ import { pipe } from 'ramda';
 import { IState } from '../interface';
 import login from '../router/login';
 import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
-import { isBrave, isSafari } from '../utils/isSafari';
 import { preload, toQueue } from './helpers';
+
+const { analytics, isSafari, isBrave } = utils;
 
 export const getLoginHandler = (
     queue: IQueue,
@@ -83,7 +84,7 @@ export const getLoginHandler = (
                     window.opener['__setUser'](state.user);
                 }
 
-                utils.analytics.addDefaultParams({
+                analytics.addDefaultParams({
                     auuid: pipe(
                         libs.crypto.stringToBytes,
                         libs.crypto.blake2b,
