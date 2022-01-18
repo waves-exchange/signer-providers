@@ -7,10 +7,7 @@ const { isBrave, isSafari } = utils;
 
 const fetchFromNewWindow = (url: string): Promise<any> => {
     return new Promise((resolve, reject) => {
-        const win = w.open(
-            // location.origin + '/packages/provider-cloud-ui/index.html'
-            'https://wallet-stage2.waves.exchange/signer-cloud'
-        ); // todo url
+        const win = w.open(location.origin + '/signer-cloud');
 
         if (!win) {
             throw new Error('Window was blocked');
