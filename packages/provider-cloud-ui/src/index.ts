@@ -61,25 +61,36 @@ WindowAdapter.createSimpleWindowAdapter()
         bus.dispatchEvent('ready', void 0);
 
         if (isLoginWindowInSafari) {
-            const geetestAdapter = new WindowAdapter(
-                [
-                    new WindowProtocol(
-                        window.opener,
-                        WindowProtocol.PROTOCOL_TYPES.LISTEN
-                    ),
-                ],
-                [
-                    new WindowProtocol(
-                        window,
-                        WindowProtocol.PROTOCOL_TYPES.DISPATCH
-                    ),
-                ]
-            );
-            const geetestBus = new Bus(geetestAdapter);
+            try {
+                const geetestAdapter = new WindowAdapter(
+                    [
+                        new WindowProtocol(
+                            window.opener,
+                            WindowProtocol.PROTOCOL_TYPES.LISTEN
+                        ),
+                    ],
+                    [
+                        new WindowProtocol(
+                            window,
+                            WindowProtocol.PROTOCOL_TYPES.DISPATCH
+                        ),
+                    ]
+                );
 
-            geetestBus.registerRequestHandler('fetchData', (url: string) => {
-                return fetchGeeTestToken(url);
-            });
+                const geetestBus = new Bus(geetestAdapter);
+
+                geetestBus.registerRequestHandler(
+                    'fetchData',
+                    (url: string) => {
+                        return fetchGeeTestToken(url);
+                    }
+                );
+            } catch (e) {
+                const errorBlock = document.createElement('div');
+
+                errorBlock.innerText = 'Something went wrong. ' + e;
+                document.body.appendChild(errorBlock);
+            }
         }
 
         window.addEventListener('unload', () => {
