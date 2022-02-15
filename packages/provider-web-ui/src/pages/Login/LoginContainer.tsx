@@ -44,15 +44,7 @@ export const Login: FC<IProps> = ({
         MouseEventHandler<HTMLButtonElement>
     >(() => {
         onCancel();
-
-        if (!users || users.length === 1) {
-            utils.analytics.send({ name: 'Login_Page_Close' });
-        } else {
-            utils.analytics.send({
-                name: 'Select_Account_Page_Close',
-            });
-        }
-    }, [onCancel, users]);
+    }, [onCancel]);
 
     const handleLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
         (e) => {
@@ -61,7 +53,7 @@ export const Login: FC<IProps> = ({
 
             if (users) {
                 utils.analytics.send({
-                    name: 'Login_Page_SignIn_Success',
+                    name: 'User_Sign_In_Success',
                     params: {
                         Accounts_Length: users.length,
                     },
@@ -99,8 +91,6 @@ export const Login: FC<IProps> = ({
                     });
                 }
             } else {
-                utils.analytics.send({ name: 'Login_Page_Login_Click_Error' });
-
                 setErrorMessage('Incorrect password');
             }
         },
@@ -122,17 +112,9 @@ export const Login: FC<IProps> = ({
             utils.analytics.addDefaultParams({
                 userType: currentUser?.userType,
             });
-
-            utils.analytics.send({
-                name: 'Select_Account_Page_Continue',
-            });
         },
         [currentUser, onConfirm]
     );
-
-    const handleForgotPasswordLinkClick = useCallback(() => {
-        utils.analytics.send({ name: 'Login_Page_Forgot_Password' });
-    }, []);
 
     useEffect(() => {
         if (!currentUser && Array.isArray(users) && users.length > 0) {
@@ -154,7 +136,6 @@ export const Login: FC<IProps> = ({
             onLogin={handleLogin}
             password={password}
             onPasswordChange={handlePasswordChange}
-            onForgotPasswordLinkClick={handleForgotPasswordLinkClick}
             isSubmitDisabled={isSubmitDisabled}
             isIncognito={isIncognito}
         >

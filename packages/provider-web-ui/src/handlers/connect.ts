@@ -30,13 +30,5 @@ export function getConnectHandler(
         });
 
         utils.analytics.activate();
-
-        utils.analytics.send({
-            name: 'Signer_Connect',
-            params: {
-                Network_Byte: options.NETWORK_BYTE,
-                Node_Url: options.NODE_URL,
-            },
-        });
     };
 }

@@ -9,11 +9,10 @@ import {
     iconCheck,
     AddressLabel,
 } from '@waves.exchange/react-uikit';
-import React, { useEffect, FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import { IUser } from '../../interface';
 import { getUserName, StorageUser } from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
-import { utils } from '@waves.exchange/provider-ui-components';
 
 const RadioUser: FC<RadioButtonProps<IUser>> = ({
     children,
@@ -60,12 +59,6 @@ export const SelectAccountComponent: FC<SelectAccountProps> = ({
     onUserChange,
     onContinue,
 }) => {
-    useEffect(() => {
-        utils.analytics.send({
-            name: 'Select_Account_Page_Show',
-        });
-    }, []);
-
     return (
         <>
             <RadioButtonGroup

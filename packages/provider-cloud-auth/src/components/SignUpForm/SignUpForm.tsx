@@ -100,7 +100,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
                 await signUp(email, password);
                 setPending(false);
                 if (typeof sendAnalytics === 'function') {
-                    sendAnalytics({ name: 'Login_Page_SignUp_Success' });
+                    sendAnalytics({ name: 'User_SignUp_Complite' });
                 }
             } catch (e) {
                 setPending(false);

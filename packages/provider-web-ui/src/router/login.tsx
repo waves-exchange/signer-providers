@@ -33,12 +33,6 @@ export default function (state: IState): () => Promise<UserData> {
 
             const Page = hasMultiacc ? Login : CreateAccount;
 
-            utils.analytics.send({
-                name: hasMultiacc
-                    ? 'Login_Page_Show'
-                    : 'Create_Account_Page_Show',
-            });
-
             return new Promise((resolve, reject) => {
                 renderPage(
                     <Page
