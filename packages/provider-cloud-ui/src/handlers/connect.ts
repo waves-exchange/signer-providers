@@ -29,6 +29,15 @@ export function getConnectHandler(
             type: 'ui',
         });
 
+        utils.analytics.addApi({
+            libraryUrl: 'https://waves.exchange/snowp.js',
+            initMethodsUrl: 'https://waves.exchange/snowPlow.js',
+            initializeMethod: 'spInit',
+            sendMethod: 'spPushEvent',
+            type: 'sp',
+            appId: 'signer',
+        });
+
         utils.analytics.activate();
     };
 }

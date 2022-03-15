@@ -22,7 +22,6 @@ const referrerPathname = referrerURL.pathname?.replace('/', '').length
 const { analytics, isSafari, isBrave } = utils;
 
 analytics.init({
-    platform: 'web',
     userType: 'unknown',
     providerType: 'provider-web',
     referrer,
