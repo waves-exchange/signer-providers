@@ -30,8 +30,7 @@ export function getConnectHandler(
         });
 
         utils.analytics.addApi({
-            libraryUrl: 'https://waves.exchange/snowp.js',
-            initMethodsUrl: 'https://waves.exchange/snowPlow.js',
+            libraryUrl: 'https://waves.exchange/snowPlow.js',
             initializeMethod: 'spInit',
             sendMethod: 'spPushEvent',
             type: 'sp',

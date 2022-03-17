@@ -60,7 +60,6 @@ interface IApiData {
     sendMethod: string;
     type: TTargetTypes;
     appId?: string;
-    initMethodsUrl?: string;
 }
 
 interface IAdapter {
@@ -106,11 +105,6 @@ class Analytics {
         if (!this.isActivated) {
             const apiLoadList = this.apiList.map((item) => {
                 return loadScript(item.libraryUrl)
-                    .then(() => {
-                        return item.initMethodsUrl
-                            ? loadScript(item.initMethodsUrl)
-                            : Promise.resolve();
-                    })
                     .then(() => {
                         runByPath(
                             item.initializeMethod,
