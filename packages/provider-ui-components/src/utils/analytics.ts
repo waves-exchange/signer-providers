@@ -44,7 +44,7 @@ export function runByPath(path, args) {
     }
 }
 
-type TTargetTypes = 'all' | 'ui' | 'logic';
+type TTargetTypes = 'all' | 'ui' | 'logic' | 'sp';
 
 export interface IEventData {
     name: string;
@@ -59,6 +59,7 @@ interface IApiData {
     initializeOptions?: any;
     sendMethod: string;
     type: TTargetTypes;
+    appId?: string;
 }
 
 interface IAdapter {
@@ -105,10 +106,12 @@ class Analytics {
             const apiLoadList = this.apiList.map((item) => {
                 return loadScript(item.libraryUrl)
                     .then(() => {
-                        runByPath(item.initializeMethod, [
-                            item.apiToken,
-                            item.initializeOptions,
-                        ]);
+                        runByPath(
+                            item.initializeMethod,
+                            item.type === 'sp'
+                                ? [item.appId]
+                                : [item.apiToken, item.initializeOptions]
+                        );
                     })
                     .then(() => {
                         this.apiReadyList.push({

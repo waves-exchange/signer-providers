@@ -29,14 +29,14 @@ export function getConnectHandler(
             type: 'ui',
         });
 
-        utils.analytics.activate();
-
-        utils.analytics.send({
-            name: 'Signer_Connect',
-            params: {
-                Network_Byte: options.NETWORK_BYTE,
-                Node_Url: options.NODE_URL,
-            },
+        utils.analytics.addApi({
+            libraryUrl: 'https://waves.exchange/snowPlow.js',
+            initializeMethod: 'spInit',
+            sendMethod: 'spPushEvent',
+            type: 'sp',
+            appId: 'signer',
         });
+
+        utils.analytics.activate();
     };
 }

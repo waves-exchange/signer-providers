@@ -28,7 +28,7 @@ interface IProps {
     onClose: MouseEventHandler<HTMLButtonElement>;
     onPasswordChange: ChangeEventHandler<HTMLInputElement>;
     onLogin: MouseEventHandler<HTMLButtonElement>;
-    onForgotPasswordLinkClick: MouseEventHandler;
+    onForgotPasswordLinkClick?: MouseEventHandler;
     isIncognito: boolean;
 }
 

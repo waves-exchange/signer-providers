@@ -24,21 +24,13 @@ export const SignMessageContainer: FC<ISignMessageProps> = ({
 
     const handleConfirm = useCallback(() => {
         onConfirm();
-        utils.analytics.send({ name: 'Confirm_Sign_Message_Confirm' });
+        utils.analytics.send({ name: 'Signer_Confirm_Message_Approve' });
     }, [onConfirm]);
 
     const handleReject = useCallback(() => {
         onCancel();
-        utils.analytics.send({ name: 'Confirm_Sign_Message_Reject' });
+        utils.analytics.send({ name: 'Signer_Confirm_Message_Reject' });
     }, [onCancel]);
-
-    useEffect(
-        () =>
-            utils.analytics.send({
-                name: 'Confirm_Sign_Message_Show',
-            }),
-        []
-    );
 
     return (
         <SignMessageComponent

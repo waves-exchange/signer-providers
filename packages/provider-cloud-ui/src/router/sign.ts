@@ -89,11 +89,6 @@ export default function (
                     ),
                 };
 
-                utils.analytics.send({
-                    name: 'Signer_Confirm_Tx_Show',
-                    params: analyticsParams,
-                });
-
                 const [info] = transactions;
 
                 return new Promise<any>((resolve, reject) => {

@@ -80,7 +80,7 @@ export const Login: FC<LoginProps> = ({
         }
 
         if (typeof sendAnalytics === 'function') {
-            sendAnalytics({ name: 'Login_Page_SignIn_Success' });
+            sendAnalytics({ name: 'User_Sign_In_Success' });
         }
         onConfirm({
             address: identity.getUserAddress(),
