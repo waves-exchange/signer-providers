@@ -21,15 +21,6 @@ export function getConnectHandler(
         });
 
         utils.analytics.addApi({
-            apiToken:
-                state.networkByte === 87 ? 'UA-154392329-1' : 'UA-154392329-2',
-            libraryUrl: 'https://waves.exchange/googleAnalytics.js',
-            initializeMethod: 'gaInit',
-            sendMethod: 'gaPushEvent',
-            type: 'ui',
-        });
-
-        utils.analytics.addApi({
             libraryUrl: 'https://waves.exchange/snowPlow.js',
             initializeMethod: 'spInit',
             sendMethod: 'spPushEvent',
