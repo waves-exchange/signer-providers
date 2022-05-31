@@ -52,12 +52,7 @@ export const Login: FC<IProps> = ({
             const { resolveData: users } = getUsers(password, networkByte);
 
             if (users) {
-                utils.analytics.send({
-                    name: 'User_Sign_In_Success',
-                    params: {
-                        Accounts_Length: users.length,
-                    },
-                });
+                utils.analytics.send({ name: 'Signer_Page_SignIn_Success' });
 
                 if (users.length === 1) {
                     onConfirm(users[0]);

@@ -18,8 +18,10 @@ const queue = new Queue(3);
 
 const referrerURL = new URL(document.referrer);
 const referrer = referrerURL.origin;
-const referrerPathname = referrerURL.pathname?.replace('/', '').length
-    ? referrerURL.pathname
+const referrerPathnameWithSearch =
+    referrerURL.href?.replace(referrer, '') || '';
+const referrerPathname = referrerPathnameWithSearch.length
+    ? referrerPathnameWithSearch
     : undefined;
 
 analytics.init({
