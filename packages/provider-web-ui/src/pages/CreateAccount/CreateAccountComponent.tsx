@@ -9,7 +9,7 @@ import {
     Text,
     PlateNote,
 } from '@waves.exchange/react-uikit';
-import React, { FC, MouseEventHandler, useEffect } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 
 export type CreateAccountFormErrors = {
     passwordsDoNotMatch: string | null;
