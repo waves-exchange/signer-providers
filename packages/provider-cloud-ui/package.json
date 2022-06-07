@@ -1,7 +1,7 @@
 {
   "name": "@waves.exchange/provider-cloud-ui",
   "private": true,
-  "version": "1.2.16",
+  "version": "1.2.17",
   "license": "MIT",
   "scripts": {
     "test": "jest",
@@ -19,7 +19,7 @@
     "@waves.exchange/provider-cloud-auth": "1.0.0",
     "@waves.exchange/provider-ui-components": "1.0.0",
     "@waves/bignumber": "^1.1.1",
-    "@waves/node-api-js": "^1.2.4",
+    "@waves/node-api-js": "^1.2.7",
     "@waves/signer": "^1.0.1",
     "@waves/ts-types": "^1.0.2",
     "@waves/waves-browser-bus": "0.2.5",
