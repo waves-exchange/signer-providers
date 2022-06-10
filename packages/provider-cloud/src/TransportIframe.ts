@@ -92,8 +92,6 @@ export class TransportIframe extends Transport<HTMLIFrameElement> {
         iframe.style.border = 'none';
         iframe.style.position = 'fixed';
 
-        iframe.referrerPolicy = 'no-referrer-when-downgrade';
-
         return iframe;
     }
 
