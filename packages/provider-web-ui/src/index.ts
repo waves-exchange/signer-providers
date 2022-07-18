@@ -21,7 +21,7 @@ const referrerPathname = referrerPathnameWithSearch.length
     ? referrerPathnameWithSearch
     : '';
 
-const { analytics, isSafari, isBrave } = utils;
+const { analytics } = utils;
 
 analytics.init({
     userType: 'unknown',
@@ -30,11 +30,10 @@ analytics.init({
     referrerPathname,
 });
 
-const isLoginWindowInSafari =
-    window.top === window && window.opener && (isSafari() || isBrave());
-const isIframeSafari = window.top !== window && (isSafari() || isBrave());
+const isThisIsLoginWindow = window.top === window && window.opener;
+const isThisIsIframe = window.top !== window;
 
-if (isLoginWindowInSafari) {
+if (isThisIsLoginWindow) {
     const intervalId = setInterval(() => {
         if ('__loaded' in window.opener) {
             window.opener.__loginWindow = window;
@@ -43,7 +42,7 @@ if (isLoginWindowInSafari) {
     }, 100);
 }
 
-if (isIframeSafari) {
+if (isThisIsIframe) {
     window.addEventListener('load', () => {
         window['__loaded'] = true;
     });
@@ -82,7 +81,7 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
-        if (isLoginWindowInSafari) {
+        if (isThisIsLoginWindow) {
             const intervalId = setInterval(() => {
                 if ('__loginWindow' in window.opener) {
                     bus.dispatchEvent('ready', void 0);
