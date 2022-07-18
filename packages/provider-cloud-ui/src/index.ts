@@ -12,7 +12,7 @@ import {
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
 import { fetchGeeTestToken } from '@waves.exchange/provider-cloud-auth'; // todo dep
 
-const { analytics, Queue, isSafari, isBrave } = utils;
+const { analytics, Queue } = utils;
 
 const queue = new Queue(3);
 
@@ -31,8 +31,7 @@ analytics.init({
     referrerPathname,
 });
 
-const isLoginWindowInSafari =
-    window.top === window && window.opener && (isSafari() || isBrave());
+const isLoginWindowInSafari = window.top === window && window.opener;
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
