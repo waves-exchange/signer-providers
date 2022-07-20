@@ -71,7 +71,7 @@ export const getGeeTestToken = (
         try {
             let data;
 
-            if (w !== w.top && !w.opener && (isBrave() || isSafari())) {
+            if (w !== w.top && !w.opener) {
                 data = await fetchFromNewWindow(geetestUrl);
             } else {
                 data = await fetchGeeTestToken(geetestUrl);

@@ -7,7 +7,7 @@ import login from '../router/login';
 import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
-const { analytics, isSafari, isBrave } = utils;
+const { analytics } = utils;
 
 export const getLoginHandler = (
     queue: IQueue,
@@ -16,7 +16,7 @@ export const getLoginHandler = (
     toQueue(queue, () => {
         preload();
 
-        if (window.top !== window && (isSafari() || isBrave())) {
+        if (window.top !== window) {
             const loginAndClose = (
                 bus: TBus,
                 resolve: (userData: UserData) => void,
