@@ -92,7 +92,7 @@ export class ProviderWeb implements Provider {
             throw new Error('Window was blocked');
         }
 
-        iframe.src = this._clientUrl;
+        iframe.src = `${this._clientUrl}?openWindow=true`;
 
         return this._transport.dialog((bus) =>
             bus

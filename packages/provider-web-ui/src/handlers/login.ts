@@ -7,7 +7,9 @@ import login from '../router/login';
 import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
-const { analytics } = utils;
+const { analytics, isSafari, isBrave } = utils;
+const searchParams = new URLSearchParams(window.location.search);
+const isOpenWindow = !!searchParams.get('openWindow'); // is new provider's version used, that used window.open
 
 export const getLoginHandler = (
     queue: IQueue,
@@ -16,7 +18,10 @@ export const getLoginHandler = (
     toQueue(queue, () => {
         preload();
 
-        if (window.top !== window) {
+        if (
+            window.top !== window &&
+            (isSafari() || isBrave() || isOpenWindow)
+        ) {
             const loginAndClose = (
                 bus: TBus,
                 resolve: (userData: UserData) => void,
