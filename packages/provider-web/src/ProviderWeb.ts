@@ -23,7 +23,9 @@ export class ProviderWeb implements Provider {
     constructor(clientUrl?: string, logs?: boolean) {
         this._clientUrl =
             (clientUrl || 'https://waves.exchange/signer/') +
-            (import.meta.env.PROD ? `?${ProviderWeb._getCacheClean()}` : '');
+            ((import.meta as any).env.PROD
+                ? `?${ProviderWeb._getCacheClean()}`
+                : '');
 
         this._transport = new TransportIframe(this._clientUrl, 3);
 

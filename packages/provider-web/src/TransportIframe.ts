@@ -3,7 +3,7 @@ import { TBus } from './interface';
 import { Transport } from './Transport';
 
 export class TransportIframe extends Transport<HTMLIFrameElement> {
-    private static _timer: ReturnType<typeof setTimeout> | null = null;
+    private _timer: ReturnType<typeof setTimeout> | null = null;
     private readonly _url: string;
     private _iframe: HTMLIFrameElement | undefined;
     private _bus: TBus | undefined;
@@ -106,11 +106,11 @@ export class TransportIframe extends Transport<HTMLIFrameElement> {
 
         this._applyStyle(shownStyles);
 
-        if (TransportIframe._timer != null) {
-            clearTimeout(TransportIframe._timer);
+        if (this._timer != null) {
+            clearTimeout(this._timer);
         }
 
-        TransportIframe._timer = setTimeout(() => {
+        this._timer = setTimeout(() => {
             this._applyStyle({ opacity: '1' });
         }, 0);
     }
@@ -122,11 +122,11 @@ export class TransportIframe extends Transport<HTMLIFrameElement> {
 
         this._applyStyle(hiddenStyle);
 
-        if (TransportIframe._timer != null) {
-            clearTimeout(TransportIframe._timer);
+        if (this._timer != null) {
+            clearTimeout(this._timer);
         }
 
-        TransportIframe._timer = setTimeout(() => {
+        this._timer = setTimeout(() => {
             this._applyStyle({
                 width: '10px',
                 height: '10px',

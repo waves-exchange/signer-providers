@@ -11,7 +11,9 @@ const node = location.href.includes('mainnet')
     : 'https://nodes-testnet.wavesnodes.com';
 
 
-const testSignMessage = async (signer: Signer, setValue) => {
+const testSignMessage = async (
+    signer: Signer, setValue: (token: string) => void
+) => {
     const chain_code = location.href.includes('mainnet') ? "W" : "T";
     const client_id = "waves.exchange";
     const seconds = Math.round((Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000);
