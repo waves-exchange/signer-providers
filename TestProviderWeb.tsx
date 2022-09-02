@@ -12,7 +12,8 @@ const node = location.href.includes('mainnet')
 
 
 const testSignMessage = async (
-    signer: Signer, setValue: (token: string) => void
+    signer: Signer,
+    setValue: (token: string) => void
 ) => {
     const chain_code = location.href.includes('mainnet') ? "W" : "T";
     const client_id = "waves.exchange";

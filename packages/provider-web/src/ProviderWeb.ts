@@ -11,7 +11,7 @@ import {
 import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
 import { ITransport } from './interface';
-import { TransportIframe, isSafari, isBrave } from './TransportIframe';
+import { TransportIframe } from './TransportIframe';
 import { createError } from './createError';
 
 export class ProviderWeb implements Provider {
@@ -86,15 +86,13 @@ export class ProviderWeb implements Provider {
 
         const iframe = this._transport.get();
 
-        if (isSafari() || isBrave()) {
-            const win = iframe.contentWindow?.open(this._clientUrl);
+        const win = iframe.contentWindow?.open(this._clientUrl);
 
-            if (!win) {
-                throw new Error('Window was blocked');
-            }
+        if (!win) {
+            throw new Error('Window was blocked');
         }
 
-        iframe.src = this._clientUrl;
+        iframe.src = `${this._clientUrl}?openWindow=true`;
 
         return this._transport.dialog((bus) =>
             bus
