@@ -8,8 +8,7 @@ import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
 const { analytics, isSafari, isBrave } = utils;
-const searchParams = new URLSearchParams(window.location.search);
-const isOpenWindow = !!searchParams.get('openWindow'); // is new provider's version used, that used window.open
+const isOpenWindow = window.location.search.includes('openWindow=true'); // is new provider's version used, that used window.open
 
 export const getLoginHandler = (
     queue: IQueue,
