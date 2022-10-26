@@ -178,7 +178,7 @@ export const SignUpForm: FC<SignUpFormProps> = ({
                 >
                     <Input
                         inputMode="email"
-                        placeholder="Enter Email"
+                        placeholder="Enter Email (not seed phrase)"
                         value={email}
                         autoFocus={true}
                         aria-invalid={Boolean(errors.emailRequired)}
