@@ -145,7 +145,7 @@ export const SignInForm: FC<SignInFormProps> = ({
                 >
                     <Input
                         inputMode="email"
-                        placeholder="Email"
+                        placeholder="Email (not seed phrase)"
                         value={email}
                         autoFocus={true}
                         aria-invalid={Boolean(errors.emailRequired)}
@@ -173,7 +173,7 @@ export const SignInForm: FC<SignInFormProps> = ({
                     labelVisible={password.length > 0}
                 >
                     <InputPassword
-                        placeholder="Password"
+                        placeholder="Enter password (not seed phrase)"
                         value={password}
                         aria-invalid={Boolean(errors.passwordRequired)}
                         onChange={handlePasswordChange}
