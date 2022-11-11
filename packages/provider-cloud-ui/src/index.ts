@@ -38,7 +38,7 @@ WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
         const bus = new Bus<IBusEvents, TBusHandlers>(adapter);
         const _URL = new URL(location.href);
-        const env = _URL.searchParams.get('env') as ENV;
+        const env = _URL.searchParams.get('env')?.replace(/\?.*/, '') as ENV;
         const state: IState = {
             user: null,
             networkByte: 87,
