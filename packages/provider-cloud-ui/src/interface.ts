@@ -2,6 +2,7 @@ import { Long, Transaction, TransactionMap, WithId } from '@waves/ts-types';
 import { MouseEventHandler } from 'react';
 import { IMeta } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
+import { ENV } from './services/configService';
 
 export interface IUser {
     address: string;
@@ -20,6 +21,7 @@ export interface IState<USER = IUser | null> {
     networkByte: number;
     nodeUrl: string;
     identity: IdentityService;
+    env?: ENV;
 }
 
 export interface ISignTxProps<T extends Transaction> {

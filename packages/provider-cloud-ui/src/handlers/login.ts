@@ -15,7 +15,7 @@ export const getLoginHandler = (
 ): (() => Promise<UserData>) => {
     return toQueue(queue, async () => {
         preload();
-        const config = await loadConfig(state.networkByte);
+        const config = await loadConfig(state.networkByte, state.env);
 
         state.identity.configure({
             apiUrl: config.identity.apiUrl,

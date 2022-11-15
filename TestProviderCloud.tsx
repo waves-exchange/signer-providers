@@ -5,6 +5,7 @@ import { ProviderCloud } from './packages/provider-cloud/src';
 const url = location.href.includes('provider=exchange')
     ? 'https://signer.exchange/signer-cloud'
     : location.origin + '/packages/provider-cloud-ui/index.html';
+    // : location.origin + '/packages/provider-cloud-ui/index.html?env=testnetwxnetwork';
     // : 'https://wallet-stage2.waves.exchange/signer-cloud';
 
 const node = location.href.includes('mainnet')

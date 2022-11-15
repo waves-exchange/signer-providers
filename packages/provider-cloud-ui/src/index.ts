@@ -11,6 +11,7 @@ import {
 } from '@waves.exchange/provider-ui-components';
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
 import { fetchGeeTestToken } from '@waves.exchange/provider-cloud-auth'; // todo dep
+import { ENV } from './services/configService';
 
 const { analytics, Queue } = utils;
 
@@ -36,12 +37,14 @@ const isLoginWindowInSafari = window.top === window && window.opener;
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
         const bus = new Bus<IBusEvents, TBusHandlers>(adapter);
-
+        const _URL = new URL(location.href);
+        const env = _URL.searchParams.get('env')?.replace(/\?.*/, '') as ENV;
         const state: IState = {
             user: null,
             networkByte: 87,
             nodeUrl: 'https://nodes.wavesplatform.com',
             identity: new IdentityService(),
+            env,
         };
 
         bus.on('connect', getConnectHandler(state));
