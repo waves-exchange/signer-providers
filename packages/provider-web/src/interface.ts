@@ -24,6 +24,7 @@ export interface IBusEvents {
     connect: ConnectOptions;
     close: void;
     ready: void;
+    passLoginData: void;
 }
 
 export type TBus = Bus<IBusEvents, TBusHandlers>;

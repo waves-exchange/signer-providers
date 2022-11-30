@@ -84,6 +84,7 @@ export interface IBusEvents {
     connect: ConnectOptions;
     close: void;
     ready: void;
+    transferStorage: any;
 }
 
 export type TBus = Bus<IBusEvents, TBusHandlers>;

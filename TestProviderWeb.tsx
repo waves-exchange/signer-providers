@@ -4,7 +4,7 @@ import { ProviderWeb } from './packages/provider-web/src';
 
 const url = location.href.includes('provider=exchange')
     ? 'https://waves.exchange/signer'
-    : location.origin + '/packages/provider-web-ui/index.html';
+    : 'https://localhost:3000' + '/packages/provider-web-ui/index.html';
 
 const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesplatform.com'

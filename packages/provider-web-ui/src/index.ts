@@ -9,6 +9,7 @@ import {
     TBusHandlers,
     IBusEvents,
 } from '@waves.exchange/provider-ui-components';
+import { getData } from './handlers/getData';
 
 const { Queue } = utils;
 const queue = new Queue(3);
@@ -33,14 +34,14 @@ analytics.init({
 const isThisIsLoginWindow = window.top === window && window.opener;
 const isThisIsIframe = window.top !== window;
 
-if (isThisIsLoginWindow) {
-    const intervalId = setInterval(() => {
-        if ('__loaded' in window.opener) {
-            window.opener.__loginWindow = window;
-            clearInterval(intervalId);
-        }
-    }, 100);
-}
+// if (isThisIsLoginWindow) {
+//     const intervalId = setInterval(() => {
+//         if ('__loaded' in window.opener) {
+//             window.opener.__loginWindow = window;
+//             clearInterval(intervalId);
+//         }
+//     }, 100);
+// }
 
 if (isThisIsIframe) {
     window.addEventListener('load', () => {
@@ -59,14 +60,16 @@ WindowAdapter.createSimpleWindowAdapter()
             matcherUrl: undefined,
         };
 
-        Object.defineProperty(window, '__setUser', {
-            writable: false,
-            value: (user: IUser) => {
-                state.user = user;
-            },
-        });
+        // Object.defineProperty(window, '__setUser', {
+        //     writable: false,
+        //     value: (user: IUser) => {
+        //         state.user = user;
+        //     },
+        // });
 
         bus.on('connect', getConnectHandler(state));
+
+        bus.dispatchEvent('transferStorage', getData());
 
         bus.registerRequestHandler('login', getLoginHandler(queue, state));
 
@@ -82,12 +85,12 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add create order sign
 
         if (isThisIsLoginWindow) {
-            const intervalId = setInterval(() => {
-                if ('__loginWindow' in window.opener) {
-                    bus.dispatchEvent('ready', void 0);
-                    clearInterval(intervalId);
-                }
-            }, 100);
+            // const intervalId = setInterval(() => {
+            //     if ('__loginWindow' in window.opener) {
+            bus.dispatchEvent('ready', void 0);
+            // clearInterval(intervalId);
+            //     }
+            // }, 100);
         } else {
             bus.dispatchEvent('ready', void 0);
         }
