@@ -11,12 +11,14 @@ import { getUsers, addSeedUser, StorageUser } from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
 import { SelectAccountComponent } from './SelectAccountComponent';
 import { utils } from '@waves.exchange/provider-ui-components';
+import { IStorageTransferData } from '../../handlers/getData';
 
 interface IProps {
     networkByte: number;
     onConfirm: (user: IUser) => void;
     onCancel: () => void;
     isIncognito: boolean;
+    publicUserData?: IStorageTransferData;
 }
 
 export const Login: FC<IProps> = ({
@@ -24,6 +26,7 @@ export const Login: FC<IProps> = ({
     onConfirm,
     onCancel,
     isIncognito,
+    publicUserData,
 }) => {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [currentUser, setCurrentUser] = useState<StorageUser>();
@@ -49,7 +52,12 @@ export const Login: FC<IProps> = ({
     const handleLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
         (e) => {
             e.preventDefault();
-            const { resolveData: users } = getUsers(password, networkByte);
+            console.log('%c publicUserData AAA', 'color: #e5b6ed', publicUserData);
+            const { resolveData: users } = getUsers(
+                password,
+                networkByte,
+                publicUserData
+            );
 
             if (users) {
                 utils.analytics.send({ name: 'Signer_Page_SignIn_Success' });

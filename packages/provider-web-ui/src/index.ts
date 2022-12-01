@@ -33,6 +33,7 @@ analytics.init({
 
 const isThisIsLoginWindow = window.top === window && window.opener;
 const isThisIsIframe = window.top !== window;
+const isTransferIFrame = window.location.search.includes('transferWindow=true');
 
 // if (isThisIsLoginWindow) {
 //     const intervalId = setInterval(() => {
@@ -43,11 +44,11 @@ const isThisIsIframe = window.top !== window;
 //     }, 100);
 // }
 
-if (isThisIsIframe) {
-    window.addEventListener('load', () => {
-        window['__loaded'] = true;
-    });
-}
+// if (isThisIsIframe) {
+//     window.addEventListener('load', () => {
+//         window['__loaded'] = true;
+//     });
+// }
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
@@ -68,8 +69,6 @@ WindowAdapter.createSimpleWindowAdapter()
         // });
 
         bus.on('connect', getConnectHandler(state));
-
-        bus.dispatchEvent('transferStorage', getData());
 
         bus.registerRequestHandler('login', getLoginHandler(queue, state));
 
@@ -93,6 +92,22 @@ WindowAdapter.createSimpleWindowAdapter()
             // }, 100);
         } else {
             bus.dispatchEvent('ready', void 0);
+        }
+
+        // if (!isTransferIFrame) {
+            console.log('%c WINDOW', 'color: #e5b6ed', getData());
+            bus.dispatchEvent('transferStorage', getData());
+        // }
+
+        if (isTransferIFrame) {
+            console.log('%c IFRAME', 'color: #e5b6ed');
+            bus.once('catchStorage', (data) => {
+                console.log('DATA', data);
+                console.log('%c localStorage', 'color: #e5b6ed', localStorage);
+                Object.keys(data).forEach((key) => {
+                    localStorage.setItem(key, data[key]);
+                });
+            });
         }
 
         window.addEventListener('unload', () => {

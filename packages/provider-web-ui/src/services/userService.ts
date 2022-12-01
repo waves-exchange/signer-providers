@@ -10,6 +10,7 @@ import { TCatchable } from '../utils/catchable';
 import { getUserId } from '../utils/getUserId';
 import { storage } from './storage';
 import { Long } from '@waves/ts-types';
+import { IStorageTransferData } from '../handlers/getData';
 
 export type StorageUser = IUser & {
     userType: 'keeper' | 'ledger' | 'seed' | 'privateKey';
@@ -17,7 +18,8 @@ export type StorageUser = IUser & {
 
 export function getUsers(
     password: string,
-    networkByte: number
+    networkByte: number,
+    publicUserData?: IStorageTransferData
 ): TCatchable<Array<StorageUser>> {
     const data = storage.getPrivateData(password);
 
@@ -28,7 +30,10 @@ export function getUsers(
     return {
         ok: true,
         rejectData: null,
-        resolveData: Object.entries(storage.get('multiAccountUsers'))
+        resolveData: Object.entries(
+            publicUserData?.multiAccountUsers ||
+                storage.get('multiAccountUsers')
+        )
             .map(([hash, userData]) => ({
                 hash,
                 lastLogin: userData.lastLogin,
@@ -43,21 +48,21 @@ export function getUsers(
 
                 switch (privateData.userType) {
                     case 'seed':
-                        const isEncoded = privateData.seed.startsWith('base58:');
-                        const seedBytes = isEncoded ?
-                            libs.crypto.base58Decode(
-                                privateData.seed.replace('base58:', '')
-                            ):
-                            libs.crypto.stringToBytes(privateData.seed)
+                        const isEncoded = privateData.seed.startsWith(
+                            'base58:'
+                        );
+                        const seedBytes = isEncoded
+                            ? libs.crypto.base58Decode(
+                                  privateData.seed.replace('base58:', '')
+                              )
+                            : libs.crypto.stringToBytes(privateData.seed);
                         acc.push({
                             userType: privateData.userType,
                             address: libs.crypto.address(
                                 seedBytes,
                                 networkByte
                             ),
-                            privateKey: libs.crypto.privateKey(
-                                seedBytes
-                            ),
+                            privateKey: libs.crypto.privateKey(seedBytes),
                         });
                         break;
                     case 'privateKey':
