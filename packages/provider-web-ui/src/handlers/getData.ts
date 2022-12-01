@@ -1,9 +1,7 @@
-import { storage } from '../services/storage';
 import { preload } from './helpers';
 
 export interface IStorageTransferData {
     multiAccountUsers: string | null;
-    multiAccountHash: string | null;
 }
 
 export const getData = (): IStorageTransferData => {
@@ -11,6 +9,5 @@ export const getData = (): IStorageTransferData => {
 
     return {
         multiAccountUsers: localStorage.getItem('multiAccountUsers'),
-        multiAccountHash: localStorage.getItem('multiAccountHash'),
     };
 };

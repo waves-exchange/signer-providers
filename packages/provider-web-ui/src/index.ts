@@ -3,7 +3,7 @@ import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
 import { getSignMessageHandler } from './handlers/signMessage';
-import { IState, IUser } from './interface';
+import { IState } from './interface';
 import {
     utils,
     TBusHandlers,
@@ -51,6 +51,7 @@ if (isThisIsIframe) {
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
+        document.querySelector('.preloader')?.remove();
         const bus = new Bus<IBusEvents, TBusHandlers>(adapter);
 
         const state: IState = {
@@ -84,16 +85,17 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
-        if (isThisIsLoginWindow) {
-            // const intervalId = setInterval(() => {
-            //     if ('__loginWindow' in window.opener) {
-            bus.dispatchEvent('ready', void 0);
-            // clearInterval(intervalId);
-            //     }
-            // }, 100);
-        } else {
-            bus.dispatchEvent('ready', void 0);
-        }
+        // if (isThisIsLoginWindow) {
+        //     const intervalId = setInterval(() => {
+        //         if ('__loginWindow' in window.opener) {
+        //             bus.dispatchEvent('ready', void 0);
+        //             clearInterval(intervalId);
+        //         }
+        //     }, 100);
+        // } else {
+        //     bus.dispatchEvent('ready', void 0);
+        // }
+        bus.dispatchEvent('ready', void 0);
 
         window.addEventListener('unload', () => {
             bus.dispatchEvent('close', undefined);

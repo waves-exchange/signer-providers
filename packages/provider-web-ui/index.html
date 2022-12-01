@@ -42,8 +42,27 @@
             })();
         </script>
         <script>window.global = window;</script>
+        <style>
+            .preloader {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #0F141E;
+            }
+        </style>
     </head>
     <body>
+        <div class="preloader">
+            <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.445312 26.9912H26.4434L13.4444 13.9922L0.445312 26.9912Z" fill="#3C69FF"/>
+                <path d="M0.445312 0.992188L13.4444 13.9912L26.4434 0.992188H0.445312Z" fill="#EE0090"/>
+            </svg>
+        </div>
         <div id="overlay"></div>
         <div id="root"></div>
         <script type="module" src="./src/index.ts"></script>

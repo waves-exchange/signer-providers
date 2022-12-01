@@ -13,11 +13,7 @@ import { EventEmitter } from 'typed-ts-events';
 import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
 import { createError } from './createError';
-
-interface IStorageTransferData {
-    multiAccountUsers: string | null;
-    multiAccountHash: string | null;
-}
+import { removeStorage, setStorage, transferStorage } from './TransferStorage';
 
 export class ProviderWeb implements Provider {
     public user: UserData | null = null;
@@ -94,50 +90,34 @@ export class ProviderWeb implements Provider {
         const win = window.open(
             this._clientUrl,
             '_blank',
-            'width=200,height=200'
+            'width=200,height=200,location=no,scrollbars=no'
         );
 
         if (!win) {
             throw new Error('Window was blocked');
         }
 
-        iframe.src = `${this._clientUrl}`;
+        iframe.src = `${this._clientUrl}?transferWindow=true`;
 
-        return WindowAdapter.createSimpleWindowAdapter(win, {
-            origins: ['*'],
-        })
-            .then((adapter) => {
-                return new Promise<IStorageTransferData>((resolve) => {
-                    const _bus = new Bus(adapter, -1);
+        return transferStorage(win).then((data) => {
+            setStorage(data);
 
-                    _bus.once('ready', () => {
-                        _bus.once('transferStorage', (data) => {
-                            win.close();
-                            resolve(data);
-                        });
-                    });
-                });
-            })
-            .then((data: IStorageTransferData) => {
-                Object.keys(data).forEach((key) => {
-                    localStorage.setItem(key, data[key]);
-                });
+            return this._transport.dialog((bus) =>
+                bus
+                    .request('login')
+                    .then((userData) => {
+                        this.user = userData;
+                        removeStorage(data);
 
-                return this._transport.dialog((bus) =>
-                    bus
-                        .request('login')
-                        .then((userData) => {
-                            this.user = userData;
+                        return userData;
+                    })
+                    .catch((err) => {
+                        this._transport.dropConnection();
 
-                            return userData;
-                        })
-                        .catch((err) => {
-                            this._transport.dropConnection();
-
-                            return Promise.reject(createError(err));
-                        })
-                );
-            });
+                        return Promise.reject(createError(err));
+                    })
+            );
+        });
     }
 
     public signMessage(data: string | number): Promise<string> {

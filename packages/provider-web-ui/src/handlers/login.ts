@@ -9,6 +9,7 @@ import { preload, toQueue } from './helpers';
 
 const { analytics, isSafari, isBrave } = utils;
 const isOpenWindow = window.location.search.includes('openWindow=true'); // is new provider's version used, that used window.open
+const isTransferWindow = window.location.search.includes('transferWindow=true');
 
 export const getLoginHandler = (
     queue: IQueue,
@@ -19,6 +20,7 @@ export const getLoginHandler = (
 
         if (
             window.top !== window &&
+            !isTransferWindow &&
             (isSafari() || isBrave() || isOpenWindow)
         ) {
             const loginAndClose = (
