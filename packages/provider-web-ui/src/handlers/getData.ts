@@ -1,13 +1,13 @@
-import { preload } from './helpers';
-
 export interface IStorageTransferData {
     multiAccountUsers: string | null;
+    multiAccountHash: string | null;
+    multiAccountData: string | null;
 }
 
 export const getData = (): IStorageTransferData => {
-    preload();
-
     return {
         multiAccountUsers: localStorage.getItem('multiAccountUsers'),
+        multiAccountData: localStorage.getItem('multiAccountData'),
+        multiAccountHash: localStorage.getItem('multiAccountHash'),
     };
 };

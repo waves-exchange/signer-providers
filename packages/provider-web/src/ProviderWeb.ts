@@ -88,7 +88,7 @@ export class ProviderWeb implements Provider {
         const iframe = this._transport.get();
 
         const win = window.open(
-            this._clientUrl,
+            `${this._clientUrl}?transferStorage=true`,
             '_blank',
             'width=200,height=200,location=no,scrollbars=no'
         );
@@ -97,7 +97,7 @@ export class ProviderWeb implements Provider {
             throw new Error('Window was blocked');
         }
 
-        iframe.src = `${this._clientUrl}?transferWindow=true`;
+        iframe.src = `${this._clientUrl}?waitStorage=true`;
 
         return transferStorage(win).then((data) => {
             setStorage(data);
@@ -107,7 +107,7 @@ export class ProviderWeb implements Provider {
                     .request('login')
                     .then((userData) => {
                         this.user = userData;
-                        removeStorage(data);
+                        // removeStorage(data);
 
                         return userData;
                     })

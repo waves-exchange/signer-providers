@@ -2,6 +2,8 @@ import { Bus, WindowAdapter } from '@waves/waves-browser-bus';
 
 export interface IStorageTransferData {
     multiAccountUsers: string | null;
+    multiAccountHash: string | null;
+    multiAccountData: string | null;
 }
 
 export const transferStorage = (win: Window): Promise<IStorageTransferData> => {

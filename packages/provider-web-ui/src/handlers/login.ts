@@ -8,8 +8,14 @@ import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
 const { analytics, isSafari, isBrave } = utils;
-const isOpenWindow = window.location.search.includes('openWindow=true'); // is new provider's version used, that used window.open
-const isTransferWindow = window.location.search.includes('transferWindow=true');
+
+// support old versions of the Provider Web
+const isIframeThatDidOpenWindow = window.location.search.includes(
+    'openWindow=true'
+);
+const isIframeThatWaitStorage = window.location.search.includes(
+    'waitStorage=true'
+);
 
 export const getLoginHandler = (
     queue: IQueue,
@@ -20,8 +26,8 @@ export const getLoginHandler = (
 
         if (
             window.top !== window &&
-            !isTransferWindow &&
-            (isSafari() || isBrave() || isOpenWindow)
+            !isIframeThatWaitStorage &&
+            (isSafari() || isBrave() || isIframeThatDidOpenWindow)
         ) {
             const loginAndClose = (
                 bus: TBus,

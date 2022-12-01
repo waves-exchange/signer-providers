@@ -3,7 +3,7 @@ import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
 import { getSignMessageHandler } from './handlers/signMessage';
-import { IState } from './interface';
+import { IState, IUser } from './interface';
 import {
     utils,
     TBusHandlers,
@@ -32,18 +32,21 @@ analytics.init({
 });
 
 const isThisIsLoginWindow = window.top === window && window.opener;
+const isWindowThatTransferStorage = window.location.search.includes(
+    'transferStorage=true'
+);
 const isThisIsIframe = window.top !== window;
 
-// if (isThisIsLoginWindow) {
-//     const intervalId = setInterval(() => {
-//         if ('__loaded' in window.opener) {
-//             window.opener.__loginWindow = window;
-//             clearInterval(intervalId);
-//         }
-//     }, 100);
-// }
+if (isThisIsLoginWindow && !isWindowThatTransferStorage) {
+    const intervalId = setInterval(() => {
+        if ('__loaded' in window.opener) {
+            window.opener.__loginWindow = window;
+            clearInterval(intervalId);
+        }
+    }, 100);
+}
 
-if (isThisIsIframe) {
+if (isThisIsIframe && !isWindowThatTransferStorage) {
     window.addEventListener('load', () => {
         window['__loaded'] = true;
     });
@@ -61,16 +64,14 @@ WindowAdapter.createSimpleWindowAdapter()
             matcherUrl: undefined,
         };
 
-        // Object.defineProperty(window, '__setUser', {
-        //     writable: false,
-        //     value: (user: IUser) => {
-        //         state.user = user;
-        //     },
-        // });
+        Object.defineProperty(window, '__setUser', {
+            writable: false,
+            value: (user: IUser) => {
+                state.user = user;
+            },
+        });
 
         bus.on('connect', getConnectHandler(state));
-
-        bus.dispatchEvent('transferStorage', getData());
 
         bus.registerRequestHandler('login', getLoginHandler(queue, state));
 
@@ -85,17 +86,20 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
-        // if (isThisIsLoginWindow) {
-        //     const intervalId = setInterval(() => {
-        //         if ('__loginWindow' in window.opener) {
-        //             bus.dispatchEvent('ready', void 0);
-        //             clearInterval(intervalId);
-        //         }
-        //     }, 100);
-        // } else {
-        //     bus.dispatchEvent('ready', void 0);
-        // }
-        bus.dispatchEvent('ready', void 0);
+        if (isThisIsLoginWindow && !isWindowThatTransferStorage) {
+            const intervalId = setInterval(() => {
+                if ('__loginWindow' in window.opener) {
+                    bus.dispatchEvent('ready', void 0);
+                    clearInterval(intervalId);
+                }
+            }, 100);
+        } else {
+            bus.dispatchEvent('ready', void 0);
+        }
+
+        if (isWindowThatTransferStorage) {
+            bus.dispatchEvent('transferStorage', getData());
+        }
 
         window.addEventListener('unload', () => {
             bus.dispatchEvent('close', undefined);
