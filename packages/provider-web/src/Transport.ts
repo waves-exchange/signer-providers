@@ -23,7 +23,6 @@ export abstract class Transport<T> implements ITransport<T> {
     }
 
     public dialog<T>(callback: TEventDispatcher<T>): Promise<T> {
-        console.log('%c dialog', 'color: #e5b6ed');
         this._runBeforeShow();
 
         return this._getBus().then((bus) => {

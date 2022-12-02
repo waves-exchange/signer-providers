@@ -25,7 +25,7 @@ const isIframeThatWaitStorage = window.location.search.includes(
 export const getLoginHandler = (
     queue: IQueue,
     state: IState
-): ((publicUserData: IStorageTransferData) => Promise<UserData>) =>
+): ((publicUserData?: IStorageTransferData) => Promise<UserData>) =>
     toQueue(queue, (publicUserData) => {
         preload();
 

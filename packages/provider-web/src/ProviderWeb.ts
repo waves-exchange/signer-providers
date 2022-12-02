@@ -87,10 +87,13 @@ export class ProviderWeb implements Provider {
 
         const iframe = this._transport.get();
 
+        const left = window.screen.width - 200;
+        const top = window.screen.height - 200;
+
         const win = window.open(
             `${this._clientUrl}?transferStorage=true`,
             '_blank',
-            'width=200,height=200,location=no,scrollbars=no'
+            `left=${left},top=${top},width=100,height=100,location=no,scrollbars=no`
         );
 
         if (!win) {

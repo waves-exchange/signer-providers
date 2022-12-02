@@ -54,7 +54,11 @@ if (isThisIsIframe && !isWindowThatTransferStorage) {
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
-        document.querySelector('.preloader')?.remove();
+        const preloader = document.querySelector('.preloader');
+
+        if (preloader) {
+            preloader.className = 'preloader hide';
+        }
         const bus = new Bus<IBusEvents, TBusHandlers>(adapter);
 
         const state: IState = {
