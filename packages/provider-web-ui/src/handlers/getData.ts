@@ -1,13 +1,9 @@
-export interface IStorageTransferData {
-    multiAccountUsers: string | null;
-    multiAccountHash: string | null;
-    multiAccountData: string | null;
-}
+import { IStorageTransferData } from '@waves.exchange/provider-ui-components';
 
 export const getData = (): IStorageTransferData => {
     return {
         multiAccountUsers: localStorage.getItem('multiAccountUsers'),
-        multiAccountData: localStorage.getItem('multiAccountData'),
         multiAccountHash: localStorage.getItem('multiAccountHash'),
+        multiAccountData: localStorage.getItem('multiAccountData'),
     };
 };

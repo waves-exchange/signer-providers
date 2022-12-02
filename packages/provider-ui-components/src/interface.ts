@@ -24,6 +24,12 @@ export type DetailsWithLogo = TAssetDetails<Long> & {
     logo?: string;
 };
 
+export interface IStorageTransferData {
+    multiAccountUsers: string | null;
+    multiAccountHash: string | null;
+    multiAccountData: string | null;
+}
+
 export type InfoMap = {
     1: void;
     2: void;
@@ -69,7 +75,7 @@ export interface IPayment {
 }
 
 export type TBusHandlers = {
-    login: (data?: void) => Promise<UserData>;
+    login: (data?: IStorageTransferData) => Promise<UserData>;
 
     'sign-custom-bytes': (data: string) => Promise<string>;
     'sign-message': (data: string | number) => Promise<string>;

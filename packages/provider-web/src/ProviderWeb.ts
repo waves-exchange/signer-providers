@@ -8,12 +8,12 @@ import {
     TypedData,
     UserData,
 } from '@waves/signer';
-import { Bus, config, WindowAdapter } from '@waves/waves-browser-bus';
+import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
 import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
 import { createError } from './createError';
-import { removeStorage, setStorage, transferStorage } from './TransferStorage';
+import { transferStorage } from './TransferStorage';
 
 export class ProviderWeb implements Provider {
     public user: UserData | null = null;
@@ -97,17 +97,14 @@ export class ProviderWeb implements Provider {
             throw new Error('Window was blocked');
         }
 
-        iframe.src = `${this._clientUrl}?waitStorage=true`;
+        iframe.src = `${this._clientUrl}`;
 
-        return transferStorage(win).then((data) => {
-            setStorage(data);
-
+        return transferStorage(win).then((storageData) => {
             return this._transport.dialog((bus) =>
                 bus
-                    .request('login')
+                    .request('login', storageData)
                     .then((userData) => {
                         this.user = userData;
-                        // removeStorage(data);
 
                         return userData;
                     })

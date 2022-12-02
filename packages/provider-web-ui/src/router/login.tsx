@@ -26,7 +26,7 @@ export default function (state: IState): () => Promise<UserData> {
                 localStorage.setItem('___test_storage_key___', 'test');
                 localStorage.getItem('___test_storage_key___');
                 localStorage.removeItem('___test_storage_key___');
-                hasMultiacc = hasMultiaccount();
+                hasMultiacc = hasMultiaccount() || !!state.publicUserData;
             } catch (e) {
                 isIncognito = true;
             }
