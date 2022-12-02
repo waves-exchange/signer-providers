@@ -100,7 +100,7 @@ export class ProviderWeb implements Provider {
             throw new Error('Window was blocked');
         }
 
-        iframe.src = `${this._clientUrl}`;
+        iframe.src = `${this._clientUrl}?waitStorage=true`;
 
         return transferStorage(win).then((storageData) => {
             return this._transport.dialog((bus) =>
