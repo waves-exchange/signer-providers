@@ -4,9 +4,13 @@ import { libs } from '@waves/waves-transactions';
 import { pipe } from 'ramda';
 import { IState } from '../interface';
 import login from '../router/login';
-import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
+import {
+    IQueue,
+    utils,
+    TBus,
+    IStorageTransferData,
+} from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
-import { IStorageTransferData } from './getData';
 
 const { analytics, isSafari, isBrave } = utils;
 const isOpenWindow = window.location.search.includes('openWindow=true'); // is new provider's version used, that used window.open

@@ -1,7 +1,9 @@
 import { Long, Transaction, TransactionMap, WithId } from '@waves/ts-types';
 import { MouseEventHandler } from 'react';
-import { IMeta } from '@waves.exchange/provider-ui-components';
-import { IStorageTransferData } from './handlers/getData';
+import {
+    IMeta,
+    IStorageTransferData,
+} from '@waves.exchange/provider-ui-components';
 
 export interface IState<USER = IUser | null> {
     user: USER;

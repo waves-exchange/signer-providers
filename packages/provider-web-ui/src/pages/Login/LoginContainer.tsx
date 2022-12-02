@@ -10,8 +10,10 @@ import { LoginComponent } from './LoginComponent';
 import { getUsers, addSeedUser, StorageUser } from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
 import { SelectAccountComponent } from './SelectAccountComponent';
-import { utils } from '@waves.exchange/provider-ui-components';
-import { IStorageTransferData } from '../../handlers/getData';
+import {
+    IStorageTransferData,
+    utils,
+} from '@waves.exchange/provider-ui-components';
 
 interface IProps {
     networkByte: number;
@@ -52,7 +54,11 @@ export const Login: FC<IProps> = ({
     const handleLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
         (e) => {
             e.preventDefault();
-            console.log('%c publicUserData AAA', 'color: #e5b6ed', publicUserData);
+            console.log(
+                '%c publicUserData AAA',
+                'color: #e5b6ed',
+                publicUserData
+            );
             const { resolveData: users } = getUsers(
                 password,
                 networkByte,

@@ -106,33 +106,27 @@ export class ProviderWeb implements Provider {
                     const _bus = new Bus(adapter, -1);
 
                     _bus.once('ready', () => {
-                        _bus.once('transferStorage', (data) => {
+                        _bus.once('transferStorage', (storageData) => {
                             win.close();
-                            this._transport.sendEvent((bus) => {
-                                bus.dispatchEvent('catchStorage', data);
-                            });
-                            resolve(data);
+                            resolve(storageData);
                         });
                     });
                 });
             })
-            .then((data: IStorageTransferData) => {
+            .then((storageData: IStorageTransferData) => {
                 return this._transport.dialog((bus) => {
-                    return (
-                        bus
-                            .request('login')
-                            // .request('login', data)
-                            .then((userData) => {
-                                this.user = userData;
+                    return bus
+                        .request('login', storageData)
+                        .then((userData) => {
+                            this.user = userData;
 
-                                return userData;
-                            })
-                            .catch((err) => {
-                                this._transport.dropConnection();
+                            return userData;
+                        })
+                        .catch((err) => {
+                            this._transport.dropConnection();
 
-                                return Promise.reject(createError(err));
-                            })
-                    );
+                            return Promise.reject(createError(err));
+                        });
                 });
             });
     }

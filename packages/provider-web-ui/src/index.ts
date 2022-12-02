@@ -95,8 +95,8 @@ WindowAdapter.createSimpleWindowAdapter()
         }
 
         // if (!isTransferIFrame) {
-            console.log('%c WINDOW', 'color: #e5b6ed', getData());
-            bus.dispatchEvent('transferStorage', getData());
+        console.log('%c WINDOW', 'color: #e5b6ed', getData());
+        bus.dispatchEvent('transferStorage', getData());
         // }
 
         if (isTransferIFrame) {
