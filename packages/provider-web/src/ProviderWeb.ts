@@ -85,8 +85,6 @@ export class ProviderWeb implements Provider {
             return Promise.resolve(this.user);
         }
 
-        const iframe = this._transport.get();
-
         const left = window.screen.width - 200;
         const top = window.screen.height - 200;
 
@@ -100,9 +98,11 @@ export class ProviderWeb implements Provider {
             throw new Error('Window was blocked');
         }
 
-        iframe.src = `${this._clientUrl}?waitStorage=true`;
-
         return transferStorage(win).then((storageData) => {
+            const iframe = this._transport.get();
+
+            iframe.src = `${this._clientUrl}?waitStorage=true`;
+
             return this._transport.dialog((bus) =>
                 bus
                     .request('login', storageData)
