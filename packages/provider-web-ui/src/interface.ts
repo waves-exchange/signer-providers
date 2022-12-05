@@ -1,16 +1,12 @@
 import { Long, Transaction, TransactionMap, WithId } from '@waves/ts-types';
 import { MouseEventHandler } from 'react';
-import {
-    IMeta,
-    IStorageTransferData,
-} from '@waves.exchange/provider-ui-components';
+import { IMeta } from '@waves.exchange/provider-ui-components';
 
 export interface IState<USER = IUser | null> {
     user: USER;
     networkByte: number;
     nodeUrl: string;
     matcherUrl?: string | undefined;
-    publicUserData?: IStorageTransferData;
 }
 
 export type TPrivateMultiaccountData = Record<string, TPrivateUserData>;

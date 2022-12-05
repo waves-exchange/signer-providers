@@ -26,7 +26,6 @@ export abstract class Transport<T> implements ITransport<T> {
         this._runBeforeShow();
 
         return this._getBus().then((bus) => {
-            console.log('%c _getBus', 'color: #e5b6ed', bus);
             const action = this._wrapAction((): Promise<T> => callback(bus));
 
             this._runEvents(bus);

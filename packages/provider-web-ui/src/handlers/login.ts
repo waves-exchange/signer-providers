@@ -96,21 +96,19 @@ export const getLoginHandler = (
                 });
             });
         } else {
-            return login({ ...state, publicUserData: publicUserData })().then(
-                (user) => {
-                    if (window.opener) {
-                        window.opener['__setUser'](state.user);
-                    }
-                    analytics.addDefaultParams({
-                        auuid: pipe(
-                            libs.crypto.stringToBytes,
-                            libs.crypto.blake2b,
-                            libs.crypto.base64Encode
-                        )(user.address),
-                    });
-
-                    return user;
+            return login(state, publicUserData)().then((user) => {
+                if (window.opener) {
+                    window.opener['__setUser'](state.user);
                 }
-            );
+                analytics.addDefaultParams({
+                    auuid: pipe(
+                        libs.crypto.stringToBytes,
+                        libs.crypto.blake2b,
+                        libs.crypto.base64Encode
+                    )(user.address),
+                });
+
+                return user;
+            });
         }
     });

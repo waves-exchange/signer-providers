@@ -54,11 +54,7 @@ export const Login: FC<IProps> = ({
     const handleLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
         (e) => {
             e.preventDefault();
-            console.log(
-                '%c publicUserData AAA',
-                'color: #e5b6ed',
-                publicUserData
-            );
+
             const { resolveData: users } = getUsers(
                 password,
                 networkByte,
@@ -103,7 +99,7 @@ export const Login: FC<IProps> = ({
                 setErrorMessage('Incorrect password');
             }
         },
-        [networkByte, onConfirm, password]
+        [networkByte, onConfirm, password, publicUserData]
     );
 
     const handleUserChange = useCallback(
