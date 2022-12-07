@@ -3,6 +3,7 @@ import { createMultiAccountHash } from '../utils/createMultiAccountHash';
 import { decryptMultiAccountData } from '../utils/decryptMultiAccountData';
 import { encryptMultiAccountData } from '../utils/encryptMultiAccountData';
 import { IUserStorageInfo, TPrivateMultiaccountData } from '../interface';
+import { getPrivateData } from './getPrivateData';
 
 class StorageService {
     private static readonly serializer: TSerializer = {
@@ -54,25 +55,10 @@ class StorageService {
         password: string,
         rounds?: number
     ): TCatchable<TPrivateMultiaccountData> {
-        const encrypted = JSON.parse(
-            localStorage.getItem('multiAccountData') || 'null'
-        );
-        const hash = JSON.parse(
-            localStorage.getItem('multiAccountHash') || 'null'
-        );
-
-        if (!hash || !encrypted) {
-            return {
-                ok: true,
-                resolveData: {},
-                rejectData: null,
-            };
-        }
-
-        return catchable(decryptMultiAccountData)(
-            encrypted,
-            hash,
+        return getPrivateData(
             password,
+            localStorage.getItem('multiAccountData'),
+            localStorage.getItem('multiAccountHash'),
             rounds
         );
     }
