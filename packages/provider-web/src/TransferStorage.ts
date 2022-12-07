@@ -16,6 +16,7 @@ export const transferStorage = (win: Window): Promise<IStorageTransferData> => {
             _bus.once('ready', () => {
                 _bus.once('transferStorage', (data) => {
                     win.close();
+                    adapter.destroy();
                     resolve(data);
                 });
             });

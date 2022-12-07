@@ -4,16 +4,35 @@ import {
 } from '@waves/node-api-js/es/api-node/addresses';
 import { fetchByAddress } from '@waves/node-api-js/es/api-node/alias';
 import { libs } from '@waves/waves-transactions';
-import { IUser } from '../interface';
+import { IUser, TPrivateMultiaccountData } from '../interface';
 import { IPrivateSeedUserData } from '../interface';
-import { TCatchable } from '../utils/catchable';
+import { catchable, TCatchable } from '../utils/catchable';
 import { getUserId } from '../utils/getUserId';
-import { storage } from './storage';
+import { IStorage, storage } from './storage';
 import { Long } from '@waves/ts-types';
 import { IStorageTransferData } from '@waves.exchange/provider-ui-components';
+import { decryptMultiAccountData } from '../utils/decryptMultiAccountData';
 
 export type StorageUser = IUser & {
     userType: 'keeper' | 'ledger' | 'seed' | 'privateKey';
+};
+
+const getPrivateData = (
+    password: string,
+    publicUserData: IStorageTransferData
+): TCatchable<TPrivateMultiaccountData> => {
+    const encrypted = JSON.parse(publicUserData.multiAccountData || 'null');
+    const hash = JSON.parse(publicUserData.multiAccountHash || 'null');
+
+    if (!hash || !encrypted) {
+        return {
+            ok: true,
+            resolveData: {},
+            rejectData: null,
+        };
+    }
+
+    return catchable(decryptMultiAccountData)(encrypted, hash, password);
 };
 
 export function getUsers(
@@ -21,19 +40,22 @@ export function getUsers(
     networkByte: number,
     publicUserData?: IStorageTransferData
 ): TCatchable<Array<StorageUser>> {
-    const data = storage.getPrivateData(password);
+    const data = publicUserData
+        ? getPrivateData(password, publicUserData)
+        : storage.getPrivateData(password);
 
     if (!data.ok) {
         return data;
     }
 
+    const multiAccountUsers: IStorage['multiAccountUsers'] = publicUserData
+        ? JSON.parse(publicUserData.multiAccountUsers as string)
+        : storage.get('multiAccountUsers');
+
     return {
         ok: true,
         rejectData: null,
-        resolveData: Object.entries(
-            publicUserData?.multiAccountUsers ||
-                storage.get('multiAccountUsers')
-        )
+        resolveData: Object.entries(multiAccountUsers)
             .map(([hash, userData]) => ({
                 hash,
                 lastLogin: userData.lastLogin,

@@ -115,7 +115,7 @@ interface IPasswordData {
     rounds?: number;
 }
 
-interface IStorage {
+export interface IStorage {
     termsAccepted: boolean;
     multiAccountUsers: Record<string, IUserStorageInfo>;
 }
