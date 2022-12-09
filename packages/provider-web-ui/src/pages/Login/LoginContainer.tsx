@@ -14,6 +14,8 @@ import {
     IStorageTransferData,
     utils,
 } from '@waves.exchange/provider-ui-components';
+import { storage } from '../../services/storage';
+import { pseudoStorage } from '../../services/pseudoStorage';
 
 interface IProps {
     networkByte: number;
@@ -51,15 +53,18 @@ export const Login: FC<IProps> = ({
         onCancel();
     }, [onCancel]);
 
+    if (publicUserData) {
+        Object.entries(publicUserData).forEach(([key, val]) => {
+            pseudoStorage.setItem(key, val);
+        });
+        storage.setStorageOrigin(pseudoStorage);
+    }
+
     const handleLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
         (e) => {
             e.preventDefault();
 
-            const { resolveData: users } = getUsers(
-                password,
-                networkByte,
-                publicUserData
-            );
+            const { resolveData: users } = getUsers(password, networkByte);
 
             if (users) {
                 utils.analytics.send({ name: 'Signer_Page_SignIn_Success' });

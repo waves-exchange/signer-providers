@@ -3,9 +3,14 @@ import { createMultiAccountHash } from '../utils/createMultiAccountHash';
 import { decryptMultiAccountData } from '../utils/decryptMultiAccountData';
 import { encryptMultiAccountData } from '../utils/encryptMultiAccountData';
 import { IUserStorageInfo, TPrivateMultiaccountData } from '../interface';
-import { getPrivateData } from './getPrivateData';
 
 class StorageService {
+    private storageOrigin: Storage = localStorage;
+
+    public setStorageOrigin(_storage: Storage): void {
+        this.storageOrigin = _storage;
+    }
+
     private static readonly serializer: TSerializer = {
         termsAccepted: (accepted) => String(accepted),
         multiAccountUsers: (data) => JSON.stringify(data),
@@ -28,14 +33,16 @@ class StorageService {
         key: Key,
         value: IStorage[Key]
     ): void {
-        localStorage.setItem(
+        this.storageOrigin.setItem(
             key,
             (StorageService.serializer[key] as any)(value)
         ); // TODO
     }
 
     public get<Key extends keyof IStorage>(key: Key): IStorage[Key] {
-        return StorageService.parser[key](localStorage.getItem(key)) as any; // TODO
+        return StorageService.parser[key](
+            this.storageOrigin.getItem(key)
+        ) as any; // TODO
     }
 
     public setPrivateData(
@@ -47,18 +54,33 @@ class StorageService {
         const hash = createMultiAccountHash(json);
         const encrypted = encryptMultiAccountData(data, password, rounds);
 
-        localStorage.setItem('multiAccountHash', `"${hash}"`);
-        localStorage.setItem('multiAccountData', `"${encrypted}"`);
+        this.storageOrigin.setItem('multiAccountHash', `"${hash}"`);
+        this.storageOrigin.setItem('multiAccountData', `"${encrypted}"`);
     }
 
     public getPrivateData(
         password: string,
         rounds?: number
     ): TCatchable<TPrivateMultiaccountData> {
-        return getPrivateData(
+        const encrypted = JSON.parse(
+            this.storageOrigin.getItem('multiAccountData') || 'null'
+        );
+        const hash = JSON.parse(
+            this.storageOrigin.getItem('multiAccountHash') || 'null'
+        );
+
+        if (!hash || !encrypted) {
+            return {
+                ok: true,
+                resolveData: {},
+                rejectData: null,
+            };
+        }
+
+        return catchable(decryptMultiAccountData)(
+            encrypted,
+            hash,
             password,
-            localStorage.getItem('multiAccountData'),
-            localStorage.getItem('multiAccountHash'),
             rounds
         );
     }
@@ -84,10 +106,10 @@ class StorageService {
 
     public hasPrivateData(): boolean {
         const encrypted = JSON.parse(
-            localStorage.getItem('multiAccountData') || 'null'
+            this.storageOrigin.getItem('multiAccountData') || 'null'
         );
         const hash = JSON.parse(
-            localStorage.getItem('multiAccountHash') || 'null'
+            this.storageOrigin.getItem('multiAccountHash') || 'null'
         );
 
         return !!hash && !!encrypted;
