@@ -7,16 +7,27 @@ import React, {
 } from 'react';
 import { IUser } from '../../interface';
 import { LoginComponent } from './LoginComponent';
-import { getUsers, addSeedUser, StorageUser } from '../../services/userService';
+import {
+    getUsers,
+    addSeedUser,
+    StorageUser,
+    getUserName,
+} from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
 import { SelectAccountComponent } from './SelectAccountComponent';
-import { utils } from '@waves.exchange/provider-ui-components';
+import {
+    IStorageTransferData,
+    utils,
+} from '@waves.exchange/provider-ui-components';
+import { storage } from '../../services/storage';
+import { pseudoStorage } from '../../services/pseudoStorage';
 
 interface IProps {
     networkByte: number;
     onConfirm: (user: IUser) => void;
     onCancel: () => void;
     isIncognito: boolean;
+    publicUserData?: IStorageTransferData;
 }
 
 export const Login: FC<IProps> = ({
@@ -24,6 +35,7 @@ export const Login: FC<IProps> = ({
     onConfirm,
     onCancel,
     isIncognito,
+    publicUserData,
 }) => {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [currentUser, setCurrentUser] = useState<StorageUser>();
@@ -46,9 +58,17 @@ export const Login: FC<IProps> = ({
         onCancel();
     }, [onCancel]);
 
+    if (publicUserData) {
+        Object.entries(publicUserData).forEach(([key, val]) => {
+            pseudoStorage.setItem(key, val);
+        });
+        storage.setStorageOrigin(pseudoStorage);
+    }
+
     const handleLogin = useCallback<MouseEventHandler<HTMLButtonElement>>(
         (e) => {
             e.preventDefault();
+
             const { resolveData: users } = getUsers(password, networkByte);
 
             if (users) {
@@ -83,13 +103,17 @@ export const Login: FC<IProps> = ({
                         privateKey: libs.crypto.privateKey(
                             user.resolveData.seed
                         ),
+                        name: getUserName(
+                            networkByte,
+                            user.resolveData.publicKey
+                        ),
                     });
                 }
             } else {
                 setErrorMessage('Incorrect password');
             }
         },
-        [networkByte, onConfirm, password]
+        [networkByte, onConfirm, password, publicUserData]
     );
 
     const handleUserChange = useCallback(

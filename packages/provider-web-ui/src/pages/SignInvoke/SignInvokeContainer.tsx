@@ -6,13 +6,13 @@ import {
     hooks,
     utils,
 } from '@waves.exchange/provider-ui-components';
-import { getUserName } from '../../services/userService';
 import {
     InvokeScriptCall,
     InvokeScriptPayment,
     InvokeScriptTransaction,
     Long,
 } from '@waves/ts-types';
+import { useTxUser } from '../../hooks/useTxUser';
 
 const { WAVES } = CONSTANTS;
 const { assetPropFactory, getPrintableNumber, isAlias } = utils;
@@ -33,6 +33,7 @@ export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
     onConfirm,
     onCancel,
 }) => {
+    const { userName } = useTxUser(user, networkByte);
     const getAssetProp = assetPropFactory(meta.assets);
 
     const feeAsset = meta.assets[tx.feeAssetId || ''] || WAVES;
@@ -60,7 +61,7 @@ export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
     return (
         <SignInvokeComponent
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={userName}
             userBalance={user.balance}
             dAppAddress={dAppAddress}
             dAppName={tx.dApp}

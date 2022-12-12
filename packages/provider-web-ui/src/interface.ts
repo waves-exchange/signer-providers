@@ -65,6 +65,7 @@ export interface ISignTxProps<T extends Transaction> {
 export interface IUser {
     address: string;
     privateKey: string;
+    name?: string;
 }
 
 export interface IUserWithBalances extends IUser {

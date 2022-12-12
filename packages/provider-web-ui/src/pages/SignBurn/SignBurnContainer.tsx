@@ -5,8 +5,8 @@ import {
     CONSTANTS,
     utils,
 } from '@waves.exchange/provider-ui-components';
-import { getUserName } from '../../services/userService';
 import { BurnTransaction } from '@waves/ts-types';
+import { useTxUser } from '../../hooks/useTxUser';
 
 const { WAVES } = CONSTANTS;
 const { getPrintableNumber } = utils;
@@ -19,6 +19,7 @@ export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
     onConfirm,
     onCancel,
 }) => {
+    const { userName } = useTxUser(user, networkByte);
     const burnAsset = tx.assetId === null ? WAVES : txMeta.assets[tx.assetId];
     const feeAsset = WAVES;
 
@@ -30,7 +31,7 @@ export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
         <SignBurnComponent
             key={tx.id}
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={userName}
             userBalance={`${getPrintableNumber(
                 user.balance,
                 WAVES.decimals

@@ -4,22 +4,35 @@ import { libs } from '@waves/waves-transactions';
 import { pipe } from 'ramda';
 import { IState } from '../interface';
 import login from '../router/login';
-import { IQueue, utils, TBus } from '@waves.exchange/provider-ui-components';
+import {
+    IQueue,
+    utils,
+    TBus,
+    IStorageTransferData,
+} from '@waves.exchange/provider-ui-components';
 import { preload, toQueue } from './helpers';
 
 const { analytics, isSafari, isBrave } = utils;
-const isOpenWindow = window.location.search.includes('openWindow=true'); // is new provider's version used, that used window.open
+
+// support old versions of the Provider Web
+const isIframeThatDidOpenWindow = window.location.search.includes(
+    'openWindow=true'
+);
+const isIframeThatWaitStorage = window.location.search.includes(
+    'waitStorage=true'
+);
 
 export const getLoginHandler = (
     queue: IQueue,
     state: IState
-): (() => Promise<UserData>) =>
-    toQueue(queue, () => {
+): ((publicUserData?: IStorageTransferData) => Promise<UserData>) =>
+    toQueue(queue, (publicUserData) => {
         preload();
 
         if (
             window.top !== window &&
-            (isSafari() || isBrave() || isOpenWindow)
+            !isIframeThatWaitStorage &&
+            (isSafari() || isBrave() || isIframeThatDidOpenWindow)
         ) {
             const loginAndClose = (
                 bus: TBus,
@@ -83,11 +96,10 @@ export const getLoginHandler = (
                 });
             });
         } else {
-            return login(state)().then((user) => {
+            return login(state, publicUserData)().then((user) => {
                 if (window.opener) {
                     window.opener['__setUser'](state.user);
                 }
-
                 analytics.addDefaultParams({
                     auuid: pipe(
                         libs.crypto.stringToBytes,

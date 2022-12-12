@@ -6,10 +6,13 @@ import { IState } from '../interface';
 import { CreateAccount } from '../pages/CreateAccount/CreateAccountContainer';
 import { Login } from '../pages/Login/LoginContainer';
 import { hasMultiaccount, saveTerms } from '../services/userService';
-import { utils } from '@waves.exchange/provider-ui-components';
+import { IStorageTransferData } from '@waves.exchange/provider-ui-components';
 import renderPage from '../utils/renderPage';
 
-export default function (state: IState): () => Promise<UserData> {
+export default function (
+    state: IState,
+    publicUserData: IStorageTransferData
+): () => Promise<UserData> {
     return (): Promise<UserData> => {
         if (state.user != null) {
             return Promise.resolve({
@@ -26,7 +29,7 @@ export default function (state: IState): () => Promise<UserData> {
                 localStorage.setItem('___test_storage_key___', 'test');
                 localStorage.getItem('___test_storage_key___');
                 localStorage.removeItem('___test_storage_key___');
-                hasMultiacc = hasMultiaccount();
+                hasMultiacc = hasMultiaccount() || !!publicUserData;
             } catch (e) {
                 isIncognito = true;
             }
@@ -51,6 +54,7 @@ export default function (state: IState): () => Promise<UserData> {
                             });
                         }}
                         isIncognito={isIncognito}
+                        publicUserData={publicUserData}
                     />
                 );
             });

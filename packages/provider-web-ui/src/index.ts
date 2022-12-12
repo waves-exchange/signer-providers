@@ -9,6 +9,7 @@ import {
     TBusHandlers,
     IBusEvents,
 } from '@waves.exchange/provider-ui-components';
+import { getData } from './handlers/getData';
 
 const { Queue } = utils;
 const queue = new Queue(3);
@@ -31,9 +32,12 @@ analytics.init({
 });
 
 const isThisIsLoginWindow = window.top === window && window.opener;
+const isWindowThatTransferStorage = window.location.search.includes(
+    'transferStorage=true'
+);
 const isThisIsIframe = window.top !== window;
 
-if (isThisIsLoginWindow) {
+if (isThisIsLoginWindow && !isWindowThatTransferStorage) {
     const intervalId = setInterval(() => {
         if ('__loaded' in window.opener) {
             window.opener.__loginWindow = window;
@@ -42,7 +46,7 @@ if (isThisIsLoginWindow) {
     }, 100);
 }
 
-if (isThisIsIframe) {
+if (isThisIsIframe && !isWindowThatTransferStorage) {
     window.addEventListener('load', () => {
         window['__loaded'] = true;
     });
@@ -50,6 +54,11 @@ if (isThisIsIframe) {
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
+        const preloader = document.querySelector('.preloader');
+
+        if (preloader) {
+            preloader.className = 'preloader hide';
+        }
         const bus = new Bus<IBusEvents, TBusHandlers>(adapter);
 
         const state: IState = {
@@ -81,7 +90,7 @@ WindowAdapter.createSimpleWindowAdapter()
         // TODO add remove order sign
         // TODO add create order sign
 
-        if (isThisIsLoginWindow) {
+        if (isThisIsLoginWindow && !isWindowThatTransferStorage) {
             const intervalId = setInterval(() => {
                 if ('__loginWindow' in window.opener) {
                     bus.dispatchEvent('ready', void 0);
@@ -90,6 +99,10 @@ WindowAdapter.createSimpleWindowAdapter()
             }, 100);
         } else {
             bus.dispatchEvent('ready', void 0);
+        }
+
+        if (isWindowThatTransferStorage) {
+            bus.dispatchEvent('transferStorage', getData());
         }
 
         window.addEventListener('unload', () => {

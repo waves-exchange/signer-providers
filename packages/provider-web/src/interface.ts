@@ -7,9 +7,14 @@ import {
 } from '@waves/signer';
 import { Bus } from '@waves/waves-browser-bus';
 
+export interface IStorageTransferData {
+    multiAccountUsers: string | null;
+    multiAccountHash: string | null;
+}
+
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TBusHandlers = {
-    login: (data?: void) => Promise<UserData>;
+    login: (data?: IStorageTransferData) => Promise<UserData>;
 
     'sign-custom-bytes': (data: string) => Promise<string>;
     'sign-message': (data: string | number) => Promise<string>;
@@ -24,6 +29,8 @@ export interface IBusEvents {
     connect: ConnectOptions;
     close: void;
     ready: void;
+    passLoginData: void;
+    catchStorage: void;
 }
 
 export type TBus = Bus<IBusEvents, TBusHandlers>;
