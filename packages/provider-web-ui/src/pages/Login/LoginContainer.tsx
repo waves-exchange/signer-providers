@@ -7,7 +7,12 @@ import React, {
 } from 'react';
 import { IUser } from '../../interface';
 import { LoginComponent } from './LoginComponent';
-import { getUsers, addSeedUser, StorageUser } from '../../services/userService';
+import {
+    getUsers,
+    addSeedUser,
+    StorageUser,
+    getUserName,
+} from '../../services/userService';
 import { libs } from '@waves/waves-transactions';
 import { SelectAccountComponent } from './SelectAccountComponent';
 import {
@@ -97,6 +102,10 @@ export const Login: FC<IProps> = ({
                         ),
                         privateKey: libs.crypto.privateKey(
                             user.resolveData.seed
+                        ),
+                        name: getUserName(
+                            networkByte,
+                            user.resolveData.publicKey
                         ),
                     });
                 }

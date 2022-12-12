@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { ISignTxProps } from '../../interface';
-import { getUserName } from '../../services/userService';
 import {
     SignTransfer as SignTransferComponent,
     iconTransferUtils,
@@ -8,6 +7,7 @@ import {
     transferUtils,
     TransferType,
 } from '@waves.exchange/provider-ui-components';
+import { useTxUser } from '../../hooks/useTxUser';
 
 const { getViewData, isTransferMeta } = transferUtils;
 const { getIconType } = iconTransferUtils;
@@ -21,6 +21,7 @@ export const SignTransfer: FC<ISignTxProps<TransferType>> = ({
     onCancel,
 }) => {
     const [handleFeeSelect, txJSON] = hooks.useHandleFeeSelect(tx);
+    const { userName } = useTxUser(user, networkByte);
 
     const { totalTransferAmount, transferList, fee, attachment } = getViewData(
         tx,
@@ -32,7 +33,7 @@ export const SignTransfer: FC<ISignTxProps<TransferType>> = ({
     return (
         <SignTransferComponent
             userAddress={user.address}
-            userName={getUserName(networkByte, user.publicKey)}
+            userName={userName}
             userBalance={user.balance}
             transferList={transferList}
             transferFee={fee}

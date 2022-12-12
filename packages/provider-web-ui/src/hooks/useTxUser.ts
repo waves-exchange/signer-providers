@@ -9,7 +9,7 @@ export const useTxUser = (
     user: Omit<IUserWithBalances, 'seed'> & { publicKey: string },
     networkByte: number
 ): { userName: string; userBalance: string } => {
-    const userName = getUserName(networkByte, user.publicKey);
+    const userName = user.name || getUserName(networkByte, user.publicKey);
     const userBalance = getPrintableNumber(user.balance, WAVES.decimals);
 
     return { userName, userBalance };
