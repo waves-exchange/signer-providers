@@ -241,7 +241,7 @@ export class TransportIframe extends Transport<HTMLIFrameElement> {
     }
 
     private _listenFetchURLError(iframe: HTMLIFrameElement): void {
-        fetch(this._url).catch(() => {
+        fetch(new URL(this._url).origin).catch(() => {
             iframe.addEventListener('load', () => {
                 if (!iframe.contentDocument) {
                     return;
