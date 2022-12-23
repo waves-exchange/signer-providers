@@ -29,7 +29,14 @@ export default function (
                 localStorage.setItem('___test_storage_key___', 'test');
                 localStorage.getItem('___test_storage_key___');
                 localStorage.removeItem('___test_storage_key___');
-                hasMultiacc = hasMultiaccount() || !!publicUserData;
+                const hasPublicData = () => {
+                    return (
+                        !!publicUserData &&
+                        Object.values(publicUserData).every((val) => !!val)
+                    );
+                };
+
+                hasMultiacc = hasMultiaccount() || hasPublicData();
             } catch (e) {
                 isIncognito = true;
             }
