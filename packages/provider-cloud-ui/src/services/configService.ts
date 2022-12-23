@@ -29,7 +29,6 @@ type NetworkConfig = {
 export enum ENV {
     testnet = 'testnet',
     mainnet = 'mainnet',
-    testnetwxnetwork = 'testnetwxnetwork',
 }
 
 export async function loadConfig(
@@ -38,7 +37,7 @@ export async function loadConfig(
 ): Promise<Config> {
     const env = _env ? _env : networkByte === 84 ? ENV.testnet : ENV.mainnet;
     const wavesNetworksResponse = await fetch(
-        'https://configs.waves.exchange/web/networks.json'
+        'https://configs.waves.exchange/wxnetwork/networks.json'
     );
     const wavesNetworks: NetworkConfig[] = await wavesNetworksResponse.json();
     const envNetworkConfig = wavesNetworks.find((c) => c.name === env);
