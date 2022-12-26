@@ -48,7 +48,7 @@ Add library initialization to your app.
      // Specify URL of the node on Testnet
      NODE_URL: 'https://nodes-testnet.wavesnodes.com'
    });
-   signer.setProvider(new ProviderWeb('https://testnet.waves.exchange/signer'));
+   signer.setProvider(new ProviderWeb('https://testnet.wx.network/signer'));
    ```
 ​
 * For Mainnet:
