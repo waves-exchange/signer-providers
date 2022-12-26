@@ -14,14 +14,14 @@ export function getConnectHandler(
                 state.networkByte === 87
                     ? 'e3b3df0d53b4cae5b75350d898132934'
                     : 'ca96b9de2a3dd00b62ec70f7ef6ffb3e',
-            libraryUrl: 'https://waves.exchange/amplitude.js',
+            libraryUrl: 'https://wx.network/amplitude.js',
             initializeMethod: 'amplitudeInit',
             sendMethod: 'amplitudePushEvent',
             type: 'logic',
         });
 
         utils.analytics.addApi({
-            libraryUrl: 'https://waves.exchange/snowPlow.js',
+            libraryUrl: 'https://wx.network/snowPlow.js',
             initializeMethod: 'spInit',
             sendMethod: 'spPushEvent',
             type: 'sp',

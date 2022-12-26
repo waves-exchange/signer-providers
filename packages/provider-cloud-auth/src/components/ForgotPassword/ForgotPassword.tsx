@@ -27,7 +27,7 @@ export const ForgotPassword: FC<ForgotPasswordProps> = ({
             >
                 Don't worry! You can reset password at{' '}
                 <ExternalLink href={getEnvAwareUrl()} target="_blank">
-                    waves.exchange
+                    WX.Network
                 </ExternalLink>{' '}
                 and then go back to continue the login process
             </Text>

@@ -1,6 +1,6 @@
 export const getEnvAwareUrl = (pathname?: string): string => {
     const origin = window.location.origin.includes('localhost')
-        ? 'https://waves.exchange'
+        ? 'https://wx.network'
         : window.location.origin;
 
     if (!pathname) return origin;
