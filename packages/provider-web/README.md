@@ -12,7 +12,7 @@
 <a id="overview"></a>
 ## Overview
 ​
-ProviderWeb developed by Waves.Exchange implements a Signature Provider for [Signer](https://github.com/wavesplatform/signer) protocol library. Signer enables easy deploy dApps based on Waves blockchain. Users' encrypted private keys and SEED phrase are stored in waves.exchange domain of the local browser storage. Waves.Exchange and other apps do not have access to the local data as they are stored encrypted.
+ProviderWeb developed by Waves.Exchange implements a Signature Provider for [Signer](https://github.com/wavesplatform/signer) protocol library. Signer enables easy deploy dApps based on Waves blockchain. Users' encrypted private keys and SEED phrase are stored in wx.network domain of the local browser storage. WX.Network and other apps do not have access to the local data as they are stored encrypted.
 
 ​
 > For now, signing is implemented for all types of transactions except exchange transactions.
@@ -90,7 +90,7 @@ You can use optional parameters for debugging.
 ​
 | Parameter | Default value | Description |
 | :--- | :--- | :--- |
-| clientOrigin | https://waves.exchange/signer | URL of the ProviderWeb instance. For debugging, you can launch the ProviderWeb instance on your server. |
+| clientOrigin | https://wx.network/signer | URL of the ProviderWeb instance. For debugging, you can launch the ProviderWeb instance on your server. |
 | logs | false | Logging level. If `true`, all events are logged |
 ​
 **Usage:**
