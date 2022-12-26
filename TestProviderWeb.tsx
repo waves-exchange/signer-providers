@@ -4,7 +4,7 @@ import { ProviderWeb } from './packages/provider-web/src';
 
 const url = location.href.includes('provider=exchange')
     ? 'https://wallet-stage2.waves.exchange/signer'
-    : 'https://localhost:3001' + '/packages/provider-web-ui/index.html';
+    : location.origin + '/packages/provider-web-ui/index.html';
 
 const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesplatform.com'
