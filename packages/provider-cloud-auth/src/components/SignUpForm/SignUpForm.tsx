@@ -167,6 +167,8 @@ export const SignUpForm: FC<SignUpFormProps> = ({
 
     const isSubmitEnabled =
         Object.values(termsState).every((val) => val === true) &&
+        password.length &&
+        email.length &&
         Object.entries(errors).filter(([_key, value]) => Boolean(value))
             .length === 0;
 
