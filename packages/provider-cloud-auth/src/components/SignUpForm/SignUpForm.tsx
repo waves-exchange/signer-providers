@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    Checkbox,
     DotLoader,
     ExternalLink,
     Flex,
@@ -9,10 +8,18 @@ import {
     InputPassword,
     Text,
 } from '@waves.exchange/react-uikit';
-import React, { FC, MouseEventHandler, useCallback, useState } from 'react';
+import React, {
+    FC,
+    MouseEventHandler,
+    useCallback,
+    useReducer,
+    useState,
+} from 'react';
 import { InputWrapper } from '../InputWrapper/InputWrapper';
 import { SignUpResponse } from '../../IdentityService';
 import { getEnvAwareUrl } from '../../utils/getEnvAwareUrl';
+import { SignUpFormCheckbox } from './SignUpFormCheckbox';
+import { ActionType, termsReducer } from './termsReducer';
 
 type SignUpFormProps = {
     signUp(username: string, password: string): Promise<SignUpResponse>;
@@ -34,7 +41,12 @@ export const SignUpForm: FC<SignUpFormProps> = ({
         passwordMinLength: null,
         passwordInsecure: null,
     });
-    const [isPrivacyAccepted, setPrivacyAccepted] = useState<boolean>(false);
+    const [termsState, dispatch] = useReducer(termsReducer, {
+        terms: false,
+        communicate: false,
+        privacyPolicy: false,
+        age: false,
+    });
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [passwordConfirm, setPasswordConfirm] = useState<string>('');
@@ -86,10 +98,6 @@ export const SignUpForm: FC<SignUpFormProps> = ({
         },
         []
     );
-
-    const handlePrivacyAcceptedChange = useCallback(() => {
-        setPrivacyAccepted((prev) => !prev);
-    }, []);
 
     const handleSubmit = useCallback<MouseEventHandler<HTMLButtonElement>>(
         async (event) => {
@@ -158,7 +166,9 @@ export const SignUpForm: FC<SignUpFormProps> = ({
     }, [passwordConfirm, password]);
 
     const isSubmitEnabled =
-        isPrivacyAccepted &&
+        Object.values(termsState).every((val) => val === true) &&
+        password.length &&
+        email.length &&
         Object.entries(errors).filter(([_key, value]) => Boolean(value))
             .length === 0;
 
@@ -285,39 +295,70 @@ export const SignUpForm: FC<SignUpFormProps> = ({
                 </InputWrapper>
             </Box>
 
-            <Flex alignItems="center" mb="24px">
-                <Checkbox
-                    color="standard.$0"
-                    checked={isPrivacyAccepted}
-                    onChange={handlePrivacyAcceptedChange}
-                >
-                    <Text pl="$10" variant="body2">
-                        I have read and agree with the&nbsp;
-                    </Text>
-                </Checkbox>
+            <SignUpFormCheckbox
+                isChecked={termsState.terms}
+                onChange={(event) => {
+                    dispatch({
+                        type: ActionType.TERMS,
+                        payload: event.target.checked,
+                    });
+                }}
+            >
+                I have read and agree with the&nbsp;
                 <ExternalLink
-                    href={getEnvAwareUrl(
-                        '/files/Privacy_Policy_Waves.Exchange.pdf'
-                    )}
+                    href={getEnvAwareUrl('/terms_and_conditions')}
+                    variant="body2"
+                >
+                    Terms and Conditions
+                </ExternalLink>
+            </SignUpFormCheckbox>
+
+            <SignUpFormCheckbox
+                isChecked={termsState.communicate}
+                onChange={(event) => {
+                    dispatch({
+                        type: ActionType.COMMUNICATE,
+                        payload: event.target.checked,
+                    });
+                }}
+            >
+                I have read and agreed that all data related to creation of a
+                Waves address is stored on my device and WX.Network does not
+                collect such information about me. If I decide to communicate
+                with Support department, I understand that WX.Network collects
+                the data provided by me to help with my problem for the period
+                of our communication.
+            </SignUpFormCheckbox>
+
+            <SignUpFormCheckbox
+                isChecked={termsState.privacyPolicy}
+                onChange={(event) => {
+                    dispatch({
+                        type: ActionType.PRIVACY_POLICY,
+                        payload: event.target.checked,
+                    });
+                }}
+            >
+                I have read and agree with the&nbsp;
+                <ExternalLink
+                    href={getEnvAwareUrl('/privacy_policy')}
                     variant="body2"
                 >
                     Privacy Policy
                 </ExternalLink>
+            </SignUpFormCheckbox>
 
-                <Text variant="body2" color="standard.$0">
-                    &nbsp;&amp;&nbsp;
-                </Text>
-
-                <ExternalLink
-                    href={getEnvAwareUrl(
-                        '/files/Terms_Of_Use_Waves.Exchange.pdf'
-                    )}
-                    variant="body2"
-                    target="_blank"
-                >
-                    Terms and Conditions
-                </ExternalLink>
-            </Flex>
+            <SignUpFormCheckbox
+                isChecked={termsState.communicate}
+                onChange={(event) => {
+                    dispatch({
+                        type: ActionType.AGE,
+                        payload: event.target.checked,
+                    });
+                }}
+            >
+                I confirm that I am over 18 years old.
+            </SignUpFormCheckbox>
 
             {errors._form && (
                 <Box mb="24px">

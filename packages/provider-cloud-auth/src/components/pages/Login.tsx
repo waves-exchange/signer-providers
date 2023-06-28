@@ -386,7 +386,7 @@ export const Login: FC<LoginProps> = ({
             loginState === 'enable-2fa' ? null : (
                 <Box pb="32px" textAlign="center" fontWeight={300}>
                     <Text variant="footnote1" color="basic.$500">
-                        Waves.Exchange
+                        WX.Network
                     </Text>
                     <Text variant="footnote1" color="basic.$700">
                         {' '}

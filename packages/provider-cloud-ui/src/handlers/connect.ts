@@ -10,7 +10,7 @@ export function getConnectHandler(
         state.networkByte = options.NETWORK_BYTE;
 
         utils.analytics.addApi({
-            libraryUrl: 'https://waves.exchange/snowPlow.js',
+            libraryUrl: 'https://wx.network/snowPlow.js',
             initializeMethod: 'spInit',
             sendMethod: 'spPushEvent',
             type: 'sp',

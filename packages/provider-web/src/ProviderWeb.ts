@@ -23,7 +23,7 @@ export class ProviderWeb implements Provider {
 
     constructor(clientUrl?: string, logs?: boolean) {
         this._clientUrl =
-            (clientUrl || 'https://waves.exchange/signer/') +
+            (clientUrl || 'https://wx.network/signer/') +
             ((import.meta as any).env.PROD
                 ? `?${ProviderWeb._getCacheClean()}`
                 : '');

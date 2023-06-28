@@ -14,8 +14,7 @@ export const RegistrationSuccessful: FC<{ onLogin: () => void }> = ({
                 mb="24px"
             />
             <Box color="#9ba6b2" fontSize="13px" textAlign="center" mb="16px">
-                To start trading and investing with Waves.exchange, please log
-                in.
+                To start trading and investing with WX.Network, please log in.
             </Box>
             <Box px="16px" mb="40px">
                 <Button

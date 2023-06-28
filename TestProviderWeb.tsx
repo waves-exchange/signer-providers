@@ -3,7 +3,7 @@ import { Signer } from '@waves/signer';
 import { ProviderWeb } from './packages/provider-web/src';
 
 const url = location.href.includes('provider=exchange')
-    ? 'https://waves.exchange/signer'
+    ? 'https://wallet-stage2.waves.exchange/signer'
     : location.origin + '/packages/provider-web-ui/index.html';
 
 const node = location.href.includes('mainnet')
@@ -16,13 +16,13 @@ const testSignMessage = async (
     setValue: (token: string) => void
 ) => {
     const chain_code = location.href.includes('mainnet') ? "W" : "T";
-    const client_id = "waves.exchange";
+    const client_id = "wx.network";
     const seconds = Math.round((Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000);
     const message = `${chain_code}:${client_id}:${seconds}`;
 
     const { publicKey } = await signer.login();
     const signature = await signer.signMessage(message);
-    const url = `https://api${chain_code === 'T' ? '-testnet' : ''}.waves.exchange/v1/oauth2/token`;
+    const url = `https://api${chain_code === 'T' ? '-testnet' : ''}.wx.network/v1/oauth2/token`;
     const data = await fetch(url, {
         method: 'POST',
         headers: {

@@ -180,7 +180,7 @@ export const LoginComponent: FC<IProps> = ({
                 {children ? null : (
                     <Box pt="24px" textAlign="center" fontWeight={300}>
                         <Text variant="footnote1" color="basic.$500">
-                            Waves.Exchange
+                            WX.Network
                         </Text>
                         <Text variant="footnote1" color="basic.$700">
                             {' '}

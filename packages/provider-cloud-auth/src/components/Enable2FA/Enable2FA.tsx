@@ -33,12 +33,12 @@ export const Enable2FaComponent: React.FC<Enable2FaComponentProps> = (
                     as quickly as possible. Otherwise, your account is at risk.
                     You can enable 2FA in the Security section of your account
                     settings at &nbsp;
-                    <ExternalLink href={'https://waves.exchange/sign-in/email'}>
-                        Waves.Exchange.
+                    <ExternalLink href={'https://wx.network/sign-in/email'}>
+                        WX.Network.
                     </ExternalLink>
                 </Text>
             </PlateNote>
-            <ExternalLink href="https://waves.exchange/settings">
+            <ExternalLink href="https://wx.network/settings">
                 <Button
                     variant="primary"
                     variantSize="medium"

@@ -47,7 +47,7 @@ Add library initialization to your app.
      // Specify URL of the node on Testnet
      NODE_URL: 'https://nodes-testnet.wavesnodes.com'
    });
-   signer.setProvider(new ProviderCloud('https://testnet.waves.exchange/signer-cloud'));
+   signer.setProvider(new ProviderCloud('https://testnet.wx.network/signer-cloud'));
    ```
 ​
 * For Mainnet:
@@ -65,7 +65,7 @@ Add library initialization to your app.
    ```js
    import { ProviderCloud } from '@waves.exchange/provider-cloud';
 
-   const provider = new ProviderCloud('https://testnet.waves.exchange/signer-cloud?env=testnetwxnetwork');
+   const provider = new ProviderCloud('https://testnet.wx.network/signer-cloud?env=testnetwxnetwork');
    ```
 ​
 ### 3. Basic example

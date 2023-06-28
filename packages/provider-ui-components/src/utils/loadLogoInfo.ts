@@ -12,7 +12,7 @@ export const loadLogoInfo = curry(
             data.map((asset) => {
                 const network =
                     String.fromCharCode(networkByte) === 'W' ? '' : 'testnet.';
-                const fetchLogoUrl = `https://${network}waves.exchange/static/icons/assets/${asset.assetId}.svg`;
+                const fetchLogoUrl = `https://${network}wx.network/static/icons/assets/${asset.assetId}.svg`;
 
                 return fetch(fetchLogoUrl).then((response) => {
                     if (response.ok) {
