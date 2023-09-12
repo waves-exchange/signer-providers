@@ -9,7 +9,7 @@ const url = location.href.includes('provider=exchange')
     // : 'https://wallet-stage2.waves.exchange/signer-cloud';
 
 const node = location.href.includes('mainnet')
-    ? 'https://nodes.wavesplatform.com'
+    ? 'https://nodes.wavesnodes.com'
     : 'https://nodes-testnet.wavesnodes.com';
 
 export function TestProviderCloud(): React.ReactElement {
