@@ -42,7 +42,7 @@ WindowAdapter.createSimpleWindowAdapter()
         const state: IState = {
             user: null,
             networkByte: 87,
-            nodeUrl: 'https://nodes.wavesplatform.com',
+            nodeUrl: 'https://nodes.wavesnodes.com',
             identity: new IdentityService(),
             env,
         };

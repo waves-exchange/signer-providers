@@ -7,7 +7,7 @@ const url = location.href.includes('provider=exchange')
     : location.origin + '/packages/provider-web-ui/index.html';
 
 const node = location.href.includes('mainnet')
-    ? 'https://nodes.wavesplatform.com'
+    ? 'https://nodes.wavesnodes.com'
     : 'https://nodes-testnet.wavesnodes.com';
 
 
