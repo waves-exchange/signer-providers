@@ -108,7 +108,10 @@ export const Login: FC<LoginProps> = ({
     const signIn = useCallback(
         async (username: string, password: string): Promise<void> => {
             try {
-                const geeTest = await getGeeTestToken(identity.geetestUrl);
+                const geeTest = await getGeeTestToken(
+                    identity.geetestUrl,
+                    identity.useCaptcha
+                );
 
                 const cognitoUser = await identity.signIn(
                     username,
@@ -151,7 +154,10 @@ export const Login: FC<LoginProps> = ({
 
     const signUp = useCallback(
         async (username: string, password: string): Promise<SignUpResponse> => {
-            const geeTest = await getGeeTestToken(identity.geetestUrl);
+            const geeTest = await getGeeTestToken(
+                identity.geetestUrl,
+                identity.useCaptcha
+            );
             const result = await identity.signUp(username, password, geeTest);
 
             userData.current = {
