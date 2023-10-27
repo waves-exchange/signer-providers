@@ -39,10 +39,12 @@ type IdentityServiceOptions = {
     clientId: string;
     endpoint: string;
     geetestUrl: string;
+    useCaptcha: boolean;
 };
 
 export class IdentityService {
     public geetestUrl = '';
+    public useCaptcha = true;
     private readonly storage: ICognitoStorage = new MemoryStorage();
     private userPool: CognitoUserPool | undefined = undefined;
     private currentUser: CognitoUser | undefined = undefined;
@@ -57,9 +59,10 @@ export class IdentityService {
         userPoolId,
         endpoint,
         geetestUrl,
+        useCaptcha,
     }: IdentityServiceOptions): void {
         this.apiUrl = apiUrl;
-
+        this.useCaptcha = useCaptcha == null ? true : useCaptcha;
         this.userPool = new CognitoUserPool({
             UserPoolId: userPoolId,
             ClientId: clientId,
