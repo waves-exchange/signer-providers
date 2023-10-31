@@ -23,6 +23,7 @@ export const getLoginHandler = (
             userPoolId: config.identity.cognito.userPoolId,
             endpoint: config.identity.cognito.endpoint,
             geetestUrl: config.identity.geetest.url,
+            useCaptcha: !config.identity.cognito.disableCaptcha,
         });
 
         const user = await login(state)();
