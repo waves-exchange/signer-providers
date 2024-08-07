@@ -2,7 +2,7 @@ import {
     ConnectOptions,
     SignedTx,
     SignerTx,
-    TypedData,
+    // TypedData,
     UserData,
 } from '@waves/signer';
 import { Bus } from '@waves/waves-browser-bus';

@@ -79,7 +79,7 @@ export const Login: React.FC<IConnectPageProps> = ({
                 setError(JSON.stringify(e));
             },
         });
-    }, [code]);
+    }, [code, mailboxListener, onConfirm]);
 
     return (
         <Box bg="main.$800" width={520} borderRadius="$6">
