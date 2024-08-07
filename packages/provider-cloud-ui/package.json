@@ -15,7 +15,6 @@
     "@popperjs/core": "^2.6.0",
     "@styled-system/css": "^5.1.4",
     "@styled-system/should-forward-prop": "^5.1.4",
-    "@waves.exchange/provider-ui-components": "file:../provider-ui-components",
     "@waves.exchange/provider-cloud-auth": "1.0.1",
     "@waves.exchange/react-uikit": "^0.5.21",
     "@waves/bignumber": "^1.1.1",
