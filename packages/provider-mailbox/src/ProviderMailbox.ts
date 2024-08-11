@@ -120,9 +120,8 @@ export class ProviderMailbox implements Provider {
     }
 
     public sign<T extends Array<SignerTx>>(toSign: T): Promise<SignedTx<T>> {
-        // return this.login().then(() =>
-        //     this._transport.dialog((bus) => bus.request('sign', toSign))
-        // );
-        return Promise.resolve();
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign', toSign))
+        );
     }
 }

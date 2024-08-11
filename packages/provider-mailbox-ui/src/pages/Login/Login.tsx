@@ -35,51 +35,68 @@ export const Login: React.FC<IConnectPageProps> = ({
     const [imgSrc, setImgSrc] = React.useState<string>('');
     const [error, setError] = React.useState<string>('');
 
+    const onCreate = React.useCallback(() => {
+        mailboxListener.setCode(code);
+        mailboxListener.generatePair();
+    }, [code, mailboxListener]);
+
+    const onClose = React.useCallback(() => {
+        setState('error');
+        setError('Something went wrong. Try again');
+    }, []);
+
+    const onError = React.useCallback((e) => {
+        setState('error');
+        setError(JSON.stringify(e));
+    }, []);
+
+    const onMsg = React.useCallback(
+        (message: TReceivedMsg) => {
+            if (message.resp === 'pk') {
+                mailboxListener.onGetWXNPk(message);
+                const imgSrc = mailboxListener.idIconSrc;
+
+                setImgSrc(imgSrc);
+                setState('connected');
+            }
+            if (message.resp === 'ready') {
+                setState('waitingLogIn');
+                mailboxListener.setConnectionIsReady();
+            }
+            if (message.resp === 'userData') {
+                mailboxListener.setConnectionIsReady();
+                onConfirm({
+                    address: message.value.address,
+                    publicKey: message.value.publicKey,
+                    name: message.value.name || 'WX.Network Account',
+                });
+                mailboxListener.removeCb('onCreate', onCreate);
+                mailboxListener.removeCb('onMsg', onMsg);
+                mailboxListener.removeCb('onClose', onClose);
+                mailboxListener.removeCb('onError', onError);
+            }
+        },
+        [mailboxListener, onConfirm, onCreate, onClose, onError]
+    );
+
     const handleConnect = React.useCallback((): void => {
         const id = convertBase32ToId(code);
 
-        mailboxListener.connect(id, {
-            onCreate: () => {
-                mailboxListener.setCode(code);
-                mailboxListener.generatePair();
-            },
-            onMsg: (message: TReceivedMsg) => {
-                if (message.resp === 'pk') {
-                    mailboxListener.onGetWXNPk(message);
-                    const imgSrc = mailboxListener.idIconSrc;
+        mailboxListener.addCb('onCreate', onCreate);
+        mailboxListener.addCb('onMsg', onMsg);
+        mailboxListener.addCb('onClose', onClose);
+        mailboxListener.addCb('onError', onError);
 
-                    setImgSrc(imgSrc);
-                    setState('connected');
-                }
-                // if (message.resp === 'success') {
-                //   onSuccess(message);
-                // }
-                // if (message.resp === 'declined') {
-                //     setState('error');
-                //     setError(message.value.error);
-                // }
-                if (message.resp === 'ready') {
-                    setState('waitingLogIn');
-                    mailboxListener.setConnectionIsReady();
-                }
-                if (message.resp === 'userData') {
-                    mailboxListener.setConnectionIsReady();
-                    onConfirm({
-                        address: message.value.address,
-                        publicKey: message.value.publicKey,
-                    });
-                }
-            },
-            onClose: () => {
-                setState('error');
-                setError('Something went wrong. Try again');
-            },
-            onError: (e) => {
-                setState('error');
-                setError(JSON.stringify(e));
-            },
-        });
-    }, [code, mailboxListener, onConfirm]);
+        mailboxListener.connect(id);
+    }, [code, mailboxListener, onCreate, onMsg, onClose, onError]);
+
+    const handleClose = React.useCallback((): void => {
+        mailboxListener.removeCb('onCreate', onCreate);
+        mailboxListener.removeCb('onMsg', onMsg);
+        mailboxListener.removeCb('onClose', onClose);
+        mailboxListener.removeCb('onError', onError);
+        onCancel();
+    }, [onCancel, onCreate, onClose, onError, onMsg, mailboxListener]);
 
     return (
         <Box bg="main.$800" width={520} borderRadius="$6">
@@ -100,14 +117,14 @@ export const Login: React.FC<IConnectPageProps> = ({
                     fontWeight={500}
                     margin={0}
                 >
-                    Create Mailbox Connection and LogIn
+                    Create Mailbox Connection and Log In
                 </Text>
                 <IconButton
                     ml="auto"
                     size={25}
                     color="basic.$700"
                     _hover={{ color: 'basic.$500' }}
-                    onClick={onCancel}
+                    onClick={handleClose}
                 >
                     <Icon icon={iconClose} />
                 </IconButton>

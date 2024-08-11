@@ -1,3 +1,5 @@
+import { SignerTx } from '@waves/signer';
+
 export interface ICreateMsg {
     resp: 'create';
     id: number;
@@ -42,6 +44,7 @@ export interface IUserDataMsg {
     value: {
         address: string;
         publicKey: string;
+        name?: string;
     };
 }
 
@@ -58,54 +61,9 @@ export interface IMailboxMeta {
     iconSrc?: string;
 }
 
-export interface IMailboxTransfer {
-    type: TRANSACTION_TYPE_NUMBER.TRANSFER;
-    recipient: string;
-    amount: number;
-    assetId?: string;
-    attachment?: string;
-}
-
-interface IMailboxInvokePayment {
-    assetId: string;
-    amount: number;
-}
-
-interface IARGS_ENTRY {
-    type: string;
-    value: any;
-}
-
-export interface IMailboxInvoke {
-    type: TRANSACTION_TYPE_NUMBER.SCRIPT_INVOCATION;
-    payment: [IMailboxInvokePayment] | [];
-    dApp: string;
-    call: {
-        function: string;
-        args?: Array<IARGS_ENTRY>;
-    } | null;
-    fee?: number;
-    feeAssetId?: string;
-}
-
-export interface IMailboxLease {
-    type: TRANSACTION_TYPE_NUMBER.LEASE;
-    amount: number;
-    recipient: string;
-}
-
-export interface IMailboxCancelLease {
-    type: TRANSACTION_TYPE_NUMBER.CANCEL_LEASING;
-    leaseId: string;
-}
-
 export interface IMailboxSignData {
     resp: 'sign';
-    data:
-        | IMailboxTransfer
-        | IMailboxInvoke
-        | IMailboxLease
-        | IMailboxCancelLease;
+    data: Array<SignerTx> | SignerTx;
     meta?: IMailboxMeta;
 }
 
@@ -119,9 +77,4 @@ export interface ICreateConnectionParams {
     onError?: (error: Event) => void;
     onCreate?: (data: ICreateMsg) => void;
     onMsg?: (data: IRawReceivedMsg) => void;
-}
-
-export interface ICreateConnectionListenersParams
-    extends ICreateConnectionParams {
-    onMsg?: (data: IReceivedMsg) => void;
 }

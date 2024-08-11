@@ -11,8 +11,9 @@ import {
     IPKMsg,
     TReceivedMsg,
     IRawReceivedMsg,
-    ICreateConnectionListenersParams,
+    ICreateMsg,
 } from '../mailbox/interface';
+import { ICallbacks } from './interface';
 
 export class MailboxWXNListener {
     protected mailbox: ConnectMailbox;
@@ -21,6 +22,13 @@ export class MailboxWXNListener {
     protected _wxnPK!: string;
     protected _idIconSrc!: string;
     protected _isReady = false; // соединение установлено, произошел обмен публичными ключами и подтвержден идентикон
+    protected callbacks: ICallbacks = {
+        onOpen: [],
+        onClose: [],
+        onCreate: [],
+        onError: [],
+        onMsg: [],
+    };
 
     public get idIconSrc(): string {
         return this._idIconSrc;
@@ -38,27 +46,56 @@ export class MailboxWXNListener {
         this.mailbox = new ConnectMailbox();
     }
 
-    public connect(id: number, cbs: ICreateConnectionListenersParams): void {
+    public connect(id: number): void {
         if (this.mailbox.isCreated) {
             return;
         }
+
         this.mailbox.connect(id, {
-            ...cbs,
+            onOpen: () => {
+                this.callbacks.onOpen.forEach((cb) => {
+                    if (typeof cb === 'function') {
+                        cb();
+                    }
+                });
+            },
+            onCreate: (data: ICreateMsg) => {
+                this.callbacks.onCreate.forEach((cb) => {
+                    if (typeof cb === 'function') {
+                        cb(data);
+                    }
+                });
+            },
+            onClose: (data: CloseEvent) => {
+                this.callbacks.onClose.forEach((cb) => {
+                    if (typeof cb === 'function') {
+                        cb(data);
+                    }
+                });
+            },
+            onError: (data: Event) => {
+                this.callbacks.onError.forEach((cb) => {
+                    if (typeof cb === 'function') {
+                        cb(data);
+                    }
+                });
+            },
             onMsg: (data: IRawReceivedMsg): void => {
-                if (typeof cbs?.onMsg !== 'function') {
-                    return;
-                }
-                cbs.onMsg(this.decryptMessage(data));
+                this.callbacks.onMsg.forEach((cb) => {
+                    if (typeof cb === 'function') {
+                        cb(this.decryptMessage(data));
+                    }
+                });
             },
         });
     }
 
-    public sendMsg(params: Parameters<ConnectMailbox['sendMsg']>): void {
+    public sendMsg(params: Parameters<ConnectMailbox['sendMsg']>[0]): void {
         if (!this.mailbox.isCreated) {
             throw new Error('Connect with WX.Network');
         }
 
-        const data = params[0] || {};
+        const data = params;
 
         if (data.resp === 'sign') {
             if (!this.isReady) {
@@ -76,12 +113,10 @@ export class MailboxWXNListener {
 
     public generatePair(): void {
         this._pair = generateKeyPair();
-        this.sendMsg([
-            {
-                resp: 'pk',
-                value: this._pair.publicKey,
-            },
-        ]);
+        this.sendMsg({
+            resp: 'pk',
+            value: this._pair.publicKey,
+        });
     }
 
     public onGetWXNPk(params: IPKMsg): void {
@@ -99,6 +134,24 @@ export class MailboxWXNListener {
 
     public setNetwork(networkByte?: number): void {
         this.mailbox.setUrl(networkByte);
+    }
+
+    public addCb<T extends keyof ICallbacks>(
+        type: T,
+        cb: ICallbacks[T][0]
+    ): void {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this.callbacks[type].push(cb);
+    }
+
+    public removeCb<T extends keyof ICallbacks>(
+        type: T,
+        cb: ICallbacks[T][0]
+    ): void {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this.callbacks[type] = this.callbacks[type].filter((_cb) => _cb !== cb);
     }
 
     protected createIdenticon(): void {

@@ -41,6 +41,81 @@ export function TestProviderMailbox(): React.ReactElement {
             </div>
 
             <div>
+                <h2>Transfer 0.1 Tether USD Waves to Merry</h2>
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .transfer({
+                                    amount: 100000,
+                                    // assetId: '5Sh9KghfkZyhjwuodovDhB6PghDUGBHiAPZ4MkrPgKtX',
+                                    assetId: 'YYZpFWWkedkhSYsQeFkKgGQJs1w9yEy3At33rUVD1QM',
+                                    // recipient: 'merry',
+                                    recipient: '3Mqtn6v9na7hgbRXbuwNCH28rAr44VxB4ih',
+                                    attachment: null,
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        Basic
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .transfer({
+                                    amount: 10000000,
+                                    // recipient: 'merry',
+                                    recipient: '3Mqtn6v9na7hgbRXbuwNCH28rAr44VxB4ih',
+                                    feeAssetId: '25FEqEjRkqK6yCkiT7Lz6SAYz7gUFCtxfCChnrVFD5AT',
+                                    attachment: null,
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        With custom Fee feeAssetId
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .transfer({
+                                    amount: 10000000,
+                                    recipient: '3Mqtn6v9na7hgbRXbuwNCH28rAr44VxB4ih',
+                                        // '3PCAB4sHXgvtu5NPoen6EXR5yaNbvsEA8Fj',
+                                    attachment: null,
+                                    fee: 676767,
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        With custom Fee amount
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .transfer({
+                                    amount: 10000000,
+                                    recipient: '3Mqtn6v9na7hgbRXbuwNCH28rAr44VxB4ih',
+                                        // '3PCAB4sHXgvtu5NPoen6EXR5yaNbvsEA8Fj',
+                                    attachment: '72k1xXWG59fYdzSNoA',
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        By address With attachment
+                    </button>
+                </div>
+            </div>
+
+            <div>
                 <h2>Logout</h2>
                 <button
                     onClick={() => {

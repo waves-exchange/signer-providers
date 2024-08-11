@@ -1,6 +1,7 @@
 import { Bus, WindowAdapter } from '@waves/waves-browser-bus';
 import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
+import { getSignHandler } from './handlers/sign';
 import { IState } from './interface';
 import {
     IBusEvents,
@@ -11,11 +12,11 @@ import { MailboxWXNListener } from './services';
 
 const { Queue } = utils;
 const queue = new Queue(3);
+const mailboxListener = new MailboxWXNListener();
 
 WindowAdapter.createSimpleWindowAdapter()
     .then((adapter) => {
         const bus = new Bus<IBusEvents, TBusHandlers>(adapter);
-        const mailboxListener = new MailboxWXNListener();
 
         const state: IState = {
             user: null,
@@ -33,7 +34,7 @@ WindowAdapter.createSimpleWindowAdapter()
         //     getSignMessageHandler(queue, state)
         // );
 
-        // bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);
+        bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);
 
         bus.dispatchEvent('ready', void 0);
 
