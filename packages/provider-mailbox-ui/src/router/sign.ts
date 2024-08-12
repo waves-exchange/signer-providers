@@ -6,15 +6,15 @@ import { IUserWithBalances } from '../interface';
 import { CONSTANTS } from '@waves.exchange/provider-ui-components';
 import { IState } from '../interface';
 // import { SignAliasContainer } from '../pages/SignAlias/SignAliasContainer';
-// import { SignBurnContainer } from '../pages/SignBurn/SignBurnContainer';
-// import { SignCancelLease } from '../pages/SignCancelLease/SignCancelLeaseContainer';
+import { SignBurnContainer } from '../pages/SignBurn/SignBurnContainer';
+import { SignCancelLease } from '../pages/SignCancelLease/SignCancelLeaseContainer';
 // import { SignDataContainer } from '../pages/SignData/SignDataContainer';
 import { SignInvoke } from '../pages/SignInvoke/SignInvokeContainer';
-// import { SignIssueContainer } from '../pages/SignIssue/SignIssueContainer';
-// import { SignLease } from '../pages/SignLease/SignLeaseContainer';
+import { SignIssueContainer } from '../pages/SignIssue/SignIssueContainer';
+import { SignLease } from '../pages/SignLease/SignLeaseContainer';
 // import { SignReissueContainer } from '../pages/SignReissue/SignReissueContainer';
 // import { SignSetAccountScript } from '../pages/SignSetAccountScript/SignSetAccountScriptContainer';
-// import { SignSetAssetScriptContainer } from '../pages/SignSetAssetScript/SignSetAssetScriptContainer';
+import { SignSetAssetScriptContainer } from '../pages/SignSetAssetScript/SignSetAssetScriptContainer';
 // import { SignSponsorship } from '../pages/SignSponsorship/SignSponsorshipContainer';
 import { SignTransfer } from '../pages/SignTransfer/SignTransfer';
 import { prepareTransactions } from '../services/transactionsService';
@@ -32,14 +32,14 @@ const getPageByType = (type: keyof TRANSACTION_TYPE_MAP): ReactNode => {
             return SignInvoke;
         // case NAME_MAP.data:
         //     return SignDataContainer;
-        // case NAME_MAP.issue:
-        //     return SignIssueContainer;
+        case NAME_MAP.issue:
+            return SignIssueContainer;
         // case NAME_MAP.exchange:
         //     throw new Error('Unsupported type!'); // TODO
-        // case NAME_MAP.lease:
-        //     return SignLease;
-        // case NAME_MAP.cancelLease:
-        //     return SignCancelLease;
+        case NAME_MAP.lease:
+            return SignLease;
+        case NAME_MAP.cancelLease:
+            return SignCancelLease;
         // case NAME_MAP.alias:
         //     return SignAliasContainer;
         // case NAME_MAP.massTransfer:
@@ -48,10 +48,10 @@ const getPageByType = (type: keyof TRANSACTION_TYPE_MAP): ReactNode => {
         //     return SignSetAccountScript;
         // case NAME_MAP.sponsorship:
         //     return SignSponsorship;
-        // case NAME_MAP.setAssetScript:
-        //     return SignSetAssetScriptContainer;
-        // case NAME_MAP.burn:
-        //     return SignBurnContainer;
+        case NAME_MAP.setAssetScript:
+            return SignSetAssetScriptContainer;
+        case NAME_MAP.burn:
+            return SignBurnContainer;
         // case NAME_MAP.reissue:
         //     return SignReissueContainer;
         default:

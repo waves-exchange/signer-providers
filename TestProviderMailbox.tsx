@@ -188,6 +188,106 @@ export function TestProviderMailbox(): React.ReactElement {
             </div>
 
             <div>
+                <h2>Lease</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .lease({
+                                amount: 107728840,
+                                recipient:
+                                    '3Mz9N7YPfZPWGd4yYaX6H53Gcgrq6ifYiH7',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Lease
+                </button>
+                <button
+                    onClick={() => {
+                        signer
+                            .lease({
+                                amount: 107728840,
+                                recipient: 'alias:T:merry',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Lease to Merry by alias
+                </button>
+            </div>
+
+            <div>
+                <h2>Cancel Lease</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .cancelLease({
+                                leaseId:
+                                    '4VVLVYWzDa3ntpk6DfYsVePj2C2WNg47mHPNCm8xuES9',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Cancel Lease
+                </button>
+            </div>
+
+            <div>
+                <h2>Sign Set Asset Script</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .setAssetScript({
+                                assetId:
+                                    '8oW25aejCY2T2JSL7nwchEkKykH5LJ59mbTMHvUbbzHB',
+                                // script: 'base64:BQbtKNoM',
+                                script: 'base64:BQe02cAZ',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Set asset script
+                </button>
+            </div>
+
+            <div>
+                <h2>Sign Burn</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .burn({
+                                assetId:
+                                    '9457rs52YU52oEYySuFYztNBaFkEMyXuknZF4kDx79qC',
+                                amount: 1,
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Burn
+                </button>
+            </div>
+
+            <div>
+                <h2>Sign Issue</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .issue({
+                                name: 'Name of Token',
+                                decimals: 2,
+                                quantity: 1000,
+                                reissuable: false,
+                                description: 'Description of token',
+                                script: 'base64:BQe02cAZ',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Sign issue
+                </button>
+            </div>
+
+            <div>
                 <h2>Logout</h2>
                 <button
                     onClick={() => {
