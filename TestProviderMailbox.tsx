@@ -116,6 +116,78 @@ export function TestProviderMailbox(): React.ReactElement {
             </div>
 
             <div>
+                <h2>Invoke</h2>
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .invoke({
+                                    dApp: 'alias:T:merry',
+                                    payment: [{ assetId: 'WAVES', amount: 1 }],
+                                    call: {
+                                        function: 'test',
+                                        args: [
+                                            { type: 'string', value: 'string' },
+                                            { type: 'integer', value: 123123123 },
+                                            { type: 'boolean', value: true },
+                                            {
+                                                type: 'binary',
+                                                value:
+                                                    'base64:AAIDAAAAAAAAAAQIARIAAAAAAAAAAAEAAAABaQEAAAADZm9vAAAAAAkBAAAACFdyaXRlU2V0AAAAAQUAAAADbmlsAAAAACvwfcA=',
+                                            },
+                                        ],
+                                    },
+                                    fee: 1000,
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        Invoke
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .invoke({
+                                    dApp: '3Mw8ZcMK47vENHqhYYhCZTCPDXhff6ZQVwt',
+                                    payment: [{ assetId: 'YYZpFWWkedkhSYsQeFkKgGQJs1w9yEy3At33rUVD1QM', amount: 1000000 }],
+                                    call: {
+                                        function: 'stake',
+                                        args: [],
+                                    },
+                                    fee: 500000,
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        Stake 0.01 USDT
+                    </button>
+                </div>
+
+                <div>
+                    <button
+                        onClick={() => {
+                            signer
+                                .invoke({
+                                    dApp: '3Mw8ZcMK47vENHqhYYhCZTCPDXhff6ZQVwt',
+                                    payment: [],
+                                    call: {
+                                        function: 'unstake',
+                                        args: [{ type: 'integer', value: 1000000 }],
+                                    },
+                                    fee: 500000,
+                                })
+                                .broadcast();
+                        }}
+                    >
+                        Unstake 0.01 USDT
+                    </button>
+                </div>
+            </div>
+
+            <div>
                 <h2>Logout</h2>
                 <button
                     onClick={() => {

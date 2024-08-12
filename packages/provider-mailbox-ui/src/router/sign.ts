@@ -9,7 +9,7 @@ import { IState } from '../interface';
 // import { SignBurnContainer } from '../pages/SignBurn/SignBurnContainer';
 // import { SignCancelLease } from '../pages/SignCancelLease/SignCancelLeaseContainer';
 // import { SignDataContainer } from '../pages/SignData/SignDataContainer';
-// import { SignInvoke } from '../pages/SignInvoke/SignInvokeContainer';
+import { SignInvoke } from '../pages/SignInvoke/SignInvokeContainer';
 // import { SignIssueContainer } from '../pages/SignIssue/SignIssueContainer';
 // import { SignLease } from '../pages/SignLease/SignLeaseContainer';
 // import { SignReissueContainer } from '../pages/SignReissue/SignReissueContainer';
@@ -28,8 +28,8 @@ const getPageByType = (type: keyof TRANSACTION_TYPE_MAP): ReactNode => {
     switch (type) {
         case NAME_MAP.transfer:
             return SignTransfer;
-        // case NAME_MAP.invoke:
-        //     return SignInvoke;
+        case NAME_MAP.invoke:
+            return SignInvoke;
         // case NAME_MAP.data:
         //     return SignDataContainer;
         // case NAME_MAP.issue:

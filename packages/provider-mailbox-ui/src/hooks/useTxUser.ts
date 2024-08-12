@@ -1,11 +1,13 @@
-import { IUserWithBalances } from '../interface';
-import { CONSTANTS, utils } from '@waves.exchange/provider-ui-components';
+// TODO: delete ?
 
-const { WAVES } = CONSTANTS;
-const { getPrintableNumber } = utils;
+// import { IUserWithBalances } from '../interface';
+// import { CONSTANTS, utils } from '@waves.exchange/provider-ui-components';
 
-export const useTxUser = (user: IUserWithBalances): { userBalance: string } => {
-    const userBalance = getPrintableNumber(user.balance, WAVES.decimals);
+// const { WAVES } = CONSTANTS;
+// const { getPrintableNumber } = utils;
 
-    return { userBalance };
-};
+// export const useTxUser = (user: IUserWithBalances): { userBalance: string } => {
+//     const userBalance = getPrintableNumber(user.balance, WAVES.decimals);
+
+//     return { userBalance };
+// };
