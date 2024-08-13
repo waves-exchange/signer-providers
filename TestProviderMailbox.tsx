@@ -116,6 +116,34 @@ export function TestProviderMailbox(): React.ReactElement {
             </div>
 
             <div>
+                <h2>Sign massTransfer</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .massTransfer({
+                                assetId:
+                                    'YYZpFWWkedkhSYsQeFkKgGQJs1w9yEy3At33rUVD1QM',
+                                transfers: [
+                                    {
+                                        amount: 10,
+                                        recipient: 'merry',
+                                    },
+                                    {
+                                        amount: 20,
+                                        recipient:
+                                            '3NCPkdHiodCM5VMQrc8y2mjkhUcgjZapuJx',
+                                    },
+                                ],
+                                attachment: '72k1xXWG59fYdzSNoA',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    massTransfer
+                </button>
+            </div>
+
+            <div>
                 <h2>Invoke</h2>
                 <div>
                     <button
@@ -284,6 +312,128 @@ export function TestProviderMailbox(): React.ReactElement {
                     }}
                 >
                     Sign issue
+                </button>
+            </div>
+
+            <div>
+                <h2>Reissue</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .reissue({
+                                assetId:
+                                    'DAimjDKFxVrLKBCPPF8cUHf8FRc2j64XaXxEiBo7JUwV',
+                                quantity: 100000000000,
+                                reissuable: true,
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Sign Reissue
+                </button>
+            </div>
+
+            <div>
+                <h2>Sponsorship</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .sponsorship({
+                                assetId:
+                                    'DAimjDKFxVrLKBCPPF8cUHf8FRc2j64XaXxEiBo7JUwV',
+                                minSponsoredAssetFee: 123,
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Sign Sponsorship Enable
+                </button>
+
+                <button
+                    onClick={() => {
+                        signer
+                            .sponsorship({
+                                assetId:
+                                    'DAimjDKFxVrLKBCPPF8cUHf8FRc2j64XaXxEiBo7JUwV',
+                                minSponsoredAssetFee: 0,
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Sign Sponsorship Disable
+                </button>
+            </div>
+
+            <div>
+                <h2>Alias</h2>
+                <button
+                    onClick={() => {
+                        signer.alias({ alias: 'new_alias_from_signer' }).broadcast();
+                    }}
+                >
+                    Sign Alias
+                </button>
+            </div>
+
+            <div>
+                <h2>Account Script</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .setScript({
+                                script:
+                                    'base64:BQkAAfQAAAADCAUAAAACdHgAAAAJYm9keUJ5dGVzCQABkQAAAAIIBQAAAAJ0eAAAAAZwcm9vZnMAAAAAAAAAAAAIBQAAAAJ0eAAAAA9zZW5kZXJQdWJsaWNLZXlzTh3b',
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Set Script
+                </button>
+            </div>
+
+            <div>
+                <h2>Data</h2>
+                <button
+                    onClick={() => {
+                        signer
+                            .data({
+                                data: [
+                                    {
+                                        key: 'key1',
+                                        value: 'world',
+                                        type: 'string',
+                                    },
+                                    {
+                                        key: 'key2',
+                                        value: 'world',
+                                        type: 'string',
+                                    },
+                                    {
+                                        key: 'key3',
+                                        value: 'world',
+                                        type: 'string',
+                                    },
+                                    {
+                                        key: 'AAAAAAAAAAAEAAAABaQEAAAADZm9v',
+                                        value: 'world',
+                                        type: 'string',
+                                    },
+                                    {
+                                        key: 'key4',
+                                        value: 123123123,
+                                        type: 'integer',
+                                    },
+                                    {
+                                        key: 'key5',
+                                        value: true,
+                                        type: 'boolean',
+                                    },
+                                ],
+                            })
+                            .broadcast();
+                    }}
+                >
+                    Data
                 </button>
             </div>
 

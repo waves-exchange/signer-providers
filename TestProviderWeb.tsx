@@ -2,10 +2,10 @@ import React, { useEffect, useMemo } from 'react';
 import { Signer } from '@waves/signer';
 import { ProviderWeb } from './packages/provider-web/src';
 
-const url = location.href.includes('provider=exchange')
-    ? 'https://wallet-stage2.waves.exchange/signer'
-    : location.origin + '/packages/provider-web-ui/index.html';
-// const url = 'https://testnet.wx.network/signer';
+// const url = location.href.includes('provider=exchange')
+//     ? 'https://wallet-stage2.waves.exchange/signer'
+//     : location.origin + '/packages/provider-web-ui/index.html';
+const url = 'https://testnet.wx.network/signer';
 
 const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesnodes.com'

@@ -10,11 +10,8 @@ import { Bus } from '@waves/waves-browser-bus';
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TBusHandlers = {
     login: () => Promise<UserData>;
-
-    // 'sign-custom-bytes': (data: string) => Promise<string>;
     // 'sign-message': (data: string | number) => Promise<string>;
     // 'sign-typed-data': (data: Array<TypedData>) => Promise<string>;
-
     sign<T extends Array<SignerTx>>(
         list: T
     ): Promise<{ [Key in keyof T]: SignedTx<T[Key]> }>;

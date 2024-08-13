@@ -116,7 +116,7 @@ export class ProviderMailbox implements Provider {
         //         bus.request('sign-typed-data', data)
         //     )
         // );
-        return Promise.resolve();
+        return Promise.resolve('');
     }
 
     public sign<T extends Array<SignerTx>>(toSign: T): Promise<SignedTx<T>> {
