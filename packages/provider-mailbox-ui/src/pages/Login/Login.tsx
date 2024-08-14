@@ -12,6 +12,7 @@ import {
     Text,
     Input,
     Button,
+    ExternalLink,
 } from '@waves.exchange/react-uikit';
 import { Error } from './Error';
 import { Identicon } from './Identicon';
@@ -147,12 +148,35 @@ export const Login: React.FC<IConnectPageProps> = ({
                         default:
                             return (
                                 <>
+                                    <Text
+                                        variant="body1"
+                                        color="standard.$0"
+                                        display="inline-block"
+                                        mb={16}
+                                    >
+                                        Open{' '}
+                                        <ExternalLink href="https://wx.network?openMailboxProviderConnection">
+                                            WX.Network
+                                        </ExternalLink>{' '}
+                                        domain and create connection. Enter the
+                                        code generated on the WX.Network domain
+                                        tab to continue login.
+                                    </Text>
+                                    <Text
+                                        variant="body1"
+                                        color="warning.$500"
+                                        display="inline-block"
+                                        mb={16}
+                                    >
+                                        Please do not close this tab until the
+                                        login is completed!
+                                    </Text>
                                     <Input
                                         value={code}
                                         onChange={(e) =>
                                             setCode((e.target as any).value)
                                         }
-                                        placeholder="Enter code from WX.Network"
+                                        placeholder="Enter the code from WX.Network"
                                     />
                                     <Button
                                         variant="primary"
@@ -160,8 +184,9 @@ export const Login: React.FC<IConnectPageProps> = ({
                                         width="100%"
                                         mt={20}
                                         onClick={handleConnect}
+                                        disabled={code === ''}
                                     >
-                                        Connect
+                                        Continue
                                     </Button>
                                 </>
                             );
