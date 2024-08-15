@@ -7,6 +7,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { LeaseTransaction } from '@waves/ts-types';
+import { PENDING_SIGN_TEXT } from '../../constants/constants';
 
 const { WAVES } = CONSTANTS;
 const { cleanAddress, getPrintableNumber, isAlias } = utils;
@@ -26,6 +27,16 @@ export const SignLease: FC<ISignTxProps<LeaseTransaction>> = ({
         ? meta.aliases[tx.recipient]
         : tx.recipient;
 
+    const [isPending, setIsPending] = React.useState<boolean>(false);
+
+    const _onConfirm = React.useCallback(
+        (e): void => {
+            onConfirm(e);
+            setIsPending(true);
+        },
+        [onConfirm]
+    );
+
     return (
         <SignLeaseComponent
             userAddress={user.address}
@@ -37,7 +48,9 @@ export const SignLease: FC<ISignTxProps<LeaseTransaction>> = ({
             amount={`${amount} ${WAVES.name}`}
             fee={`${fee} ${WAVES.name}`}
             onReject={onCancel}
-            onConfirm={onConfirm}
+            onConfirm={_onConfirm}
+            isPending={isPending}
+            pendingText={PENDING_SIGN_TEXT}
         />
     );
 };

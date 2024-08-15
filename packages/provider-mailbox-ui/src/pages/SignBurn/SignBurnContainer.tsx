@@ -6,6 +6,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { BurnTransaction } from '@waves/ts-types';
+import { PENDING_SIGN_TEXT } from '../../constants/constants';
 
 const { WAVES } = CONSTANTS;
 const { getPrintableNumber } = utils;
@@ -24,6 +25,16 @@ export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
 
     const fee = getPrintableNumber(tx.fee, feeAsset.decimals);
 
+    const [isPending, setIsPending] = React.useState<boolean>(false);
+
+    const _onConfirm = React.useCallback(
+        (e): void => {
+            onConfirm(e);
+            setIsPending(true);
+        },
+        [onConfirm]
+    );
+
     return (
         <SignBurnComponent
             key={tx.id}
@@ -40,7 +51,9 @@ export const SignBurnContainer: FC<ISignTxProps<BurnTransaction>> = ({
             assetName={burnAsset.name}
             isSmartAsset={burnAsset.scripted}
             onCancel={onCancel}
-            onConfirm={onConfirm}
+            onConfirm={_onConfirm}
+            isPending={isPending}
+            pendingText={PENDING_SIGN_TEXT}
         />
     );
 };

@@ -7,6 +7,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { ReissueTransaction } from '@waves/ts-types';
+import { PENDING_SIGN_TEXT } from '../../constants/constants';
 
 const { WAVES } = CONSTANTS;
 const { getPrintableNumber } = utils;
@@ -22,6 +23,16 @@ export const SignReissueContainer: FC<ISignTxProps<ReissueTransaction>> = ({
     const fee = getPrintableNumber(tx.fee, WAVES.decimals);
     const reissueAsset = tx.assetId === null ? WAVES : meta.assets[tx.assetId];
 
+    const [isPending, setIsPending] = React.useState<boolean>(false);
+
+    const _onConfirm = React.useCallback(
+        (e): void => {
+            onConfirm(e);
+            setIsPending(true);
+        },
+        [onConfirm]
+    );
+
     return (
         <SignReissueComponent
             userAddress={user.address}
@@ -34,8 +45,10 @@ export const SignReissueContainer: FC<ISignTxProps<ReissueTransaction>> = ({
             )} ${reissueAsset.name}`}
             reissueAsset={reissueAsset}
             fee={`${fee} WAVES`}
-            onConfirm={onConfirm}
+            onConfirm={_onConfirm}
             onReject={onCancel}
+            isPending={isPending}
+            pendingText={PENDING_SIGN_TEXT}
         />
     );
 };

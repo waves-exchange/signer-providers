@@ -17,6 +17,8 @@ type IConfirmationProps = TFlexProps & {
     canConfirm?: boolean;
     onReject: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const Confirmation: FC<IConfirmationProps> = ({
@@ -27,6 +29,8 @@ export const Confirmation: FC<IConfirmationProps> = ({
     children,
     onReject,
     onConfirm,
+    isPending = false,
+    pendingText,
     ...rest
 }) => (
     <Flex
@@ -78,6 +82,7 @@ export const Confirmation: FC<IConfirmationProps> = ({
                 flexGrow={1}
                 variant="danger"
                 variantSize="medium"
+                maxWidth="50%"
                 onClick={onReject}
             >
                 Reject
@@ -87,10 +92,11 @@ export const Confirmation: FC<IConfirmationProps> = ({
                 flexGrow={1}
                 variant="primary"
                 variantSize="medium"
-                disabled={!canConfirm}
+                maxWidth="50%"
+                disabled={!canConfirm || isPending}
                 onClick={onConfirm}
             >
-                Confirm
+                {isPending ? pendingText || 'Waiting...' : 'Confirm'}
             </Button>
         </Flex>
     </Flex>

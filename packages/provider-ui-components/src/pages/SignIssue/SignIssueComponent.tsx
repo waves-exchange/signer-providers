@@ -41,6 +41,8 @@ type Props = {
     onConfirm: MouseEventHandler<HTMLButtonElement>;
     onTermsCheck: ChangeEventHandler<HTMLInputElement>;
     tx: IssueTransaction & WithId;
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const SignIssueComponent: FC<Props> = ({
@@ -60,6 +62,8 @@ export const SignIssueComponent: FC<Props> = ({
     onTermsCheck,
     canConfirm,
     tx,
+    isPending,
+    pendingText,
 }) => {
     const {
         boundaryRef: helpTooltipBoundaryRef,
@@ -83,6 +87,8 @@ export const SignIssueComponent: FC<Props> = ({
                 onReject={onReject}
                 onConfirm={onConfirm}
                 canConfirm={canConfirm}
+                isPending={isPending}
+                pendingText={pendingText}
             >
                 <Flex px="$40" py="$20" bg="main.$900">
                     <Flex

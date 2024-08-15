@@ -7,6 +7,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { AliasTransaction } from '@waves/ts-types';
+import { PENDING_SIGN_TEXT } from '../../constants/constants';
 
 const { WAVES } = CONSTANTS;
 const { getPrintableNumber } = utils;
@@ -20,6 +21,16 @@ export const SignAliasContainer: FC<ISignTxProps<AliasTransaction>> = ({
     const { userBalance } = useTxUser(user);
     const fee = getPrintableNumber(tx.fee, WAVES.decimals);
 
+    const [isPending, setIsPending] = React.useState<boolean>(false);
+
+    const _onConfirm = React.useCallback(
+        (e): void => {
+            onConfirm(e);
+            setIsPending(true);
+        },
+        [onConfirm]
+    );
+
     return (
         <SignAliasComponent
             userAddress={user.address}
@@ -28,8 +39,10 @@ export const SignAliasContainer: FC<ISignTxProps<AliasTransaction>> = ({
             userHasScript={user.hasScript}
             tx={tx}
             fee={`${fee} WAVES`}
-            onConfirm={onConfirm}
+            onConfirm={_onConfirm}
             onReject={onCancel}
+            isPending={isPending}
+            pendingText={PENDING_SIGN_TEXT}
         />
     );
 };

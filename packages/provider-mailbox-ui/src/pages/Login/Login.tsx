@@ -35,15 +35,19 @@ export const Login: React.FC<IConnectPageProps> = ({
     const [code, setCode] = React.useState<string>('');
     const [imgSrc, setImgSrc] = React.useState<string>('');
     const [error, setError] = React.useState<string>('');
+    const [isPending, setIsPending] = React.useState<boolean>(false);
 
     const onCreate = React.useCallback(() => {
+        setIsPending(true);
         mailboxListener.setCode(code);
         mailboxListener.generatePair();
     }, [code, mailboxListener]);
 
     const onClose = React.useCallback(() => {
         setState('error');
-        setError('Something went wrong. Try again');
+        setError(
+            'Connection was closed. Please, update code on the WX.Network and try again.'
+        );
     }, []);
 
     const onError = React.useCallback((e) => {
@@ -59,6 +63,7 @@ export const Login: React.FC<IConnectPageProps> = ({
 
                 setImgSrc(imgSrc);
                 setState('connected');
+                setIsPending(false);
             }
             if (message.resp === 'ready') {
                 setState('waitingLogIn');
@@ -98,6 +103,17 @@ export const Login: React.FC<IConnectPageProps> = ({
         mailboxListener.removeCb('onError', onError);
         onCancel();
     }, [onCancel, onCreate, onClose, onError, onMsg, mailboxListener]);
+
+    const onTryAgain = React.useCallback((): void => {
+        setState('initial');
+        setError('');
+        setCode('');
+        setImgSrc('');
+        mailboxListener.removeCb('onCreate', onCreate);
+        mailboxListener.removeCb('onMsg', onMsg);
+        mailboxListener.removeCb('onClose', onClose);
+        mailboxListener.removeCb('onError', onError);
+    }, [onCreate, onClose, onError, onMsg, mailboxListener]);
 
     return (
         <Box bg="main.$800" width={520} borderRadius="$6">
@@ -139,7 +155,9 @@ export const Login: React.FC<IConnectPageProps> = ({
                 {(() => {
                     switch (state) {
                         case 'error':
-                            return <Error error={error} />;
+                            return (
+                                <Error error={error} onTryAgain={onTryAgain} />
+                            );
                         case 'connected':
                             return <Identicon imgSrc={imgSrc} />;
                         case 'waitingLogIn':
@@ -184,9 +202,9 @@ export const Login: React.FC<IConnectPageProps> = ({
                                         width="100%"
                                         mt={20}
                                         onClick={handleConnect}
-                                        disabled={code === ''}
+                                        disabled={code === '' || isPending}
                                     >
-                                        Continue
+                                        {isPending ? '...' : 'Continue'}
                                     </Button>
                                 </>
                             );

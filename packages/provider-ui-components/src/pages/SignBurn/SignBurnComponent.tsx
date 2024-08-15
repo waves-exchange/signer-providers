@@ -31,6 +31,8 @@ export interface ISignBurnProps {
     assetId: string;
     assetName: string;
     isSmartAsset: boolean;
+    isPending?: boolean;
+    pendingText?: string;
 }
 
 export const SignBurn: FC<ISignBurnProps> = ({
@@ -45,6 +47,8 @@ export const SignBurn: FC<ISignBurnProps> = ({
     assetId,
     assetName,
     isSmartAsset,
+    isPending,
+    pendingText,
 }) => {
     const { boundaryRef, popperOptions } = useBoundedTooltip({ left: 40 });
 
@@ -56,6 +60,8 @@ export const SignBurn: FC<ISignBurnProps> = ({
                 balance={userBalance}
                 onReject={onCancel}
                 onConfirm={onConfirm}
+                isPending={isPending}
+                pendingText={pendingText}
             >
                 <Flex px="$40" py="$20" bg="main.$900">
                     <Flex

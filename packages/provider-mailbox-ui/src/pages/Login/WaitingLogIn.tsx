@@ -14,8 +14,11 @@ export const WaitingForLogIn: React.FC = React.memo(() => {
                 textAlign="center"
                 mb="16px"
                 fontWeight={300}
+                sx={{
+                    whiteSpace: 'break-spaces',
+                }}
             >
-                {`Waiting for Log In in WX.Network. Don't close this window until Log In.`}
+                {`Waiting for Log In in WX.Network.\nDon't close this window until Log In.`}
             </Text>
             <DotLoader />
         </Flex>

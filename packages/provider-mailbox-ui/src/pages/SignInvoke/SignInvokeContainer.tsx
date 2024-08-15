@@ -12,6 +12,7 @@ import {
     InvokeScriptTransaction,
     Long,
 } from '@waves/ts-types';
+import { PENDING_SIGN_TEXT } from '../../constants/constants';
 
 const { WAVES } = CONSTANTS;
 const { assetPropFactory, getPrintableNumber, isAlias } = utils;
@@ -55,6 +56,16 @@ export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
 
     const [handleFeeSelect, txJSON] = hooks.useHandleFeeSelect(tx);
 
+    const [isPending, setIsPending] = React.useState<boolean>(false);
+
+    const _onConfirm = React.useCallback(
+        (e): void => {
+            onConfirm(e);
+            setIsPending(true);
+        },
+        [onConfirm]
+    );
+
     return (
         <SignInvokeComponent
             userAddress={user.address}
@@ -67,11 +78,13 @@ export const SignInvoke: FC<ISignTxProps<InvokeScriptTransaction>> = ({
             chainId={tx.chainId}
             payment={mapPayments(tx.payment || [])}
             onCancel={onCancel}
-            onConfirm={onConfirm}
+            onConfirm={_onConfirm}
             tx={tx}
             txJSON={txJSON}
             meta={meta}
             handleFeeSelect={handleFeeSelect}
+            isPending={isPending}
+            pendingText={PENDING_SIGN_TEXT}
         />
     );
 };

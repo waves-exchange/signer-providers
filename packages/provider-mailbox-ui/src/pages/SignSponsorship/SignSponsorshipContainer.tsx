@@ -6,6 +6,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { SponsorshipTransaction } from '@waves/ts-types';
+import { PENDING_SIGN_TEXT } from '../../constants/constants';
 
 const { WAVES } = CONSTANTS;
 const { getPrintableNumber } = utils;
@@ -24,6 +25,16 @@ export const SignSponsorship: FC<ISignTxProps<SponsorshipTransaction>> = ({
     );
     const fee = getPrintableNumber(tx.fee, WAVES.decimals);
 
+    const [isPending, setIsPending] = React.useState<boolean>(false);
+
+    const _onConfirm = React.useCallback(
+        (e): void => {
+            onConfirm(e);
+            setIsPending(true);
+        },
+        [onConfirm]
+    );
+
     return (
         <SignSponsorshipComponent
             key={tx.id}
@@ -36,7 +47,9 @@ export const SignSponsorship: FC<ISignTxProps<SponsorshipTransaction>> = ({
             sponsorCharge={`${sponsorCharge} ${sponsorAsset.name}`}
             isSponsorshipEnable={Number(tx.minSponsoredAssetFee) > 0}
             onReject={onCancel}
-            onConfirm={onConfirm}
+            onConfirm={_onConfirm}
+            isPending={isPending}
+            pendingText={PENDING_SIGN_TEXT}
         />
     );
 };

@@ -24,6 +24,8 @@ type SignDataComponentProps = {
     fee: string;
     onReject: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const SignDataComponent: FC<SignDataComponentProps> = ({
@@ -34,6 +36,8 @@ export const SignDataComponent: FC<SignDataComponentProps> = ({
     fee,
     onConfirm,
     onReject,
+    isPending,
+    pendingText,
 }) => (
     <Confirmation
         address={userAddress}
@@ -41,6 +45,8 @@ export const SignDataComponent: FC<SignDataComponentProps> = ({
         balance={userBalance}
         onReject={onReject}
         onConfirm={onConfirm}
+        isPending={isPending}
+        pendingText={pendingText}
     >
         <Flex px="$40" py="$20" bg="main.$900">
             <Flex

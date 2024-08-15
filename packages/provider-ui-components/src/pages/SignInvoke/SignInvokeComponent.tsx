@@ -52,6 +52,8 @@ export interface ISignInvokeProps {
     onConfirm: MouseEventHandler<HTMLButtonElement>;
     handleFeeSelect: FeeSelectHandler;
     txJSON: string;
+    isPending?: boolean;
+    pendingText?: string;
 }
 
 export const SignInvoke: FC<ISignInvokeProps> = ({
@@ -68,6 +70,8 @@ export const SignInvoke: FC<ISignInvokeProps> = ({
     onConfirm,
     handleFeeSelect,
     txJSON,
+    isPending,
+    pendingText,
 }) => {
     const { boundaryRef, popperOptions } = useBoundedTooltip({});
 
@@ -78,6 +82,8 @@ export const SignInvoke: FC<ISignInvokeProps> = ({
             balance={`${getPrintableNumber(userBalance, WAVES.decimals)} Waves`}
             onReject={onCancel}
             onConfirm={onConfirm}
+            isPending={isPending}
+            pendingText={pendingText}
         >
             <Flex py="$20" px="$40" bg="main.$900">
                 <Flex
