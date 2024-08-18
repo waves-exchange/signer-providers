@@ -112,8 +112,9 @@ export default function (
                                 data: tx,
                                 meta: {
                                     referrer: window.location.origin,
+                                    referrerName: 'Mailbox Signer Provider',
                                     iconSrc:
-                                        'https://cdn-icons-png.freepik.com/512/1581/1581884.png?ga=GA1.1.1444280545.1721821233',
+                                        'https://wx.network/img/assets/wx.svg',
                                 },
                             });
                         },

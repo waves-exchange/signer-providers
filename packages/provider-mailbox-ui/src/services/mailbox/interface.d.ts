@@ -60,6 +60,7 @@ export type TReceivedMsg =
 export interface IMailboxMeta {
     userAddress?: string; // user address in multiacc
     referrer?: string; // source
+    referrerName?: string; // source name
     iconSrc?: string;
 }
 
