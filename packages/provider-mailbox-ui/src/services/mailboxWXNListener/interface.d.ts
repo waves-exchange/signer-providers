@@ -1,8 +1,9 @@
 import { ICreateConnectionParams } from '../mailbox/interface';
+import { TReceivedMsg } from '../mailbox/interface';
 
 export interface ICreateConnectionListenersParams
     extends ICreateConnectionParams {
-    onMsg?: (data: IReceivedMsg) => void;
+    onMsg?: (data: TReceivedMsg) => void;
 }
 
 export interface ICallbacks {

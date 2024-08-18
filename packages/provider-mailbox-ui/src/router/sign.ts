@@ -20,7 +20,7 @@ import { SignTransfer } from '../pages/SignTransfer/SignTransfer';
 import { prepareTransactions } from '../services/transactionsService';
 import renderPage from '../utils/renderPage';
 import batch from './batch';
-import { ITxSuccessMsg, ITxDeclinedMsg } from '../services/mailbox/interface';
+import { TReceivedMsg } from '../services/mailbox/interface';
 
 const { NAME_MAP } = CONSTANTS;
 
@@ -77,12 +77,20 @@ export default function (
                 const mailboxListener = state.mailboxListener;
 
                 return new Promise<any>((resolve, reject) => {
-                    const onMsg = (message: ITxSuccessMsg | ITxDeclinedMsg) => {
-                        if (message.resp === 'success') {
+                    const msgId = crypto.randomUUID();
+
+                    const onMsg = (message: TReceivedMsg) => {
+                        if (
+                            message.resp === 'success' &&
+                            message.msgId === msgId
+                        ) {
                             mailboxListener.removeCb('onMsg', onMsg);
                             resolve(message.value);
                         }
-                        if (message.resp === 'declined') {
+                        if (
+                            message.resp === 'declined' &&
+                            message.msgId === msgId
+                        ) {
                             mailboxListener.removeCb('onMsg', onMsg);
                             console.error(message.value.error);
                             reject(new Error(message.value.error));
@@ -100,6 +108,7 @@ export default function (
                             mailboxListener.addCb('onMsg', onMsg);
                             mailboxListener.sendMsg({
                                 resp: 'sign',
+                                msgId,
                                 data: tx,
                                 meta: {
                                     referrer: window.location.origin,

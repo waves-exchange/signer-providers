@@ -15,6 +15,7 @@ export interface IRawReceivedMsg {
 // transaction send success message
 export interface ITxSuccessMsg {
     resp: 'success';
+    msgId: string;
     value: {
         data: any; // data that was sent in wx.network
     };
@@ -23,6 +24,7 @@ export interface ITxSuccessMsg {
 // transaction send decline message
 export interface ITxDeclinedMsg {
     resp: 'declined';
+    msgId: string;
     value: {
         data: any; // data that was sent in wx.network
         error?: any;
@@ -64,6 +66,7 @@ export interface IMailboxMeta {
 export interface IMailboxSignData {
     resp: 'sign';
     data: Array<SignerTx> | SignerTx;
+    msgId: string;
     meta?: IMailboxMeta;
 }
 

@@ -105,6 +105,7 @@ export class MailboxWXNListener {
                 resp: data.resp,
                 meta: data.meta,
                 data: this.encryptMessage(data.data),
+                msgId: data.msgId,
             });
         } else {
             this.mailbox.sendMsg(data);
