@@ -12,7 +12,7 @@ export interface IRawReceivedMsg {
     value?: string;
 }
 
-// transaction send success message
+// transaction sign success message
 export interface ITxSuccessMsg {
     resp: 'success';
     msgId: string;
@@ -21,7 +21,7 @@ export interface ITxSuccessMsg {
     };
 }
 
-// transaction send decline message
+// transaction sign decline message
 export interface ITxDeclinedMsg {
     resp: 'declined';
     msgId: string;
@@ -64,14 +64,23 @@ export interface IMailboxMeta {
     iconSrc?: string;
 }
 
-export interface IMailboxSignData {
-    resp: 'sign';
-    data: Array<SignerTx> | SignerTx;
+interface IMailboxBaseSign {
+    resp: 'sign' | 'signMessage';
     msgId: string;
     meta?: IMailboxMeta;
 }
 
-export type TSendMsg = IMailboxSignData;
+export interface IMailboxSignData extends IMailboxBaseSign {
+    resp: 'sign';
+    data: Array<SignerTx> | SignerTx;
+}
+
+export interface IMailboxSignMessage extends IMailboxBaseSign {
+    resp: 'signMessage';
+    data: string;
+}
+
+export type TSendMsg = IMailboxSignData | IMailboxSignMessage;
 
 export type TSendSocketData = string | ArrayBufferLike | Blob | ArrayBufferView;
 

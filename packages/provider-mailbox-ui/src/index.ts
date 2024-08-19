@@ -9,6 +9,7 @@ import {
     utils,
 } from '@waves.exchange/provider-ui-components';
 import { MailboxWXNListener } from './services';
+import { getSignMessageHandler } from './handlers/signMessage';
 
 const { Queue } = utils;
 const queue = new Queue(3);
@@ -29,10 +30,10 @@ WindowAdapter.createSimpleWindowAdapter()
 
         bus.registerRequestHandler('login', getLoginHandler(queue, state));
 
-        // bus.registerRequestHandler(
-        //     'sign-message',
-        //     getSignMessageHandler(queue, state)
-        // );
+        bus.registerRequestHandler(
+            'sign-message',
+            getSignMessageHandler(queue, state)
+        );
 
         bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);
 

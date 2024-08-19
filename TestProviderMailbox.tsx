@@ -10,9 +10,38 @@ const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesnodes.com'
     : 'https://nodes-testnet.wavesnodes.com';
 
+const testSignMessage = async (
+    signer: Signer,
+    setValue: (token: string) => void
+) => {
+    const chain_code = location.href.includes('mainnet') ? "W" : "T";
+    const client_id = "wx.network";
+    const seconds = Math.round((Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000);
+    const message = `${chain_code}:${client_id}:${seconds}`;
+
+    const { publicKey } = await signer.login();
+    const signature = await signer.signMessage(message);
+    const url = `https://api${chain_code === 'T' ? '-testnet' : ''}.wx.network/v1/oauth2/token`;
+    const data = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+        },
+        body: [
+            "grant_type=password",
+            "scope=general",
+            `username=${encodeURIComponent(publicKey)}`,
+            "password=" + encodeURIComponent(`${seconds}:${signature}`),
+            `client_id=${client_id}`
+        ].join('&')
+    }).then(result => result.json());
+    setValue(data.access_token);
+};
+
 export function TestProviderMailbox(): React.ReactElement {
     const provider = useMemo(() => new ProviderMailbox(url, true), []);
     const signer = useMemo(() => new Signer({ NODE_URL: node }), []);
+    const [token, setToken] = React.useState('');
 
     useEffect((): void => {
         signer.setProvider(provider);
@@ -435,6 +464,37 @@ export function TestProviderMailbox(): React.ReactElement {
                 >
                     Data
                 </button>
+            </div>
+
+            <div>
+                <h2>Sign Message</h2>
+                <button
+                    onClick={() => {
+                        signer.signMessage(
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et lacinia augue. Nulla eu diam orci. Suspendisse dapibus porttitor tellus id mattis. Phasellus vitae condimentum justo. Maecenas et ultricies libero. Donec vitae lacus lectus. Cras sem felis, pretium sed lacinia ac, congue quis ipsum. Etiam eget auctor sapien, vel accumsan nisi. Aenean ac risus sit amet nulla lacinia ullamcorper ut ac nunc. Suspendisse potenti. Donec dolor diam, hendrerit in ligula cursus, vestibulum tristique mauris. Vestibulum vitae congue risus, quis placerat est.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et lacinia augue. Nulla eu diam orci. Suspendisse dapibus porttitor tellus id mattis. Phasellus vitae condimentum justo. Maecenas et ultricies libero. Donec vitae lacus lectus. Cras sem felis, pretium sed lacinia ac, congue quis ipsum. Etiam eget auctor sapien, vel accumsan nisi. Aenean ac risus sit amet nulla lacinia ullamcorper ut ac nunc. Suspendisse potenti. Donec dolor diam, hendrerit in ligula cursus, vestibulum tristique mauris. Vestibulum vitae congue risus, quis placerat est.'
+                        );
+                    }}
+                >
+                    Sign Lorem ipsum dolor sit amet...
+                </button>
+            </div>
+
+            <div>
+                <h2>Sign Message2</h2>
+                <div style={{
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    width: '200px',
+                    display: 'inline-block'
+                }}>Token: { token }</div>
+                <div>
+                    <button
+                        onClick={() => testSignMessage(signer, setToken)}
+                    >
+                        Get token
+                    </button>
+                </div>
             </div>
 
             <div>

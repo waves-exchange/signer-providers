@@ -2,8 +2,7 @@ import { IQueue } from '@waves.exchange/provider-ui-components';
 import { SignedTx, SignerTx } from '@waves/signer';
 import { IState, IUser } from '../interface';
 import sign from '../router/sign';
-import { preload, toQueue } from './helpers';
-import { loadUserData } from './helpers';
+import { preload, toQueue, loadUserData } from './helpers';
 
 export const getSignHandler = (
     queue: IQueue,

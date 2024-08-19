@@ -97,7 +97,7 @@ export class MailboxWXNListener {
 
         const data = params;
 
-        if (data.resp === 'sign') {
+        if (data.resp === 'sign' || data.resp === 'signMessage') {
             if (!this.isReady) {
                 throw new Error('Connect with WX.Network');
             }

@@ -104,10 +104,9 @@ export class ProviderMailbox implements Provider {
     }
 
     public signMessage(data: string | number): Promise<string> {
-        // return this.login().then(() =>
-        //     this._transport.dialog((bus) => bus.request('sign-message', data))
-        // );
-        return Promise.resolve('');
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-message', data))
+        );
     }
 
     public signTypedData(data: Array<TypedData>): Promise<string> {

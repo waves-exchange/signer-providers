@@ -16,6 +16,8 @@ type SignMessageComponentProps = {
     data: string;
     onReject: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const SignMessageComponent: FC<SignMessageComponentProps> = ({
@@ -25,6 +27,8 @@ export const SignMessageComponent: FC<SignMessageComponentProps> = ({
     data,
     onReject,
     onConfirm,
+    isPending,
+    pendingText,
 }) => (
     <Confirmation
         address={userAddress}
@@ -32,6 +36,8 @@ export const SignMessageComponent: FC<SignMessageComponentProps> = ({
         balance={userBalance}
         onReject={onReject}
         onConfirm={onConfirm}
+        isPending={isPending}
+        pendingText={pendingText}
     >
         <Flex px="$40" py="$20" bg="main.$900">
             <Flex
