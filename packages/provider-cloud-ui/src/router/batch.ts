@@ -1,7 +1,7 @@
 import { SignerTx } from '@waves/signer';
 import { Transaction } from '@waves/ts-types';
 import { makeTxBytes } from '@waves/waves-transactions';
-import { IUser } from '../interface';
+import { IUserWithBalances } from '../interface';
 import { IState } from '../interface';
 import {
     batchPage,
@@ -11,7 +11,7 @@ import renderPage from '../utils/renderPage';
 
 export default function (
     list: Array<ITransactionInfo<Transaction>>,
-    state: IState<IUser>
+    state: IState<IUserWithBalances>
 ): Promise<Array<SignerTx>> {
     return new Promise((resolve, reject) => {
         renderPage(

@@ -498,6 +498,35 @@ export function TestProviderMailbox(): React.ReactElement {
             </div>
 
             <div>
+                <h2>Batch</h2>
+                <button
+                    onClick={() => {
+                        signer.batch([
+                            {
+                                type: 4,
+                                recipient: 'alias:T:merry',
+                                amount: 100000000
+                            },
+                            {
+                                type: 10,
+                                alias: 'send33'
+                            },
+                            {
+                                type: 3,
+                                name: 'SomeTokenName',
+                                description: 'Some Token Description',
+                                reissuable: false,
+                                quantity: 100,
+                                decimals: 1
+                            }
+                        ]).broadcast();
+                    }}
+                >
+                    Batch
+                </button>
+            </div>
+
+            <div>
                 <h2>Logout</h2>
                 <button
                     onClick={() => {

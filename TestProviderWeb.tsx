@@ -2,10 +2,10 @@ import React, { useEffect, useMemo } from 'react';
 import { Signer } from '@waves/signer';
 import { ProviderWeb } from './packages/provider-web/src';
 
-// const url = location.href.includes('provider=exchange')
-//     ? 'https://wallet-stage2.waves.exchange/signer'
-//     : location.origin + '/packages/provider-web-ui/index.html';
-const url = 'https://testnet.wx.network/signer';
+const url = location.href.includes('provider=exchange')
+    ? 'https://wallet-stage2.waves.exchange/signer'
+    : location.origin + '/packages/provider-web-ui/index.html';
+// const url = 'https://testnet.wx.network/signer';
 
 const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesnodes.com'
@@ -483,6 +483,35 @@ export function TestProviderWeb(): React.ReactElement {
                     }}
                 >
                     Set Script
+                </button>
+            </div>
+
+            <div>
+                <h2>Batch</h2>
+                <button
+                    onClick={() => {
+                        signer.batch([
+                            {
+                                type: 4,
+                                recipient: 'alias:T:merry',
+                                amount: 100000000
+                            },
+                            {
+                                type: 10,
+                                alias: 'send33'
+                            },
+                            {
+                                type: 3,
+                                name: 'SomeTokenName',
+                                description: 'Some Token Description',
+                                reissuable: false,
+                                quantity: 100,
+                                decimals: 1
+                            }
+                        ]).broadcast();
+                    }}
+                >
+                    Batch
                 </button>
             </div>
 
