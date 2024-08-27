@@ -505,12 +505,17 @@ export function TestProviderMailbox(): React.ReactElement {
                             {
                                 type: 4,
                                 recipient: 'alias:T:merry',
-                                amount: 100000000
+                                amount: 1000
                             },
                             {
                                 type: 10,
-                                alias: 'send33'
+                                alias: 'send334'
                             },
+                            // {
+                            //     type: 4,
+                            //     recipient: 'alias:T:hope',
+                            //     amount: 10000
+                            // },
                             {
                                 type: 3,
                                 name: 'SomeTokenName',

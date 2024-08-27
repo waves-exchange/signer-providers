@@ -58,9 +58,9 @@ const BatchRender: React.FC<IProps> = ({
                     </Text>
                 </Flex>
                 <Flex flexDirection="column" justifyContent="center">
-                    {(isShowAll ? list : list.slice(0, 3)).map((tx) => {
+                    {(isShowAll ? list : list.slice(0, 3)).map(({ tx }) => {
                         return (
-                            <Box key={tx.tx.id} mb={12}>
+                            <Box key={tx.id} mb={12}>
                                 <DataJson data={tx} />
                             </Box>
                         );
