@@ -17,6 +17,7 @@ export interface IUser {
     address: string;
     publicKey: string;
     name: string;
+    isSignAndBroadcastByProvider?: boolean;
 }
 
 export interface IState<USER = IUser | null> {

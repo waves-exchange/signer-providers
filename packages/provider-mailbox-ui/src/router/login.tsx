@@ -1,8 +1,12 @@
 import React from 'react';
 import renderPage from '../utils/renderPage';
 import { Login } from '../pages/Login/Login';
-import { UserData } from '@waves/signer';
+import { UserData as SignerUserData } from '@waves/signer';
 import { IState, IUser } from '../interface';
+
+export interface UserData extends SignerUserData {
+    isSignAndBroadcastByProvider?: boolean;
+}
 
 export default function (state: IState): () => Promise<UserData> {
     return (): Promise<UserData> => {
@@ -10,6 +14,8 @@ export default function (state: IState): () => Promise<UserData> {
             return Promise.resolve({
                 address: state.user.address,
                 publicKey: state.user.publicKey,
+                isSignAndBroadcastByProvider:
+                    state.user.isSignAndBroadcastByProvider ?? false,
             });
         } else {
             return new Promise((resolve, reject) => {
@@ -25,6 +31,8 @@ export default function (state: IState): () => Promise<UserData> {
                             resolve({
                                 address: user.address,
                                 publicKey: user.publicKey,
+                                isSignAndBroadcastByProvider:
+                                    user.isSignAndBroadcastByProvider ?? false,
                             });
                         }}
                     />

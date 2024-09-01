@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Signer } from '@waves/signer';
 import { ProviderMailbox } from './packages/provider-mailbox/src';
+import { wavesAddress2eth } from '@waves/node-api-js';
 
 const url = location.href.includes('provider=exchange')
     ? 'https://wallet-stage2.waves.exchange/signer-mailbox'
@@ -19,9 +20,10 @@ const testSignMessage = async (
     const seconds = Math.round((Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000);
     const message = `${chain_code}:${client_id}:${seconds}`;
 
-    const { publicKey } = await signer.login();
+    const { publicKey, address } = await signer.login();
     const signature = await signer.signMessage(message);
     const url = `https://api${chain_code === 'T' ? '-testnet' : ''}.wx.network/v1/oauth2/token`;
+    const userName = publicKey || wavesAddress2eth(address);
     const data = await fetch(url, {
         method: 'POST',
         headers: {
@@ -30,7 +32,7 @@ const testSignMessage = async (
         body: [
             "grant_type=password",
             "scope=general",
-            `username=${encodeURIComponent(publicKey)}`,
+            `username=${encodeURIComponent(userName)}`,
             "password=" + encodeURIComponent(`${seconds}:${signature}`),
             `client_id=${client_id}`
         ].join('&')
@@ -507,23 +509,23 @@ export function TestProviderMailbox(): React.ReactElement {
                                 recipient: 'alias:T:merry',
                                 amount: 1000
                             },
-                            {
-                                type: 10,
-                                alias: 'send334'
-                            },
                             // {
-                            //     type: 4,
-                            //     recipient: 'alias:T:hope',
-                            //     amount: 10000
+                            //     type: 10,
+                            //     alias: 'send334'
                             // },
                             {
-                                type: 3,
-                                name: 'SomeTokenName',
-                                description: 'Some Token Description',
-                                reissuable: false,
-                                quantity: 100,
-                                decimals: 1
-                            }
+                                type: 4,
+                                recipient: 'alias:T:hope',
+                                amount: 10000
+                            },
+                            // {
+                            //     type: 3,
+                            //     name: 'SomeTokenName',
+                            //     description: 'Some Token Description',
+                            //     reissuable: false,
+                            //     quantity: 100,
+                            //     decimals: 1
+                            // }
                         ]).broadcast();
                     }}
                 >

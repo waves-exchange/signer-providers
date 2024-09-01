@@ -47,6 +47,7 @@ export interface IUserDataMsg {
         address: string;
         publicKey: string;
         name?: string;
+        isSignAndBroadcastByProvider?: boolean;
     };
 }
 

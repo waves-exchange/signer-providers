@@ -75,6 +75,8 @@ export const Login: React.FC<IConnectPageProps> = ({
                     address: message.value.address,
                     publicKey: message.value.publicKey,
                     name: message.value.name || 'WX.Network Account',
+                    isSignAndBroadcastByProvider:
+                        message.value.isSignAndBroadcastByProvider ?? false,
                 });
                 mailboxListener.removeCb('onCreate', onCreate);
                 mailboxListener.removeCb('onMsg', onMsg);

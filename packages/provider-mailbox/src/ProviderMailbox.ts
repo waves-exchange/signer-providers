@@ -6,15 +6,15 @@ import {
     SignedTx,
     SignerTx,
     TypedData,
-    UserData,
 } from '@waves/signer';
 import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
-import { ITransport } from './interface';
+import { ITransport, UserData } from './interface';
 import { TransportIframe } from './TransportIframe';
 
 export class ProviderMailbox implements Provider {
     public user: UserData | null = null;
+    public isSignAndBroadcastByProvider = false;
     private readonly _transport: ITransport<HTMLIFrameElement>;
     private readonly _clientUrl: string;
     private readonly emitter: EventEmitter<AuthEvents> = new EventEmitter<AuthEvents>();
@@ -74,6 +74,7 @@ export class ProviderMailbox implements Provider {
 
     public logout(): Promise<void> {
         this.user = null;
+        this.isSignAndBroadcastByProvider = false;
 
         return Promise.resolve(this._transport.dropConnection());
     }
@@ -91,7 +92,14 @@ export class ProviderMailbox implements Provider {
             bus
                 .request('login')
                 .then((userData) => {
-                    this.user = userData;
+                    const {
+                        isSignAndBroadcastByProvider,
+                        ..._userData
+                    } = userData;
+
+                    this.user = _userData;
+                    this.isSignAndBroadcastByProvider =
+                        isSignAndBroadcastByProvider ?? false;
 
                     return userData;
                 })

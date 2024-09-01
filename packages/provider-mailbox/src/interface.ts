@@ -3,9 +3,13 @@ import {
     SignedTx,
     SignerTx,
     // TypedData,
-    UserData,
+    UserData as SignerUserData,
 } from '@waves/signer';
 import { Bus } from '@waves/waves-browser-bus';
+
+export interface UserData extends SignerUserData {
+    isSignAndBroadcastByProvider?: boolean;
+}
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type TBusHandlers = {
