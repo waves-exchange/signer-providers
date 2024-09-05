@@ -84,7 +84,7 @@ export const Login: React.FC<IConnectPageProps> = ({
                 mailboxListener.removeCb('onError', onError);
             }
         },
-        [mailboxListener, onConfirm, onCreate, onClose, onError]
+        [mailboxListener, onConfirm, onCreate, onError, onClose]
     );
 
     const handleConnect = React.useCallback((): void => {

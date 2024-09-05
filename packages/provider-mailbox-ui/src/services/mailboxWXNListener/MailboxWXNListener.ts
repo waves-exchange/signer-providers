@@ -14,8 +14,10 @@ import {
     ICreateMsg,
 } from '../mailbox/interface';
 import { ICallbacks } from './interface';
+import { ERROR } from '../../constants/constants';
 
 export class MailboxWXNListener {
+    public isClosed = false;
     protected mailbox: ConnectMailbox;
     protected _code!: string;
     protected _pair: ReturnType<typeof generateKeyPair> = Object.create(null);
@@ -51,6 +53,7 @@ export class MailboxWXNListener {
             return;
         }
 
+        this.isClosed = false;
         this.mailbox.connect(id, {
             onOpen: () => {
                 this.callbacks.onOpen.forEach((cb) => {
@@ -67,6 +70,7 @@ export class MailboxWXNListener {
                 });
             },
             onClose: (data: CloseEvent) => {
+                this.isClosed = true;
                 this.callbacks.onClose.forEach((cb) => {
                     if (typeof cb === 'function') {
                         cb(data);
@@ -92,14 +96,14 @@ export class MailboxWXNListener {
 
     public sendMsg(params: Parameters<ConnectMailbox['sendMsg']>[0]): void {
         if (!this.mailbox.isCreated) {
-            throw new Error('Connect with WX.Network');
+            throw new Error(ERROR.NO_CONNECTION);
         }
 
         const data = params;
 
         if (data.resp === 'sign' || data.resp === 'signMessage') {
             if (!this.isReady) {
-                throw new Error('Connect with WX.Network');
+                throw new Error(ERROR.NO_CONNECTION);
             }
             this.mailbox.sendMsg({
                 resp: data.resp,

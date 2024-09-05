@@ -21,6 +21,7 @@ import { prepareTransactions } from '../services/transactionsService';
 import renderPage from '../utils/renderPage';
 import batch from './batch';
 import { TReceivedMsg } from '../services/mailbox/interface';
+import { ERROR } from '../constants/constants';
 
 const { NAME_MAP } = CONSTANTS;
 
@@ -77,6 +78,12 @@ export default function (
                 const mailboxListener = state.mailboxListener;
 
                 return new Promise<any>((resolve, reject) => {
+                    if (mailboxListener.isClosed) {
+                        reject(new Error(ERROR.CLOSED_CONNECTION));
+
+                        return;
+                    }
+
                     const msgId = crypto.randomUUID();
 
                     const onMsg = (message: TReceivedMsg) => {
@@ -105,6 +112,11 @@ export default function (
                             publicKey: state.user.publicKey,
                         },
                         onConfirm: () => {
+                            if (mailboxListener.isClosed) {
+                                reject(new Error(ERROR.CLOSED_CONNECTION));
+
+                                return;
+                            }
                             mailboxListener.addCb('onMsg', onMsg);
                             mailboxListener.sendMsg({
                                 resp: 'sign',
@@ -115,12 +127,19 @@ export default function (
                                     referrerName: 'Mailbox Signer Provider',
                                     iconSrc:
                                         'https://wx.network/img/assets/wx.svg',
+                                    userAddress: state.user.address,
                                 },
                             });
                         },
                         onCancel: () => {
                             mailboxListener.removeCb('onMsg', onMsg);
-                            reject(new Error('User rejection!'));
+                            reject(
+                                new Error(
+                                    mailboxListener.isClosed
+                                        ? ERROR.CLOSED_CONNECTION
+                                        : ERROR.USER_REJECT
+                                )
+                            );
                         },
                     };
 

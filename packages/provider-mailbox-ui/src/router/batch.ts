@@ -7,6 +7,7 @@ import renderPage from '../utils/renderPage';
 import { TReceivedMsg } from '../services/mailbox/interface';
 import { BatchContainer } from '../pages/Batch/Batch';
 import React from 'react';
+import { ERROR } from '../constants/constants';
 
 export default function (
     list: Array<ITransactionInfo<Transaction>>,
@@ -15,6 +16,12 @@ export default function (
     const mailboxListener = state.mailboxListener;
 
     return new Promise((resolve, reject) => {
+        if (mailboxListener.isClosed) {
+            reject(new Error(ERROR.CLOSED_CONNECTION));
+
+            return;
+        }
+
         const msgId = crypto.randomUUID();
 
         const onMsg = (message: TReceivedMsg) => {
@@ -40,6 +47,11 @@ export default function (
                 },
                 list,
                 onConfirm: () => {
+                    if (mailboxListener.isClosed) {
+                        reject(new Error(ERROR.CLOSED_CONNECTION));
+
+                        return;
+                    }
                     mailboxListener.addCb('onMsg', onMsg);
                     mailboxListener.sendMsg({
                         resp: 'sign',
@@ -49,12 +61,19 @@ export default function (
                             referrer: window.location.origin,
                             referrerName: 'Mailbox Signer Provider',
                             iconSrc: 'https://wx.network/img/assets/wx.svg',
+                            userAddress: state.user.address,
                         },
                     });
                 },
                 onCancel: () => {
                     mailboxListener.removeCb('onMsg', onMsg);
-                    reject(new Error('User rejection!'));
+                    reject(
+                        new Error(
+                            mailboxListener.isClosed
+                                ? ERROR.CLOSED_CONNECTION
+                                : ERROR.USER_REJECT
+                        )
+                    );
                 },
             })
         );

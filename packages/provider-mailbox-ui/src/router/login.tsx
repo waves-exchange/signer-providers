@@ -3,6 +3,7 @@ import renderPage from '../utils/renderPage';
 import { Login } from '../pages/Login/Login';
 import { UserData as SignerUserData } from '@waves/signer';
 import { IState, IUser } from '../interface';
+import { ERROR } from '../constants/constants';
 
 export interface UserData extends SignerUserData {
     isSignAndBroadcastByProvider?: boolean;
@@ -23,7 +24,7 @@ export default function (state: IState): () => Promise<UserData> {
                     <Login
                         mailboxListener={state.mailboxListener}
                         onCancel={(): void => {
-                            reject(new Error('User rejection!'));
+                            reject(new Error(ERROR.USER_REJECT));
                         }}
                         onConfirm={(user: IUser): void => {
                             state.user = user;

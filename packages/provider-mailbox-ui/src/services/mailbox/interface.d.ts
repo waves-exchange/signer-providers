@@ -17,7 +17,7 @@ export interface ITxSuccessMsg {
     resp: 'success';
     msgId: string;
     value: {
-        data: any; // data that was sent in wx.network
+        data: any; // signed data that was sent in wx.network
     };
 }
 
