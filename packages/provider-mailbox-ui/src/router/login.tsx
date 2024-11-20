@@ -36,6 +36,7 @@ export default function (state: IState): () => Promise<UserData> {
                                     user.isSignAndBroadcastByProvider ?? false,
                             });
                         }}
+                        networkByte={state.networkByte}
                     />
                 );
             });

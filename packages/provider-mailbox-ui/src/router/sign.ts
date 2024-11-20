@@ -123,7 +123,7 @@ export default function (
                                 msgId,
                                 data: tx,
                                 meta: {
-                                    referrer: window.location.origin,
+                                    referrer: window.document.referrer,
                                     referrerName: 'Mailbox Signer Provider',
                                     iconSrc:
                                         'https://wx.network/img/assets/wx.svg',

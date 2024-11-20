@@ -8,7 +8,7 @@ export default defineConfig({
         mkcert()
     ],
     server: {
-        port: 3003,
+        port: 3000,
         https: true
     },
     optimizeDeps: {

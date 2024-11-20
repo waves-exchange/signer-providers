@@ -3,8 +3,8 @@ import { Signer } from '@waves/signer';
 import { ProviderMailbox } from './packages/provider-mailbox/src';
 import { wavesAddress2eth } from '@waves/node-api-js';
 
-const url = location.href.includes('provider=exchange')
-    ? 'https://wallet-stage2.waves.exchange/signer-mailbox'
+const url = location.href.includes('provider=mailbox')
+    ? 'https://testnet.wx.network/signer-mailbox'
     : location.origin + '/packages/provider-mailbox-ui/index.html';
 
 const node = location.href.includes('mainnet')

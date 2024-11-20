@@ -22,6 +22,7 @@ interface IConnectPageProps {
     mailboxListener: MailboxWXNListener;
     onCancel: () => void;
     onConfirm: (user: IUser) => void;
+    networkByte?: number;
 }
 
 type TState = 'initial' | 'error' | 'connected' | 'waitingLogIn';
@@ -30,6 +31,7 @@ export const Login: React.FC<IConnectPageProps> = ({
     mailboxListener,
     onCancel,
     onConfirm,
+    networkByte,
 }) => {
     const [state, setState] = React.useState<TState>('initial');
     const [code, setCode] = React.useState<string>('');
@@ -175,7 +177,13 @@ export const Login: React.FC<IConnectPageProps> = ({
                                         mb={16}
                                     >
                                         Open{' '}
-                                        <ExternalLink href="https://wx.network?openMailboxProviderConnection">
+                                        <ExternalLink
+                                            href={`https://${
+                                                networkByte === 84
+                                                    ? 'wallet-stage4.wx.network'
+                                                    : 'wx.network'
+                                            }?openMailboxProviderConnection`}
+                                        >
                                             WX.Network
                                         </ExternalLink>{' '}
                                         domain and create connection. Enter the
