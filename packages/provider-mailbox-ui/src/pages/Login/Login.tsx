@@ -180,7 +180,7 @@ export const Login: React.FC<IConnectPageProps> = ({
                                         <ExternalLink
                                             href={`https://${
                                                 networkByte === 84
-                                                    ? 'wallet-stage4.wx.network'
+                                                    ? 'testnet.wx.network'
                                                     : 'wx.network'
                                             }?openMailboxProviderConnection`}
                                         >
