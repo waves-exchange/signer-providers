@@ -34,6 +34,8 @@ export interface ISignSetAccountScriptProps {
     accountScript: string | null;
     onCancel: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
+    isPending?: boolean;
+    pendingText?: string;
 }
 
 export const SignSetAccountScriptComponent: FC<ISignSetAccountScriptProps> = ({
@@ -46,6 +48,8 @@ export const SignSetAccountScriptComponent: FC<ISignSetAccountScriptProps> = ({
     accountScript,
     onCancel,
     onConfirm,
+    isPending,
+    pendingText,
 }) => {
     const {
         boundaryRef: helpTooltipBoundaryRef,
@@ -65,6 +69,8 @@ export const SignSetAccountScriptComponent: FC<ISignSetAccountScriptProps> = ({
                 balance={userBalance}
                 onReject={onCancel}
                 onConfirm={onConfirm}
+                isPending={isPending}
+                pendingText={pendingText}
             >
                 <Flex px="$40" py="$20" bg="main.$900" alignItems="center">
                     <Flex

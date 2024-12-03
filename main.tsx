@@ -2,10 +2,22 @@ import React from 'react';
 import { render } from 'react-dom';
 import { TestProviderWeb } from './TestProviderWeb';
 import { TestProviderCloud } from './TestProviderCloud';
+import { TestProviderMailbox } from './TestProviderMailbox';
 
-type TProvider = 'web' | 'cloud';
+type TProvider = 'web' | 'cloud' | 'mailbox';
 
-const initialProvider = location.href.includes('provider-cloud') ? 'cloud' : 'web';
+function getInitialProvider(): TProvider {
+    switch (true) {
+        case location.href.includes('provider-cloud'):
+            return 'cloud';
+        case location.href.includes('provider-mailbox'):
+            return 'mailbox';
+        default:
+            return 'web';
+    }
+}
+
+const initialProvider = getInitialProvider();
 function deleteFrames(): void {
     const frames = window.document.getElementsByTagName('iframe');
     for (let i = 0; i < frames.length; i++) {
@@ -26,6 +38,11 @@ function TestApp(): React.ReactElement {
         deleteFrames();
     }, []);
 
+    const setProviderMailbox = React.useCallback((): void => {
+        setProvider('mailbox');
+        deleteFrames();
+    }, []);
+
     return (
         <>
             <div>
@@ -39,11 +56,22 @@ function TestApp(): React.ReactElement {
                 >
                     Provider Cloud
                 </button>
+                <button
+                    onClick={setProviderMailbox}
+                >
+                    Provider Mailbox
+                </button>
             </div>
-            {provider === 'web' ?
-                <TestProviderWeb /> :
-                <TestProviderCloud />
-            }
+            {(() => {
+                switch (provider) {
+                    case 'cloud':
+                        return <TestProviderCloud />;
+                    case 'mailbox':
+                        return <TestProviderMailbox />;
+                    default:
+                        return <TestProviderWeb />;
+                }
+            })()}
         </>
     );
 }

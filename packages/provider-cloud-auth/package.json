@@ -16,7 +16,6 @@
     "@emotion/styled": "^10.0.23",
     "@popperjs/core": "^2.6.0",
     "@waves.exchange/react-uikit": "^0.5.21",
-    "@waves.exchange/provider-ui-components": "1.0.0",
     "@waves/waves-browser-bus": "0.2.5",
     "@waves/waves-transactions": "^4.1.8",
     "amazon-cognito-identity-js": "^4.5.9",

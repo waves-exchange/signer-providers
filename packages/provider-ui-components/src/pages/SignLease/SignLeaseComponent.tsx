@@ -28,6 +28,8 @@ type Props = {
     fee: string;
     onReject: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const SignLeaseComponent: FC<Props> = ({
@@ -41,6 +43,8 @@ export const SignLeaseComponent: FC<Props> = ({
     fee,
     onReject,
     onConfirm,
+    isPending,
+    pendingText,
 }) => (
     <Confirmation
         address={userAddress}
@@ -48,6 +52,8 @@ export const SignLeaseComponent: FC<Props> = ({
         balance={userBalance}
         onReject={onReject}
         onConfirm={onConfirm}
+        isPending={isPending}
+        pendingText={pendingText}
     >
         <Flex px="$40" py="$20" bg="main.$900">
             <Flex

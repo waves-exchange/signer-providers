@@ -34,6 +34,8 @@ type Props = {
     isSponsorshipEnable: boolean;
     onReject: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const SignSponsorshipComponent: FC<Props> = ({
@@ -47,6 +49,8 @@ export const SignSponsorshipComponent: FC<Props> = ({
     isSponsorshipEnable,
     onReject,
     onConfirm,
+    isPending,
+    pendingText,
 }) => {
     const { boundaryRef, popperOptions } = useBoundedTooltip({ left: 40 });
 
@@ -61,6 +65,8 @@ export const SignSponsorshipComponent: FC<Props> = ({
                 )} Waves`}
                 onReject={onReject}
                 onConfirm={onConfirm}
+                isPending={isPending}
+                pendingText={pendingText}
             >
                 <Flex px="$40" py="$20" bg="main.$900">
                     {isSponsorshipEnable ? (

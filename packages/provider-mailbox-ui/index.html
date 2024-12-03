@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes"
+        />
+        <title>Waves Signer</title>
+
+        <script>
+            (function() {
+                window.addEventListener('load', function() {
+                    var root = document.getElementById('root');
+                    var factor = window.outerWidth === window.innerWidth ? window.outerWidth / 520 : 1;
+
+                    if (factor < 1) {
+                        root.style.transform = 'scale(' + factor + ')';
+                        root.style.webkitTransform = 'scale(' + factor + ')';
+                    }
+                });
+            })();
+        </script>
+        <script>window.global = window;</script>
+        <style>
+            .preloader {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: transparent;
+                opacity: 0.5;
+                transition: 0.3s;
+            }
+            .preloader.hide {
+                opacity: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="preloader">
+            <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.445312 26.9912H26.4434L13.4444 13.9922L0.445312 26.9912Z" fill="#3C69FF"/>
+                <path d="M0.445312 0.992188L13.4444 13.9912L26.4434 0.992188H0.445312Z" fill="#EE0090"/>
+            </svg>
+        </div>
+        <div id="overlay"></div>
+        <div id="root"></div>
+        <script type="module" src="./src/index.ts"></script>
+    </body>
+</html>

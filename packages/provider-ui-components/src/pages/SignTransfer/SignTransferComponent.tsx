@@ -48,6 +48,8 @@ type Props = {
     iconType: IconTransferType;
     isMassTransfer: boolean;
     transferList: TransferListItem[];
+    isPending?: boolean;
+    pendingText?: string;
 };
 
 export const SignTransfer: FC<Props> = ({
@@ -66,6 +68,8 @@ export const SignTransfer: FC<Props> = ({
     transferList,
     transferFee,
     isMassTransfer,
+    isPending,
+    pendingText,
 }) => (
     <Confirmation
         address={userAddress}
@@ -73,6 +77,8 @@ export const SignTransfer: FC<Props> = ({
         balance={`${getPrintableNumber(userBalance, WAVES.decimals)} Waves`}
         onReject={onReject}
         onConfirm={onConfirm}
+        isPending={isPending}
+        pendingText={pendingText}
     >
         <Flex px="$40" py="$20" bg="main.$900">
             <Flex

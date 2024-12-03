@@ -32,6 +32,8 @@ export interface ISignSetAssetScriptProps {
     assetId: string;
     assetName: string;
     assetScript: string;
+    isPending?: boolean;
+    pendingText?: string;
 }
 
 export const SignSetAssetScript: FC<ISignSetAssetScriptProps> = ({
@@ -45,6 +47,8 @@ export const SignSetAssetScript: FC<ISignSetAssetScriptProps> = ({
     assetId,
     assetName,
     assetScript,
+    isPending,
+    pendingText,
 }) => {
     const {
         boundaryRef: helpTooltipBoundaryRef,
@@ -67,6 +71,8 @@ export const SignSetAssetScript: FC<ISignSetAssetScriptProps> = ({
                 balance={userBalance}
                 onReject={onCancel}
                 onConfirm={onConfirm}
+                isPending={isPending}
+                pendingText={pendingText}
             >
                 <Flex px="$40" py="$20" bg="main.$900" alignItems="center">
                     <Flex
