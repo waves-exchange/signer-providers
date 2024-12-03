@@ -18,3 +18,7 @@ How to use https://github.com/waves-exchange/signer-providers/blob/main/packages
 ## ProviderWeb
 
 How to use https://github.com/waves-exchange/signer-providers/blob/main/packages/provider-web/README.md
+
+## ProviderMailbox
+
+How to use https://github.com/waves-exchange/signer-providers/blob/main/packages/provider-mailbox/README.md

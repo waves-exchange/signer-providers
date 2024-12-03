@@ -60,14 +60,6 @@ Add library initialization to your app.
    signer.setProvider(new ProviderMailbox());
    ```
 ​
-* For tetsnetwxnetwork env:
-  ​
-   ```js
-   import { ProviderMailbox } from '@waves.exchange/provider-mailbox';
-
-   const provider = new ProviderMailbox('https://testnet.wx.network/signer-mailbox?env=testnetwxnetwork');
-   ```
-​
 ### 3. Basic example
 ​
 Now your application is ready to work with Waves Platform. Let's test it by implementing basic functionality. For example, we could try to authenticate user, get his/her balances and transfer funds.
