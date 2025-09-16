@@ -30,6 +30,7 @@ import { prepareTransactions } from '../services/transactionsService';
 import { utils } from '@waves.exchange/provider-ui-components';
 import renderPage from '../utils/renderPage';
 import batch from './batch';
+import { Required2faComponent } from '../pages/Required2fa/Required2faComponent';
 
 const { NAME_MAP } = CONSTANTS;
 
@@ -72,6 +73,19 @@ export default function (
     list: Array<SignerTx>,
     state: IState<IUserWithBalances>
 ): Promise<Array<SignedTx<SignerTx>>> {
+    if (window && !(window as any).is2FAEnabled) {
+        return new Promise<any>((_, reject) => {
+            console.error('2FA must be enabled!');
+            renderPage(
+                React.createElement(Required2faComponent, {
+                    onClose: () => {
+                        reject(new Error('User rejection!'));
+                    },
+                })
+            );
+        });
+    }
+
     return fetchNodeTime(state.nodeUrl)
         .then((nodeTime) => nodeTime.NTP)
         .catch(() => Date.now())

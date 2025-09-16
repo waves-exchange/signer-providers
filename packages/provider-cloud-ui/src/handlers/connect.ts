@@ -1,6 +1,6 @@
 import { ConnectOptions } from '@waves/signer';
 import { IState } from '../interface';
-import { utils } from '@waves.exchange/provider-ui-components';
+// import { utils } from '@waves.exchange/provider-ui-components';
 
 export function getConnectHandler(
     state: IState
@@ -9,14 +9,14 @@ export function getConnectHandler(
         state.nodeUrl = options.NODE_URL;
         state.networkByte = options.NETWORK_BYTE;
 
-        utils.analytics.addApi({
-            libraryUrl: 'https://wx.network/snowPlow.js',
-            initializeMethod: 'spInit',
-            sendMethod: 'spPushEvent',
-            type: 'sp',
-            appId: 'signer',
-        });
+        // utils.analytics.addApi({
+        //     libraryUrl: 'https://wx.network/snowPlow.js',
+        //     initializeMethod: 'spInit',
+        //     sendMethod: 'spPushEvent',
+        //     type: 'sp',
+        //     appId: 'signer',
+        // });
 
-        utils.analytics.activate();
+        // utils.analytics.activate();
     };
 }
