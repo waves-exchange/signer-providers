@@ -128,6 +128,7 @@ export const Login: FC<LoginProps> = ({
                         setCodeDelivery({ type: 'SMS', destination: '' });
                         setLoginState('confirm-sign-in');
                         setIs2FAEnabled(true);
+                        (window as any).is2FAEnabled = true;
                         break;
                     case 'SOFTWARE_TOKEN_MFA':
                         setCodeDelivery({
@@ -136,9 +137,11 @@ export const Login: FC<LoginProps> = ({
                         });
                         setLoginState('confirm-sign-in');
                         setIs2FAEnabled(true);
+                        (window as any).is2FAEnabled = true;
                         break;
                     default:
                         handleSuccess();
+                        (window as any).is2FAEnabled = false;
                 }
             } catch (e) {
                 if (e && e.code === 'UserNotConfirmedException') {
