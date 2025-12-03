@@ -12,6 +12,7 @@ import {
     AuthEvents,
     Handler,
 } from '@waves/signer';
+import { IOrderParams } from '@waves/waves-transactions';
 
 export class ProviderCloud implements Provider {
     public user: UserData | null = null;
@@ -114,6 +115,12 @@ export class ProviderCloud implements Provider {
             this._transport.dialog((bus) =>
                 bus.request('sign-typed-data', data)
             )
+        );
+    }
+
+    public signOrder<T extends IOrderParams>(order: T): Promise<string> {
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-order', order))
         );
     }
 

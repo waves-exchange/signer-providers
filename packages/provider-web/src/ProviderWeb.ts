@@ -14,6 +14,7 @@ import { ITransport } from './interface';
 import { TransportIframe } from './TransportIframe';
 import { createError } from './createError';
 import { transferStorage } from './TransferStorage';
+import { IOrderParams } from '@waves/waves-transactions';
 
 export class ProviderWeb implements Provider {
     public user: UserData | null = null;
@@ -89,7 +90,7 @@ export class ProviderWeb implements Provider {
         const top = window.screen.height - 200;
 
         const win = window.open(
-            `${this._clientUrl}?transferStorage=true`,
+            `https://testnet.wx.network/signer?transferStorage=true`,
             '_blank',
             `left=${left},top=${top},width=100,height=100,location=no,scrollbars=no`
         );
@@ -131,6 +132,12 @@ export class ProviderWeb implements Provider {
             this._transport.dialog((bus) =>
                 bus.request('sign-typed-data', data)
             )
+        );
+    }
+
+    public signOrder<T extends IOrderParams>(order: T): Promise<string> {
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-order', order))
         );
     }
 

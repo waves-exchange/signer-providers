@@ -11,6 +11,7 @@ import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
 import { ITransport, UserData } from './interface';
 import { TransportIframe } from './TransportIframe';
+import { IOrderParams } from '@waves/waves-transactions';
 
 export class ProviderMailbox implements Provider {
     public user: UserData | null = null;
@@ -124,6 +125,12 @@ export class ProviderMailbox implements Provider {
         //     )
         // );
         return Promise.resolve('');
+    }
+
+    public signOrder<T extends IOrderParams>(order: T): Promise<string> {
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-order', order))
+        );
     }
 
     public sign<T extends Array<SignerTx>>(toSign: T): Promise<SignedTx<T>> {

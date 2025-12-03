@@ -34,7 +34,8 @@
   "dependencies": {
     "@waves/waves-browser-bus": "0.2.5",
     "tslib": "^2.1.0",
-    "typed-ts-events": "^1.2.1"
+    "typed-ts-events": "^1.2.1",
+    "@waves/waves-transactions": "^4.1.8"
   },
   "peerDependencies": {
     "@waves/signer": "1.x"

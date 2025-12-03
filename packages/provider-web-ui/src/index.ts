@@ -3,6 +3,7 @@ import { getConnectHandler } from './handlers/connect';
 import { getLoginHandler } from './handlers/login';
 import { getSignHandler } from './handlers/sign';
 import { getSignMessageHandler } from './handlers/signMessage';
+import { getSignOrderHandler } from './handlers/signOrder';
 import { IState, IUser } from './interface';
 import {
     utils,
@@ -85,6 +86,10 @@ WindowAdapter.createSimpleWindowAdapter()
         );
 
         bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);
+        bus.registerRequestHandler(
+            'sign-order',
+            getSignOrderHandler(queue, state)
+        );
 
         // TODO add matcher sign
         // TODO add remove order sign

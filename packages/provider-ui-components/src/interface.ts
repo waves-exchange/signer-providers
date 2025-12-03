@@ -19,6 +19,7 @@ import {
     TransferTransaction,
 } from '@waves/ts-types';
 import { Bus } from '@waves/waves-browser-bus';
+import { IOrderParams } from '@waves/waves-transactions';
 
 export type DetailsWithLogo = TAssetDetails<Long> & {
     logo?: string;
@@ -80,6 +81,7 @@ export type TBusHandlers = {
     'sign-custom-bytes': (data: string) => Promise<string>;
     'sign-message': (data: string | number) => Promise<string>;
     'sign-typed-data': (data: Array<TypedData>) => Promise<string>;
+    'sign-order': (data: IOrderParams) => Promise<string>;
 
     sign<T extends Array<SignerTx>>(
         list: T

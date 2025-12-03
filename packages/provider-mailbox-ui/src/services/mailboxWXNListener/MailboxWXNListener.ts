@@ -101,7 +101,11 @@ export class MailboxWXNListener {
 
         const data = params;
 
-        if (data.resp === 'sign' || data.resp === 'signMessage') {
+        if (
+            data.resp === 'sign' ||
+            data.resp === 'signMessage' ||
+            data.resp === 'signOrder'
+        ) {
             if (!this.isReady) {
                 throw new Error(ERROR.NO_CONNECTION);
             }

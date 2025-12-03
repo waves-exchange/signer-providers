@@ -1,4 +1,9 @@
-import { seedUtils, libs } from '@waves/waves-transactions';
+import {
+    seedUtils,
+    libs,
+    IOrderParams,
+    order,
+} from '@waves/waves-transactions';
 import {
     AuthenticationDetails,
     CognitoIdToken,
@@ -346,6 +351,29 @@ export class IdentityService {
         return libs.crypto.base58Encode(
             libs.crypto.base64Decode(response.signature)
         );
+    }
+
+    public async signOrder(
+        orderParams: IOrderParams
+    ): Promise<ReturnType<typeof order>> {
+        await this.refreshSessionIsNeed();
+
+        const signedOrder = order(orderParams, this.seed.keyPair.privateKey);
+
+        const signature = signedOrder.proofs[0];
+        const bytes = libs.marshall.binary.serializeOrder(signedOrder);
+        const response = await this.signByIdentity({
+            payload: libs.crypto.base64Encode(bytes),
+            signature: libs.crypto.base64Encode(signature),
+        });
+
+        const sign = libs.crypto.base58Encode(
+            libs.crypto.base64Decode(response.signature)
+        );
+
+        signedOrder.proofs.push(sign);
+
+        return signedOrder;
     }
 
     private getIdToken(): CognitoIdToken {

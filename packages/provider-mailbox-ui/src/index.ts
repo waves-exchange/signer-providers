@@ -10,6 +10,7 @@ import {
 } from '@waves.exchange/provider-ui-components';
 import { MailboxWXNListener } from './services';
 import { getSignMessageHandler } from './handlers/signMessage';
+import { getSignOrderHandler } from './handlers/signOrder';
 
 const { Queue } = utils;
 const queue = new Queue(3);
@@ -36,6 +37,10 @@ WindowAdapter.createSimpleWindowAdapter()
         );
 
         bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);
+        bus.registerRequestHandler(
+            'sign-order',
+            getSignOrderHandler(queue, state)
+        );
 
         bus.dispatchEvent('ready', void 0);
 

@@ -6,6 +6,7 @@ import {
     UserData as SignerUserData,
 } from '@waves/signer';
 import { Bus } from '@waves/waves-browser-bus';
+import { IOrderParams } from '@waves/waves-transactions';
 
 export interface UserData extends SignerUserData {
     isSignAndBroadcastByProvider?: boolean;
@@ -15,6 +16,7 @@ export interface UserData extends SignerUserData {
 export type TBusHandlers = {
     login: () => Promise<UserData>;
     'sign-message': (data: string | number) => Promise<string>;
+    'sign-order': (data: IOrderParams) => Promise<string>;
     // 'sign-typed-data': (data: Array<TypedData>) => Promise<string>;
     sign<T extends Array<SignerTx>>(
         list: T
