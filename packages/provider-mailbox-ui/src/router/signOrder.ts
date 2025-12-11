@@ -1,5 +1,4 @@
-import { SignedTx, SignerTx } from '@waves/signer';
-import { libs, order, IOrderParams } from '@waves/waves-transactions';
+import { order } from '@waves/waves-transactions';
 import React from 'react';
 import { IUserWithBalances } from '../interface';
 import { IState } from '../interface';
@@ -8,11 +7,12 @@ import { prepareOrder } from '../services/prepareOrder';
 import { SignOrderContainer } from '../pages/SignOrder/SignOrderContainer';
 import { ERROR } from '../constants/constants';
 import { TReceivedMsg } from '../services/mailbox/interface';
+import { TOrderArgs } from '@waves.exchange/provider-ui-components';
 
 export default function (
-    orderParams: IOrderParams,
+    orderParams: TOrderArgs,
     state: IState<IUserWithBalances>
-): Promise<Array<SignedTx<SignerTx>>> {
+): Promise<ReturnType<typeof order>> {
     return prepareOrder(state, orderParams).then(
         ({ assetsHash, ...orderParams }) => {
             const mailboxListener = state.mailboxListener;

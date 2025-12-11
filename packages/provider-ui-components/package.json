@@ -25,7 +25,7 @@
     "@waves/signer": "^1.0.1",
     "@waves/ts-types": "^1.0.2",
     "@waves/waves-browser-bus": "0.2.5",
-    "@waves/waves-transactions": "^4.1.8",
+    "@waves/waves-transactions": "^4.3.11",
     "emotion-theming": "^10.0.19",
     "ramda": "^0.26.1",
     "react": "^17.0.1",

@@ -16,8 +16,11 @@ import {
 } from '@waves.exchange/react-uikit';
 import imgUrl from '../../img/transaction-icons-30_1.svg';
 import { DataJson } from '../../components';
-import { IOrderParams } from '@waves/waves-transactions';
-import { DetailsWithLogo } from '../../interface';
+import {
+    DetailsWithLogo,
+    isOrderCreationParams,
+    TOrderArgs,
+} from '../../interface';
 import { WAVES } from '../../constants';
 import { getPrintableNumber } from '../../utils';
 
@@ -80,7 +83,7 @@ type SignOrderComponentProps = {
     userAddress: string;
     userName: string;
     userBalance: string;
-    order: IOrderParams;
+    order: TOrderArgs;
     assetsHash: Record<string, DetailsWithLogo>;
     onReject: MouseEventHandler<HTMLButtonElement>;
     onConfirm: MouseEventHandler<HTMLButtonElement>;
@@ -99,23 +102,33 @@ export const SignOrderComponent: FC<SignOrderComponentProps> = ({
     isPending,
     pendingText,
 }) => {
-    const amountRow = order.amountAsset
+    const isOrderCreation = isOrderCreationParams(order);
+    const assetPairs = isOrderCreation
+        ? {
+              amountAsset: order.amountAsset,
+              priceAsset: order.priceAsset,
+          }
+        : order.assetPair;
+    const amountRow = assetPairs.amountAsset
         ? `${order.orderType} ${getPrintableNumber(
               order.amount,
-              assetsHash[order.amountAsset].decimals
-          )} ${assetsHash[order.amountAsset].name}`
+              assetsHash[assetPairs.amountAsset].decimals
+          )} ${assetsHash[assetPairs.amountAsset].name}`
         : null;
-    const priceRow = order.priceAsset
+    const priceRow = assetPairs.priceAsset
         ? `${getPrintableNumber(
               order.price,
-              assetsHash[order.priceAsset].decimals
-          )} ${assetsHash[order.priceAsset].name}`
+              assetsHash[assetPairs.priceAsset].decimals
+          )} ${assetsHash[assetPairs.priceAsset].name}`
         : null;
+    const matcherFeeAssetId = isOrderCreation
+        ? order.matcherFeeAssetId || WAVES.assetId
+        : WAVES.assetId;
     const matcherFeeRow = order.matcherFee
         ? `${getPrintableNumber(
               order.matcherFee || 0,
-              assetsHash[order.matcherFeeAssetId || WAVES.assetId].decimals
-          )} ${assetsHash[order.matcherFeeAssetId || WAVES.assetId].name}`
+              assetsHash[matcherFeeAssetId].decimals
+          )} ${assetsHash[matcherFeeAssetId].name}`
         : null;
 
     return (
@@ -191,9 +204,9 @@ export const SignOrderComponent: FC<SignOrderComponentProps> = ({
                                     </Text>
                                 </Box>
                             ) : null}
-                            {order.priceAsset ? (
+                            {assetPairs.priceAsset ? (
                                 <AssetData
-                                    asset={assetsHash[order.priceAsset]}
+                                    asset={assetsHash[assetPairs.priceAsset]}
                                 />
                             ) : null}
                             {order.matcherFee ? (

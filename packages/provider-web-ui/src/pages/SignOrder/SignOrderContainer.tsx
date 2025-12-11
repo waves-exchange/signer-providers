@@ -2,14 +2,14 @@ import React, { FC, useCallback } from 'react';
 import {
     DetailsWithLogo,
     SignOrderComponent,
+    TOrderArgs,
+    utils,
 } from '@waves.exchange/provider-ui-components';
 import { IUserWithBalances } from '../../interface';
 import { useTxUser } from '../../hooks/useTxUser';
-import { utils } from '@waves.exchange/provider-ui-components';
-import { IOrderParams } from '@waves/waves-transactions';
 
 interface ISignOrderProps {
-    order: IOrderParams;
+    order: TOrderArgs;
     assetsHash: Record<string, DetailsWithLogo>;
     user: IUserWithBalances & { publicKey: string };
     networkByte: number;

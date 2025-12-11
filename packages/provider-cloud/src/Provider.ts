@@ -1,5 +1,5 @@
 import { config } from '@waves/waves-browser-bus';
-import { ITransport } from './interface';
+import { ITransport, TOrderArgs, TSignedOrder } from './interface';
 import { TransportIframe } from './TransportIframe';
 import EventEmitter from 'typed-ts-events';
 import {
@@ -12,7 +12,6 @@ import {
     AuthEvents,
     Handler,
 } from '@waves/signer';
-import { IOrderParams } from '@waves/waves-transactions';
 
 export class ProviderCloud implements Provider {
     public user: UserData | null = null;
@@ -118,7 +117,7 @@ export class ProviderCloud implements Provider {
         );
     }
 
-    public signOrder<T extends IOrderParams>(order: T): Promise<string> {
+    public signOrder(order: TOrderArgs): Promise<TSignedOrder> {
         return this.login().then(() =>
             this._transport.dialog((bus) => bus.request('sign-order', order))
         );

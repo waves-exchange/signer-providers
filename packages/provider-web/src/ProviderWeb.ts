@@ -10,11 +10,10 @@ import {
 } from '@waves/signer';
 import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
-import { ITransport } from './interface';
+import { ITransport, TOrderArgs, TSignedOrder } from './interface';
 import { TransportIframe } from './TransportIframe';
 import { createError } from './createError';
 import { transferStorage } from './TransferStorage';
-import { IOrderParams } from '@waves/waves-transactions';
 
 export class ProviderWeb implements Provider {
     public user: UserData | null = null;
@@ -89,8 +88,12 @@ export class ProviderWeb implements Provider {
         const left = window.screen.width - 200;
         const top = window.screen.height - 200;
 
+        const url = location.href.includes('localhost')
+            ? 'https://testnet.wx.network/signer?transferStorage=true'
+            : `${this._clientUrl}?transferStorage=true`;
+
         const win = window.open(
-            `https://testnet.wx.network/signer?transferStorage=true`,
+            url,
             '_blank',
             `left=${left},top=${top},width=100,height=100,location=no,scrollbars=no`
         );
@@ -135,7 +138,7 @@ export class ProviderWeb implements Provider {
         );
     }
 
-    public signOrder<T extends IOrderParams>(order: T): Promise<string> {
+    public signOrder(order: TOrderArgs): Promise<TSignedOrder> {
         return this.login().then(() =>
             this._transport.dialog((bus) => bus.request('sign-order', order))
         );

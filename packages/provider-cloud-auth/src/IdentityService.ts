@@ -1,8 +1,11 @@
 import {
     seedUtils,
     libs,
-    IOrderParams,
+    protoSerialize,
     order,
+    IOrderParams,
+    WithSender,
+    WithProofs,
 } from '@waves/waves-transactions';
 import {
     AuthenticationDetails,
@@ -15,6 +18,16 @@ import {
     ICognitoStorage,
 } from 'amazon-cognito-identity-js';
 import { MemoryStorage } from './MemoryStorage';
+import { ExchangeTransactionOrder } from '@waves/ts-types';
+
+export type TOrderArgs = Parameters<typeof order>[0];
+export type IOrderCreationParams = IOrderParams & WithSender;
+export type IOrder = ExchangeTransactionOrder & WithProofs & WithSender;
+const isOrderCreationParams = (
+    value: IOrderCreationParams | IOrder
+): value is IOrderCreationParams => {
+    return (value as IOrderCreationParams).amountAsset !== undefined;
+};
 
 type IdentityUser = {
     address: string;
@@ -353,15 +366,43 @@ export class IdentityService {
         );
     }
 
-    public async signOrder(
-        orderParams: IOrderParams
-    ): Promise<ReturnType<typeof order>> {
+    public async signOrder(orderParams: TOrderArgs): Promise<IOrder> {
         await this.refreshSessionIsNeed();
+        const isOrderCreation = isOrderCreationParams(orderParams);
+        const timestamp = orderParams.timestamp || Date.now();
+        const orderFull: ExchangeTransactionOrder = {
+            timestamp: orderParams.timestamp || Date.now(),
+            orderType: orderParams.orderType,
+            assetPair: isOrderCreation
+                ? {
+                      amountAsset: orderParams.amountAsset,
+                      priceAsset: orderParams.priceAsset,
+                  }
+                : orderParams.assetPair,
+            price: orderParams.price,
+            amount: orderParams.amount,
+            senderPublicKey: orderParams.senderPublicKey,
+            matcherFee: orderParams.matcherFee || 300000,
+            version: isOrderCreation ? 4 : orderParams.version || 4,
+            matcherPublicKey: orderParams.matcherPublicKey,
+            expiration:
+                orderParams.expiration || timestamp + 29 * 24 * 60 * 60 * 1000,
+            priceMode: isOrderCreation
+                ? orderParams.priceMode || 'fixedDecimals'
+                : 'fixedDecimals',
+            matcherFeeAssetId: isOrderCreation
+                ? orderParams.matcherFeeAssetId || null
+                : null,
+        };
 
-        const signedOrder = order(orderParams, this.seed.keyPair.privateKey);
+        const bytes =
+            orderFull.version > 3
+                ? protoSerialize.orderToProtoBytes(orderFull)
+                : libs.marshall.binary.serializeOrder(orderFull);
+        const signature = libs.crypto.base58Decode(
+            libs.crypto.signBytes(this.seed.keyPair, bytes)
+        );
 
-        const signature = signedOrder.proofs[0];
-        const bytes = libs.marshall.binary.serializeOrder(signedOrder);
         const response = await this.signByIdentity({
             payload: libs.crypto.base64Encode(bytes),
             signature: libs.crypto.base64Encode(signature),
@@ -371,9 +412,10 @@ export class IdentityService {
             libs.crypto.base64Decode(response.signature)
         );
 
-        signedOrder.proofs.push(sign);
-
-        return signedOrder;
+        return {
+            ...orderFull,
+            proofs: [sign],
+        };
     }
 
     private getIdToken(): CognitoIdToken {

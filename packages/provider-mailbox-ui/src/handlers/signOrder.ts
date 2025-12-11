@@ -1,15 +1,14 @@
-import { IQueue } from '@waves.exchange/provider-ui-components';
+import { IQueue, TOrderArgs } from '@waves.exchange/provider-ui-components';
 import { IUser } from '../interface';
 import { IState } from '../interface';
 import signOrder from '../router/signOrder';
 import { loadUserData, preload, toQueue } from './helpers';
-import { IOrderParams } from '@waves/waves-transactions';
 
 export const getSignOrderHandler = (
     queue: IQueue,
     state: IState
-): ((order: IOrderParams) => Promise<string>) =>
-    toQueue(queue, (order: IOrderParams) => {
+): ((order: TOrderArgs) => Promise<string>) =>
+    toQueue(queue, (order: TOrderArgs) => {
         preload();
 
         return loadUserData(state as IState<IUser>).then((state) =>

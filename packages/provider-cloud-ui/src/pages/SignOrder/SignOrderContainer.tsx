@@ -2,14 +2,13 @@ import React, { FC, useCallback } from 'react';
 import {
     DetailsWithLogo,
     SignOrderComponent,
+    TOrderArgs,
 } from '@waves.exchange/provider-ui-components';
 import { IUserWithBalances } from '../../interface';
 import { useTxUser } from '../../hooks/useTxUser';
-import { utils } from '@waves.exchange/provider-ui-components';
-import { IOrderParams } from '@waves/waves-transactions';
 
 interface ISignOrderProps {
-    order: IOrderParams;
+    order: TOrderArgs;
     assetsHash: Record<string, DetailsWithLogo>;
     user: IUserWithBalances & { publicKey: string };
     onConfirm: () => void;
@@ -27,12 +26,10 @@ export const SignOrderContainer: FC<ISignOrderProps> = ({
 
     const handleConfirm = useCallback(() => {
         onConfirm();
-        utils.analytics.send({ name: 'Signer_Confirm_Message_Approve' });
     }, [onConfirm]);
 
     const handleReject = useCallback(() => {
         onCancel();
-        utils.analytics.send({ name: 'Signer_Confirm_Message_Reject' });
     }, [onCancel]);
 
     return (
