@@ -308,6 +308,29 @@ export function TestProviderCloud(): React.ReactElement {
             </div>
 
             <div>
+                <h2>Sign Order</h2>
+                <button
+                    onClick={() => {
+                        // Убрать if после публикации signer'а с signOrder
+                        if ('signOrder' in signer) {
+                            (signer.signOrder as any)({
+                                amount: 100000000,
+                                amountAsset: 'Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on',
+                                price: 1050005000,
+                                priceAsset: 'HEB8Qaw9xrWpWs8tHsiATYGBWDBtP2S7kcPALrMu43AS',
+                                matcherPublicKey: '7kPFrHDiGw1rCm7LPszuECwWYL3dMf6iMifLRDJQZMzy',
+                                orderType: 'buy',
+                                matcherFee: 100000,
+                                senderPublicKey: '',
+                            });
+                        }
+                    }}
+                >
+                    Sign order
+                </button>
+            </div>
+
+            <div>
                 <h2>Sign Data</h2>
                 <button
                     onClick={() => {
