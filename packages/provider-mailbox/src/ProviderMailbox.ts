@@ -80,6 +80,7 @@ export class ProviderMailbox implements Provider {
     }
 
     public login(): Promise<UserData> {
+        console.log('THIS IS PROVIDER MAILBOX WITH SIGN ORDER!!!');
         if (this.user) {
             return Promise.resolve(this.user);
         }

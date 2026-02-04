@@ -79,6 +79,7 @@ export class ProviderCloud implements Provider {
     }
 
     public login(): Promise<UserData> {
+        console.log('THIS IS PROVIDER CLOUD WITH SIGN ORDER!!!');
         if (this.user) {
             return Promise.resolve(this.user);
         }

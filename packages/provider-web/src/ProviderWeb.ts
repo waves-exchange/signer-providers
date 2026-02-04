@@ -81,6 +81,7 @@ export class ProviderWeb implements Provider {
     }
 
     public login(): Promise<any> {
+        console.log('THIS IS PROVIDER WEB WITH SIGN ORDER!!!');
         if (this.user) {
             return Promise.resolve(this.user);
         }
