@@ -26,7 +26,11 @@ export default function (
                             }),
                         },
                         onConfirm: () => {
-                            resolve(order(orderParams, state.user.privateKey));
+                            resolve(
+                                order(orderParams, {
+                                    privateKey: state.user.privateKey,
+                                })
+                            );
                         },
                         onCancel: () => {
                             reject(new Error('User rejection!'));
