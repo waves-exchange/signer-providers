@@ -1,6 +1,6 @@
 {
   "name": "@waves.exchange/provider-mailbox",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -38,9 +38,9 @@
     "typed-ts-events": "^1.2.1"
   },
   "peerDependencies": {
-    "@waves/signer": "1.x"
+    "@waves/signer": "1.2.0"
   },
   "devDependencies": {
-    "@waves/signer": "1.0.1"
+    "@waves/signer": "^1.2.0"
   }
 }

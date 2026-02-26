@@ -23,6 +23,7 @@ import {
 } from '../../interface';
 import { WAVES } from '../../constants';
 import { getPrintableNumber } from '../../utils';
+import { normalizeOrderPriceForView } from './normalizePriceForView';
 
 export const commonStyles = (): BoxProps => {
     return {
@@ -109,18 +110,36 @@ export const SignOrderComponent: FC<SignOrderComponentProps> = ({
               priceAsset: order.priceAsset,
           }
         : order.assetPair;
-    const amountRow = assetPairs.amountAsset
+
+    const amountAssetId = assetPairs.amountAsset || WAVES.assetId;
+    const amountAsset = assetsHash[amountAssetId];
+    const amountRow = amountAsset
         ? `${order.orderType} ${getPrintableNumber(
               order.amount,
-              assetsHash[assetPairs.amountAsset].decimals
-          )} ${assetsHash[assetPairs.amountAsset].name}`
+              amountAsset.decimals
+          )} ${amountAsset.name}`
         : null;
-    const priceRow = assetPairs.priceAsset
-        ? `${getPrintableNumber(
-              order.price,
-              assetsHash[assetPairs.priceAsset].decimals
-          )} ${assetsHash[assetPairs.priceAsset].name}`
+
+    const priceAssetId = assetPairs.priceAsset || WAVES.assetId;
+    const priceAsset = assetsHash[priceAssetId];
+    const orderVersion =
+        'version' in order && typeof order.version === 'number'
+            ? order.version
+            : 4;
+    const orderPriceMode = 'priceMode' in order ? order.priceMode : undefined;
+    const viewPrice = normalizeOrderPriceForView({
+        rawPrice: order.price,
+        version: orderVersion,
+        priceMode: orderPriceMode,
+        amountAssetDecimals: amountAsset?.decimals ?? 8,
+        priceAssetDecimals: priceAsset?.decimals ?? 8,
+    });
+    const priceRow = priceAsset
+        ? `${viewPrice.roundTo(priceAsset?.decimals ?? 8).toFixed()} ${
+              priceAsset.name
+          }`
         : null;
+
     const matcherFeeAssetId = isOrderCreation
         ? order.matcherFeeAssetId || WAVES.assetId
         : WAVES.assetId;

@@ -47,6 +47,7 @@
     "vite-plugin-mkcert": "^1.5.2"
   },
   "dependencies": {
-    "@waves/node-api-js": "^1.2.8"
+    "@waves/node-api-js": "^1.2.8",
+    "@waves/signer": "^1.2.0"
   }
 }
