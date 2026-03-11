@@ -21,6 +21,7 @@ export const prepareOrder = (
 
         return {
             ...order,
+            chainId: state.networkByte,
             assetsHash: assets.reduce<Record<string, DetailsWithLogo>>(
                 (acc, asset) => {
                     acc[asset.assetId] = asset;

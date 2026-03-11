@@ -60,6 +60,8 @@ type IdentityServiceOptions = {
     useCaptcha: boolean;
 };
 
+type TOrderWithChainId = ExchangeTransactionOrder & { chainId?: number };
+
 export class IdentityService {
     public geetestUrl = '';
     public useCaptcha = true;
@@ -370,7 +372,12 @@ export class IdentityService {
         await this.refreshSessionIsNeed();
         const isOrderCreation = isOrderCreationParams(orderParams);
         const timestamp = orderParams.timestamp || Date.now();
-        const orderFull: ExchangeTransactionOrder = {
+        const chainId =
+            typeof (orderParams as TOrderWithChainId).chainId === 'undefined'
+                ? 87
+                : Number((orderParams as TOrderWithChainId).chainId);
+
+        const orderFull: TOrderWithChainId = {
             timestamp: orderParams.timestamp || Date.now(),
             orderType: orderParams.orderType,
             assetPair: isOrderCreation
@@ -393,6 +400,7 @@ export class IdentityService {
             matcherFeeAssetId: isOrderCreation
                 ? orderParams.matcherFeeAssetId || null
                 : null,
+            chainId,
         };
 
         const bytes =

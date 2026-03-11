@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Signer } from '@waves/signer';
 import { ProviderCloud } from './packages/provider-cloud/src';
+import { wavesAddress2eth } from '@waves/node-api-js';
 
 const url = location.href.includes('provider=exchange')
     ? 'https://wallet-stage2.waves.exchange/signer-cloud'
@@ -8,13 +9,50 @@ const url = location.href.includes('provider=exchange')
     // : location.origin + '/packages/provider-cloud-ui/index.html?env=testnetwxnetwork';
     // : 'https://wallet-stage2.waves.exchange/signer-cloud';
 
+// const url = 'https://wallet-stage1.wx.network/signer-cloud/';
+
+const matherUrlBase = 'https://wx.network/api/v1/forward/matcher/matcher';
+
 const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesnodes.com'
     : 'https://nodes-testnet.wavesnodes.com';
 
+const testSignMessage = async (
+    signer: Signer,
+    setValue: (token: string) => void
+) => {
+    // const chain_code = location.href.includes('mainnet') ? "W" : "T";
+    const chain_code = "W";
+    const client_id = "wx.network";
+    const seconds = Math.round((Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000);
+    const message = `${chain_code}:${client_id}:${seconds}`;
+
+    const { publicKey, address } = await signer.login();
+    const signature = await signer.signMessage(message);
+    // const url = `https://api${chain_code === 'T' ? '-testnet' : ''}.wx.network/v1/oauth2/token`;
+    const url = `https://api.wx.network/v1/oauth2/token`;
+    const userName = publicKey || wavesAddress2eth(address);
+    const data = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded'
+        },
+        body: [
+            "grant_type=password",
+            "scope=general",
+            `username=${encodeURIComponent(userName)}`,
+            "password=" + encodeURIComponent(`${seconds}:${signature}`),
+            `client_id=${client_id}`
+        ].join('&')
+    }).then(result => result.json());
+    setValue(data.access_token);
+};
+
 export function TestProviderCloud(): React.ReactElement {
     const provider = useMemo(() => new ProviderCloud(url, true), []);
     const signer = useMemo(() => new Signer({ NODE_URL: node }), []);
+    const [token, setToken] = React.useState('');
+    const [orderSigned, setOrderSigned] = React.useState<unknown>();
 
     useEffect((): void => {
         signer.setProvider(provider);
@@ -27,6 +65,30 @@ export function TestProviderCloud(): React.ReactElement {
             }
         });
     }, []);
+
+    const sendOrder = useCallback(async () => {
+        if (!token) {
+            alert("Get access token at first");
+            return;
+        }
+
+        const res = await fetch(`${matherUrlBase}/orderbook`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(orderSigned),
+        });
+
+        if (!res.ok) {
+            console.error(`Send Order Error: ${res.status}`);
+            return;
+        }
+
+        alert("Order sent, check console for response");
+    }, [orderSigned, token]);
 
     return (
         <div>
@@ -308,29 +370,6 @@ export function TestProviderCloud(): React.ReactElement {
             </div>
 
             <div>
-                <h2>Sign Order</h2>
-                <button
-                    onClick={() => {
-                        // Убрать if после публикации signer'а с signOrder
-                        if ('signOrder' in signer) {
-                            (signer.signOrder as any)({
-                                amount: 100000000,
-                                amountAsset: 'Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on',
-                                price: 1050005000,
-                                priceAsset: 'HEB8Qaw9xrWpWs8tHsiATYGBWDBtP2S7kcPALrMu43AS',
-                                matcherPublicKey: '7kPFrHDiGw1rCm7LPszuECwWYL3dMf6iMifLRDJQZMzy',
-                                orderType: 'buy',
-                                matcherFee: 100000,
-                                senderPublicKey: '',
-                            });
-                        }
-                    }}
-                >
-                    Sign order
-                </button>
-            </div>
-
-            <div>
                 <h2>Sign Data</h2>
                 <button
                     onClick={() => {
@@ -479,6 +518,56 @@ export function TestProviderCloud(): React.ReactElement {
                 >
                     Set Script
                 </button>
+            </div>
+
+            <div>
+                <h2>Sign Access Token</h2>
+                <div style={{
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    width: '200px',
+                    display: 'inline-block'
+                }}>Token: { token }</div>
+                <div>
+                    <button
+                        onClick={() => testSignMessage(signer, setToken)}
+                    >
+                        Get token
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <h2>Sign Order</h2>
+                <button
+                    onClick={() => {
+                        (signer.signOrder)({
+                            amount: 100000000,
+                            amountAsset: 'Atqv59EYzjFGuitKVnMRk6H8FukjoV3ktPorbEys25on',
+                            price: 1000,
+                            priceAsset: null,
+                            matcherPublicKey: '9cpfKN9suPNvfeUNphzxXMjcnn974eme8ZhWUjaktzU5',
+                            orderType: 'buy',
+                            matcherFee: 4200020,
+                            senderPublicKey: signer.currentProvider?.user?.publicKey || "",
+                            priceMode: 'assetDecimals',
+                            version: 4,
+                            matcherFeeAssetId: null,
+                            timestamp: Date.now(),
+                            expiration: Date.now() + 1000 * 60 * 60 * 24 * 29,
+                            chainId: 87,
+                        })
+                        .then((data) => setOrderSigned(data))
+                        .catch((e) => console.error(e));
+                    }}
+                >
+                    Sign order
+                </button>
+
+                {orderSigned &&
+                    <button onClick={sendOrder}>Send order</button>
+                }
             </div>
             
             <div>
