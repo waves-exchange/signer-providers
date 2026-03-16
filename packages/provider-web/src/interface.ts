@@ -6,6 +6,7 @@ import {
     UserData,
 } from '@waves/signer';
 import { Bus } from '@waves/waves-browser-bus';
+import { order } from '@waves/waves-transactions';
 
 export interface IStorageTransferData {
     multiAccountUsers: string | null;
@@ -19,6 +20,7 @@ export type TBusHandlers = {
     'sign-custom-bytes': (data: string) => Promise<string>;
     'sign-message': (data: string | number) => Promise<string>;
     'sign-typed-data': (data: Array<TypedData>) => Promise<string>;
+    'sign-order': (data: TOrderArgs) => Promise<TSignedOrder>;
 
     sign<T extends Array<SignerTx>>(
         list: T
@@ -41,3 +43,6 @@ export interface ITransport<T> {
     sendEvent(callback: (bus: TBus) => unknown): void;
     dropConnection(): void;
 }
+
+export type TOrderArgs = Parameters<typeof order>[0];
+export type TSignedOrder = ReturnType<typeof order>;

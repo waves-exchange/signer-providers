@@ -13,3 +13,4 @@ export * from './math';
 export * from './Queue';
 export * from './toArray';
 export * from './toFormat';
+export * from './getIdsFromOrder';

@@ -83,4 +83,42 @@ const [signedTransfer] = await signer
   .transfer({amount: 100000000, recipient: 'alias:T:merry'}) // Transfer 1 WAVES to alias merry
   .sign(); // Promise will resolved after user sign
 ```
+
+### 4. Sign order example
+
+You can sign matcher orders using `signer.signOrder(...)`.
+```js
+const user = await signer.login();
+
+const signedOrder = await signer.signOrder({
+  amount: 100000000, // 1.0 amountAsset in minimal units
+  amountAsset: null, // null = WAVES
+  price: 105000000,
+  priceAsset: 'REPLACE_WITH_PRICE_ASSET_ID',
+  matcherPublicKey: 'REPLACE_WITH_MATCHER_PUBLIC_KEY',
+  orderType: 'buy', // 'buy' or 'sell'
+  matcherFee: 300000,
+  senderPublicKey: user.publicKey,
+  version: 4,
+  priceMode: 'assetDecimals', // 'assetDecimals' or 'fixedDecimals'
+  timestamp: Date.now(),
+  expiration: Date.now() + 29 * 24 * 60 * 60 * 1000
+});
+
+console.log(signedOrder);
+```
+
+If needed, send signed order to your matcher API:
+
+```js
+await fetch('https://MATCHER_URL/matcher/orderbook', {
+  method: 'POST',
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
+    Authorization: `Bearer ${token}`,
+  },
+  body: JSON.stringify(signedOrder)
+});
+```
 ​

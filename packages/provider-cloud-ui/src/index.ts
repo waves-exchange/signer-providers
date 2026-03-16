@@ -12,6 +12,7 @@ import {
 import { IdentityService } from '@waves.exchange/provider-cloud-auth';
 import { fetchGeeTestToken } from '@waves.exchange/provider-cloud-auth'; // todo dep
 import { ENV } from './services/configService';
+import { getSignOrderHandler } from './handlers/signOrder';
 
 const { analytics, Queue } = utils;
 
@@ -54,6 +55,11 @@ WindowAdapter.createSimpleWindowAdapter()
         bus.registerRequestHandler(
             'sign-message',
             getSignMessageHandler(queue, state)
+        );
+
+        bus.registerRequestHandler(
+            'sign-order',
+            getSignOrderHandler(queue, state)
         );
 
         bus.registerRequestHandler('sign', getSignHandler(queue, state) as any);

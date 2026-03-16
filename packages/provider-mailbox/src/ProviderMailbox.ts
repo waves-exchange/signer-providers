@@ -9,7 +9,7 @@ import {
 } from '@waves/signer';
 import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
-import { ITransport, UserData } from './interface';
+import { ITransport, TOrderArgs, TSignedOrder, UserData } from './interface';
 import { TransportIframe } from './TransportIframe';
 
 export class ProviderMailbox implements Provider {
@@ -80,6 +80,7 @@ export class ProviderMailbox implements Provider {
     }
 
     public login(): Promise<UserData> {
+        console.log('THIS IS PROVIDER MAILBOX WITH SIGN ORDER!!!');
         if (this.user) {
             return Promise.resolve(this.user);
         }
@@ -124,6 +125,12 @@ export class ProviderMailbox implements Provider {
         //     )
         // );
         return Promise.resolve('');
+    }
+
+    public signOrder(order: TOrderArgs): Promise<TSignedOrder> {
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-order', order))
+        );
     }
 
     public sign<T extends Array<SignerTx>>(toSign: T): Promise<SignedTx<T>> {

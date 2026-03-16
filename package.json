@@ -1,6 +1,6 @@
 {
   "name": "signer-providers",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "workspaces": [
     "./packages/*"
@@ -47,6 +47,7 @@
     "vite-plugin-mkcert": "^1.5.2"
   },
   "dependencies": {
-    "@waves/node-api-js": "^1.2.8"
+    "@waves/node-api-js": "^1.2.8",
+    "@waves/signer": "^1.2.0"
   }
 }

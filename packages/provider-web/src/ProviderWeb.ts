@@ -10,7 +10,7 @@ import {
 } from '@waves/signer';
 import { config } from '@waves/waves-browser-bus';
 import { EventEmitter } from 'typed-ts-events';
-import { ITransport } from './interface';
+import { ITransport, TOrderArgs, TSignedOrder } from './interface';
 import { TransportIframe } from './TransportIframe';
 import { createError } from './createError';
 import { transferStorage } from './TransferStorage';
@@ -81,6 +81,7 @@ export class ProviderWeb implements Provider {
     }
 
     public login(): Promise<any> {
+        console.log('THIS IS PROVIDER WEB WITH SIGN ORDER!!!');
         if (this.user) {
             return Promise.resolve(this.user);
         }
@@ -88,8 +89,12 @@ export class ProviderWeb implements Provider {
         const left = window.screen.width - 200;
         const top = window.screen.height - 200;
 
+        const url = location.href.includes('localhost')
+            ? 'https://testnet.wx.network/signer?transferStorage=true'
+            : `${this._clientUrl}?transferStorage=true`;
+
         const win = window.open(
-            `${this._clientUrl}?transferStorage=true`,
+            url,
             '_blank',
             `left=${left},top=${top},width=100,height=100,location=no,scrollbars=no`
         );
@@ -131,6 +136,12 @@ export class ProviderWeb implements Provider {
             this._transport.dialog((bus) =>
                 bus.request('sign-typed-data', data)
             )
+        );
+    }
+
+    public signOrder(order: TOrderArgs): Promise<TSignedOrder> {
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-order', order))
         );
     }
 

@@ -1,5 +1,5 @@
 import { config } from '@waves/waves-browser-bus';
-import { ITransport } from './interface';
+import { ITransport, TOrderArgs, TSignedOrder } from './interface';
 import { TransportIframe } from './TransportIframe';
 import EventEmitter from 'typed-ts-events';
 import {
@@ -79,6 +79,7 @@ export class ProviderCloud implements Provider {
     }
 
     public login(): Promise<UserData> {
+        console.log('THIS IS PROVIDER CLOUD WITH SIGN ORDER!!!');
         if (this.user) {
             return Promise.resolve(this.user);
         }
@@ -114,6 +115,12 @@ export class ProviderCloud implements Provider {
             this._transport.dialog((bus) =>
                 bus.request('sign-typed-data', data)
             )
+        );
+    }
+
+    public signOrder(order: TOrderArgs): Promise<TSignedOrder> {
+        return this.login().then(() =>
+            this._transport.dialog((bus) => bus.request('sign-order', order))
         );
     }
 

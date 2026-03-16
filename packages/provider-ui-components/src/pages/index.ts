@@ -17,5 +17,6 @@ export * from './SignTransfer/SignTransferComponent';
 export * from './SignTypedData/SignTypedDataComponent';
 export * from './Preload';
 export * from './SignCustom';
+export * from './SignOrder/SignOrderComponent';
 
 export const transferUtils = { ...transferHelpers };

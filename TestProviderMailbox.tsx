@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Signer } from '@waves/signer';
 import { ProviderMailbox } from './packages/provider-mailbox/src';
 import { wavesAddress2eth } from '@waves/node-api-js';
@@ -10,6 +10,8 @@ const url = location.href.includes('provider=mailbox')
 const node = location.href.includes('mainnet')
     ? 'https://nodes.wavesnodes.com'
     : 'https://nodes-testnet.wavesnodes.com';
+
+const matherUrlBase = 'https://testnet.wx.network/api/v1/forward/matcher/matcher';
 
 const testSignMessage = async (
     signer: Signer,
@@ -44,6 +46,7 @@ export function TestProviderMailbox(): React.ReactElement {
     const provider = useMemo(() => new ProviderMailbox(url, true), []);
     const signer = useMemo(() => new Signer({ NODE_URL: node }), []);
     const [token, setToken] = React.useState('');
+    const [orderSigned, setOrderSigned] = React.useState<unknown>();
 
     useEffect((): void => {
         signer.setProvider(provider);
@@ -56,6 +59,29 @@ export function TestProviderMailbox(): React.ReactElement {
             }
         });
     }, []);
+
+    const sendOrder = useCallback(async () => {
+        if (!token) {
+            alert("Get access token at first");
+            return;
+        }
+        const res = await fetch(`${matherUrlBase}/orderbook`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(orderSigned),
+        });
+
+        if (!res.ok) {
+            console.error(`Send Order Error: ${res.status}`);
+            return;
+        }
+
+        alert("Order sent, check console for response");
+    }, [orderSigned, token]);
 
     return (
         <div>
@@ -497,6 +523,60 @@ export function TestProviderMailbox(): React.ReactElement {
                         Get token
                     </button>
                 </div>
+            </div>
+
+            <div>
+                <h2>Sign Order</h2>
+                <button
+                    onClick={() => {
+                        (signer.signOrder)({
+                            amount: 100000000,
+                            amountAsset: 'EMAMLxDnv3xiz8RXg8Btj33jcEw3wLczL3JKYYmuubpc',
+                            price: 1050005000,
+                            priceAsset: null,
+                            matcherPublicKey: '8QUAqtTckM5B8gvcuP7mMswat9SjKUuafJMusEoSn1Gy',
+                            orderType: 'buy',
+                            matcherFee: 4200020,
+                            senderPublicKey: signer.currentProvider?.user?.publicKey || "",
+                            priceMode: 'assetDecimals',
+                            version: 4,
+                        })
+                        // (signer.signOrder)({
+                        //     amount: 100000000,
+                        //     amountAsset: null,
+                        //     price: 1050005000,
+                        //     priceAsset: '25FEqEjRkqK6yCkiT7Lz6SAYz7gUFCtxfCChnrVFD5AT',
+                        //     matcherPublicKey: '8QUAqtTckM5B8gvcuP7mMswat9SjKUuafJMusEoSn1Gy',
+                        //     orderType: 'buy',
+                        //     matcherFee: 4200020,
+                        //     // version: 3,
+                        //     priceMode: 'assetDecimals',
+                        //     // priceMode: 'fixedDecimals',
+                        //     senderPublicKey: signer.currentProvider?.user?.publicKey || "",
+                        // })
+                        // (signer.signOrder)({
+                        //     amount: 1,
+                        //     amountAsset: 'E9wnMHqdqUG8krnQpH7uL1NTbyH9xYtrww3jecgXrUct',
+                        //     price: 1000000000000000,
+                        //     priceAsset: null,
+                        //     matcherPublicKey: '8QUAqtTckM5B8gvcuP7mMswat9SjKUuafJMusEoSn1Gy',
+                        //     orderType: 'buy',
+                        //     matcherFee: 1000000,
+                        //     senderPublicKey: signer.currentProvider?.user?.publicKey || "",
+                        //     priceMode: "assetDecimals",
+                        //     timestamp: Date.now(),
+                        //     expiration: Date.now() + 1000 * 60 * 60 * 24 * 29,
+                        // })
+                        .then((data) => setOrderSigned(data))
+                        .catch((e) => console.error(e));
+                    }}
+                >
+                    Sign order
+                </button>
+
+                {orderSigned &&
+                    <button onClick={sendOrder}>Send order</button>
+                }
             </div>
 
             <div>
