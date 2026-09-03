@@ -1,34 +1,35 @@
 {
-  "name": "@waves.exchange/provider-cloud-auth",
-  "version": "1.1.0",
-  "private": true,
-  "license": "MIT",
-  "main": "dist/provider-cloud-auth.cjs.js",
-  "module": "dist/provider-cloud-auth.es.js",
-  "scripts": {
-    "build": "vite build",
-    "build:w": "vite build -w",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint --ext .ts,.tsx ./src"
-  },
-  "dependencies": {
-    "@emotion/core": "^10.0.22",
-    "@emotion/styled": "^10.0.23",
-    "@popperjs/core": "^2.6.0",
-    "@waves.exchange/react-uikit": "^0.5.21",
-    "@waves/ts-types": "^1.1.0",
-    "@waves/waves-browser-bus": "0.2.5",
-    "@waves/waves-transactions": "^4.3.11",
-    "amazon-cognito-identity-js": "^4.5.9",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "styled-system": "^5.1.4",
-    "tslib": "^2.1.0"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/styled-system": "5.1.4",
-    "@types/styled-system__css": "^5.0.4"
-  }
+    "name": "@waves.exchange/provider-cloud-auth",
+    "version": "1.1.0",
+    "private": true,
+    "license": "MIT",
+    "main": "dist/provider-cloud-auth.cjs.js",
+    "module": "dist/provider-cloud-auth.es.js",
+    "scripts": {
+        "build": "vite build",
+        "build:w": "vite build -w",
+        "check-types": "tsc --noEmit",
+        "lint": "eslint --ext .ts,.tsx ./src"
+    },
+    "dependencies": {
+        "@emotion/core": "^10.0.22",
+        "@emotion/styled": "^10.0.23",
+        "@popperjs/core": "^2.6.0",
+        "@waves.exchange/provider-ui-components": "file:../provider-ui-components",
+        "@waves.exchange/react-uikit": "^0.5.21",
+        "@waves/ts-types": "^1.1.0",
+        "@waves/waves-browser-bus": "0.2.8",
+        "@waves/waves-transactions": "5.0.0",
+        "amazon-cognito-identity-js": "^4.5.9",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "styled-system": "^5.1.4",
+        "tslib": "^2.1.0"
+    },
+    "devDependencies": {
+        "@types/react": "^17.0.0",
+        "@types/react-dom": "^17.0.0",
+        "@types/styled-system": "5.1.4",
+        "@types/styled-system__css": "^5.0.4"
+    }
 }

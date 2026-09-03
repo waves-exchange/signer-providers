@@ -1,6 +1,6 @@
-import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
-import { TFeeInfo } from '@waves/node-api-js/es/api-node/transactions';
-import { NAME_MAP } from '@waves/node-api-js/es/constants';
+import { TAssetDetails } from '@waves/node-api-js/cjs/api-node/assets';
+import { TFeeInfo } from '@waves/node-api-js/cjs/api-node/transactions';
+import { NAME_MAP } from '@waves/node-api-js/cjs/constants';
 import {
     ConnectOptions,
     SignedTx,
@@ -62,7 +62,7 @@ export interface IMeta<T extends Transaction> {
     aliases: Record<string, string>;
     assets: Record<string, DetailsWithLogo>;
     params: T;
-    info: InfoMap[T['type']];
+    info: T['type'] extends keyof InfoMap ? InfoMap[T['type']] : void;
 }
 
 export interface ITransactionInfo<T extends Transaction> {
@@ -87,7 +87,7 @@ export type TBusHandlers = {
     'sign-custom-bytes': (data: string) => Promise<string>;
     'sign-message': (data: string | number) => Promise<string>;
     'sign-typed-data': (data: Array<TypedData>) => Promise<string>;
-    'sign-order': (data: IOrderParams) => Promise<string>;
+    'sign-order': (data: TOrderArgs) => Promise<TSignedOrder>;
 
     sign<T extends Array<SignerTx>>(
         list: T

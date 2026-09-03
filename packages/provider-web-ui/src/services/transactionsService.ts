@@ -1,12 +1,12 @@
-import { fetchByAlias } from '@waves/node-api-js/es/api-node/alias';
-import { fetchDetails } from '@waves/node-api-js/es/api-node/assets';
+import { fetchByAlias } from '@waves/node-api-js/cjs/api-node/alias';
+import { fetchDetails } from '@waves/node-api-js/cjs/api-node/assets';
 import {
     fetchInfo,
     TFeeInfo,
-} from '@waves/node-api-js/es/api-node/transactions';
-import { NAME_MAP } from '@waves/node-api-js/es/constants';
-import availableSponsoredBalances from '@waves/node-api-js/es/tools/adresses/availableSponsoredBalances';
-import getAssetIdListByTx from '@waves/node-api-js/es/tools/adresses/getAssetIdListByTx';
+} from '@waves/node-api-js/cjs/api-node/transactions';
+import { NAME_MAP } from '@waves/node-api-js/cjs/constants';
+import availableSponsoredBalances from '@waves/node-api-js/cjs/tools/adresses/availableSponsoredBalances';
+import getAssetIdListByTx from '@waves/node-api-js/cjs/tools/adresses/getAssetIdListByTx';
 import { SignerTx } from '@waves/signer';
 import { Long, Transaction, TransactionType } from '@waves/ts-types';
 import { concat, flatten, indexBy, map, pipe, prop, uniq } from 'ramda';
@@ -110,7 +110,7 @@ export const prepareTransactions = (
 
     const loadInfo = <T extends TransactionType>(
         nodeUrl: string
-    ): Promise<Array<InfoMap[T]>> =>
+    ): Promise<Array<T extends keyof InfoMap ? InfoMap[T] : void>> =>
         Promise.all(
             list.map((param) =>
                 param.type === NAME_MAP.cancelLease

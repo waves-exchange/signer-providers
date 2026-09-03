@@ -1,5 +1,5 @@
-import { fetchNodeTime } from '@waves/node-api-js/es/api-node/utils';
-import { TRANSACTION_TYPE_MAP } from '@waves/node-api-js/es/interface';
+import { fetchNodeTime } from '@waves/node-api-js/cjs/api-node/utils';
+import { TRANSACTION_TYPE_MAP } from '@waves/node-api-js/cjs/interface';
 import { SignedTx, SignerTx } from '@waves/signer';
 import { libs, signTx } from '@waves/waves-transactions';
 import { omit } from 'ramda';

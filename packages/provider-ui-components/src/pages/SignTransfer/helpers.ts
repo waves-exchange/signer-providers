@@ -1,5 +1,5 @@
 import BigNumber from '@waves/bignumber';
-import { TRANSACTION_NAME_MAP } from '@waves/node-api-js/es/interface';
+import { TRANSACTION_NAME_MAP } from '@waves/node-api-js/cjs/interface';
 import { Long, MassTransferItem, Transaction } from '@waves/ts-types';
 import { libs } from '@waves/waves-transactions';
 import {
