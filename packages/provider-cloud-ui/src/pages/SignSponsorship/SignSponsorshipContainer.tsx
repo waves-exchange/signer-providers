@@ -19,7 +19,7 @@ export const SignSponsorship: FC<ISignTxProps<SponsorshipTransaction>> = ({
 }) => {
     const sponsorAsset = tx.assetId === null ? WAVES : meta.assets[tx.assetId];
     const sponsorCharge = getPrintableNumber(
-        tx.minSponsoredAssetFee,
+        tx.minSponsoredAssetFee || 0,
         sponsorAsset.decimals
     );
     const fee = getPrintableNumber(tx.fee, WAVES.decimals);

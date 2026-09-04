@@ -4,7 +4,7 @@ import {
     TOrderArgs,
 } from '@waves.exchange/provider-ui-components';
 import { loadLogoInfo } from '@waves.exchange/provider-ui-components/src/utils';
-import { fetchDetails } from '@waves/node-api-js/es/api-node/assets';
+import { fetchDetails } from '@waves/node-api-js/cjs/api-node/assets';
 import { IState, IUser } from '../interface';
 import { CONSTANTS } from '@waves.exchange/provider-ui-components';
 

@@ -18,6 +18,8 @@ import imgUrl from '../../img/transaction-icons-30_1.svg';
 import { DataJson } from '../../components';
 import {
     DetailsWithLogo,
+    IOrder,
+    IOrderCreationParams,
     isOrderCreationParams,
     TOrderArgs,
 } from '../../interface';
@@ -106,10 +108,10 @@ export const SignOrderComponent: FC<SignOrderComponentProps> = ({
     const isOrderCreation = isOrderCreationParams(order);
     const assetPairs = isOrderCreation
         ? {
-              amountAsset: order.amountAsset,
-              priceAsset: order.priceAsset,
+              amountAsset: (order as IOrderCreationParams).amountAsset,
+              priceAsset: (order as IOrderCreationParams).priceAsset,
           }
-        : order.assetPair;
+        : (order as IOrder).assetPair;
 
     const amountAssetId = assetPairs.amountAsset || WAVES.assetId;
     const amountAsset = assetsHash[amountAssetId];
@@ -141,7 +143,7 @@ export const SignOrderComponent: FC<SignOrderComponentProps> = ({
         : null;
 
     const matcherFeeAssetId = isOrderCreation
-        ? order.matcherFeeAssetId || WAVES.assetId
+        ? (order as IOrderCreationParams).matcherFeeAssetId || WAVES.assetId
         : WAVES.assetId;
     const matcherFeeRow = order.matcherFee
         ? `${getPrintableNumber(

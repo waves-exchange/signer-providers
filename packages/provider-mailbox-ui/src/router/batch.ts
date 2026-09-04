@@ -22,12 +22,14 @@ export default function (
             return;
         }
 
-        const msgId = crypto.randomUUID();
+        const msgId = (crypto as Crypto & {
+            randomUUID: () => string;
+        }).randomUUID();
 
         const onMsg = (message: TReceivedMsg) => {
             if (message.resp === 'success' && message.msgId === msgId) {
                 mailboxListener.removeCb('onMsg', onMsg);
-                resolve(message.value);
+                resolve(message.value as any);
             }
             if (message.resp === 'declined' && message.msgId === msgId) {
                 mailboxListener.removeCb('onMsg', onMsg);

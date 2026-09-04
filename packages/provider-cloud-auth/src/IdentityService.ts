@@ -371,6 +371,8 @@ export class IdentityService {
     public async signOrder(orderParams: TOrderArgs): Promise<IOrder> {
         await this.refreshSessionIsNeed();
         const isOrderCreation = isOrderCreationParams(orderParams);
+        const orderCreationParams = orderParams as IOrderCreationParams;
+        const signedOrderParams = orderParams as IOrder;
         const timestamp = orderParams.timestamp || Date.now();
         const chainId =
             typeof (orderParams as TOrderWithChainId).chainId === 'undefined'
@@ -382,23 +384,23 @@ export class IdentityService {
             orderType: orderParams.orderType,
             assetPair: isOrderCreation
                 ? {
-                      amountAsset: orderParams.amountAsset,
-                      priceAsset: orderParams.priceAsset,
+                      amountAsset: orderCreationParams.amountAsset,
+                      priceAsset: orderCreationParams.priceAsset,
                   }
-                : orderParams.assetPair,
+                : signedOrderParams.assetPair,
             price: orderParams.price,
             amount: orderParams.amount,
             senderPublicKey: orderParams.senderPublicKey,
             matcherFee: orderParams.matcherFee || 300000,
-            version: isOrderCreation ? 4 : orderParams.version || 4,
+            version: isOrderCreation ? 4 : signedOrderParams.version || 4,
             matcherPublicKey: orderParams.matcherPublicKey,
             expiration:
                 orderParams.expiration || timestamp + 29 * 24 * 60 * 60 * 1000,
             priceMode: isOrderCreation
-                ? orderParams.priceMode || 'fixedDecimals'
+                ? orderCreationParams.priceMode || 'fixedDecimals'
                 : 'fixedDecimals',
             matcherFeeAssetId: isOrderCreation
-                ? orderParams.matcherFeeAssetId || null
+                ? orderCreationParams.matcherFeeAssetId || null
                 : null,
             chainId,
         };

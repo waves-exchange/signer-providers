@@ -1,9 +1,15 @@
-import { customData, libs, TDataEntry } from '@waves/waves-transactions';
+import {
+    DataTransactionEntry,
+    DataTransactionDeleteRequest,
+} from '@waves/ts-types';
+import { customData, libs } from '@waves/waves-transactions';
 import React from 'react';
 import { IUserWithBalances } from '../interface';
 import { IState } from '../interface';
 import { SignTypedDataContainer } from '../pages/SignTypedData/SignTypedDataContainer';
 import renderPage from '../utils/renderPage';
+
+type TDataEntry = Exclude<DataTransactionEntry, DataTransactionDeleteRequest>;
 
 export default function (
     data: Array<TDataEntry>,

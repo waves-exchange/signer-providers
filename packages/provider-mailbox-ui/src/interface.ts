@@ -16,6 +16,7 @@ export interface ISignTxProps<T extends Transaction> {
 export interface IUser {
     address: string;
     publicKey: string;
+    privateKey?: string;
     name: string;
     isSignAndBroadcastByProvider?: boolean;
 }

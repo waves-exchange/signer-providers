@@ -24,7 +24,9 @@ export default function (
                     return;
                 }
 
-                const msgId = crypto.randomUUID();
+                const msgId = (crypto as Crypto & {
+                    randomUUID: () => string;
+                }).randomUUID();
 
                 const onMsg = (message: TReceivedMsg) => {
                     if (message.resp === 'success' && message.msgId === msgId) {

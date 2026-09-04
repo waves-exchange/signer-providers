@@ -52,7 +52,7 @@ export const Login: React.FC<IConnectPageProps> = ({
         );
     }, []);
 
-    const onError = React.useCallback((e) => {
+    const onError = React.useCallback((e: Event) => {
         setState('error');
         setError(JSON.stringify(e));
     }, []);
@@ -201,9 +201,9 @@ export const Login: React.FC<IConnectPageProps> = ({
                                     </Text>
                                     <Input
                                         value={code}
-                                        onChange={(e) =>
-                                            setCode((e.target as any).value)
-                                        }
+                                        onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                        ) => setCode((e.target as any).value)}
                                         placeholder="Enter the code from WX.Network"
                                     />
                                     <Button

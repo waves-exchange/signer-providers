@@ -5,6 +5,7 @@ module.exports = {
             tsconfig: '<rootDir>/tsconfig.test.json',
         },
     },
+    setupFiles: ['<rootDir>/../../jest.setup.js'],
     // do not touch - will use later
     // moduleNameMapper: {
     //     'test-utils': '<rootDir>/jest/test-utils.tsx',

@@ -1,8 +1,8 @@
 import {
     fetchBalance,
     fetchScriptInfo,
-} from '@waves/node-api-js/es/api-node/addresses';
-import { fetchByAddress } from '@waves/node-api-js/es/api-node/alias';
+} from '@waves/node-api-js/cjs/api-node/addresses';
+import { fetchByAddress } from '@waves/node-api-js/cjs/api-node/alias';
 import { Long } from '@waves/ts-types';
 
 export function fetchAliasses(

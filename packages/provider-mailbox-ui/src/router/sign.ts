@@ -1,5 +1,5 @@
-import { fetchNodeTime } from '@waves/node-api-js/es/api-node/utils';
-import { TRANSACTION_TYPE_MAP } from '@waves/node-api-js/es/interface';
+import { fetchNodeTime } from '@waves/node-api-js/cjs/api-node/utils';
+import { TRANSACTION_TYPE_MAP } from '@waves/node-api-js/cjs/interface';
 import { SignedTx, SignerTx } from '@waves/signer';
 import React, { ReactNode } from 'react';
 import { IUserWithBalances } from '../interface';
@@ -84,7 +84,9 @@ export default function (
                         return;
                     }
 
-                    const msgId = crypto.randomUUID();
+                    const msgId = (crypto as Crypto & {
+                        randomUUID: () => string;
+                    }).randomUUID();
 
                     const onMsg = (message: TReceivedMsg) => {
                         if (

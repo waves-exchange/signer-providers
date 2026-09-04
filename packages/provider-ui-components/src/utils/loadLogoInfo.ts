@@ -1,4 +1,4 @@
-import { TAssetDetails } from '@waves/node-api-js/es/api-node/assets';
+import { TAssetDetails } from '@waves/node-api-js/cjs/api-node/assets';
 import { Long } from '@waves/ts-types';
 import { curry } from 'ramda';
 import { DetailsWithLogo } from '../interface';
