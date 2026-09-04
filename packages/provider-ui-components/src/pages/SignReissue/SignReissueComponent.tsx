@@ -55,6 +55,8 @@ export const SignReissueComponent: FC<SignReissueComponentProps> = ({
         popperOptions: assetLogoWithIconPopperOptions,
     } = useBoundedTooltip({ left: 0 });
 
+    console.log('THIS IS PROVIDER WEB WITH UPDATED LIBS!');
+
     return (
         <Confirmation
             address={userAddress}
